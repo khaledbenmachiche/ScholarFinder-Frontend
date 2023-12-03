@@ -13,7 +13,7 @@ une application web permettant aux utilisateurs authentifiés de rechercher des 
 Clone the repository.
 
 ```bash
-git clone https://github.com/khaledbenmachiche/tp_igl_frontend/edit/main/README.md
+git clone https://github.com/khaledbenmachiche/tp_igl_frontend
 cd tp_igl_frontend
 ```
 2-Install dependencies.
