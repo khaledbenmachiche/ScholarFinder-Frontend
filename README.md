@@ -1,8 +1,53 @@
-# React + Vite
+# TP IGL Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+une application web permettant aux utilisateurs authentifiés de rechercher des articles scientifiques. Les utilisateurs peuvent filtrer les résultats, afficher les détails des articles, y compris le texte intégral en formats texte et PDF, et sauvegarder leurs articles préférés. Les administrateurs peuvent gérer les modérateurs et lancer des opérations d'upload d'articles scientifiques depuis des fichiers PDF. Après l'upload, les modérateurs peuvent vérifier et corriger les informations extraites à partir des articles PDF.
 
-Currently, two official plugins are available:
+# Getting Started
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* Node.js
+* npm
+  
+## Installation
+Clone the repository.
+
+```bash
+1- Copy code
+
+git clone https://github.com/your-username/your-project.git
+cd your-project
+```
+2-Install dependencies.
+
+```bash
+npm install
+```
+
+3-Start the development server.
+
+```bash
+npm start
+```
+
+## Contributing
+
+
+1- Create a new branch for your feature or bug fix.
+
+```bash
+git checkout -b feature/my-feature
+```
+2- Make your changes and commit them with a clear message.
+
+```bash
+Copy code
+git commit -m "Add new feature"
+```
+3- Push your branch to the repository.
+
+```bash
+git push origin feature/my-feature
+```
+4- Create a pull request to the main branch of the repository.
+
