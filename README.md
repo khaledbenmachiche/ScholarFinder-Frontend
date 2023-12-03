@@ -13,9 +13,7 @@ une application web permettant aux utilisateurs authentifiés de rechercher des 
 Clone the repository.
 
 ```bash
-1- Copy code
-
-git clone [https://github.com/your-username/your-project.git](https://github.com/khaledbenmachiche/tp_igl_frontend)
+git clone https://github.com/khaledbenmachiche/tp_igl_frontend/edit/main/README.md
 cd tp_igl_frontend
 ```
 2-Install dependencies.
@@ -41,7 +39,6 @@ git checkout -b feature/my-feature
 2- Make your changes and commit them with a clear message.
 
 ```bash
-Copy code
 git commit -m "Add new feature"
 ```
 3- Push your branch to the repository.
