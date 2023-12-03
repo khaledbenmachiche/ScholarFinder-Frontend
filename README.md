@@ -15,8 +15,8 @@ Clone the repository.
 ```bash
 1- Copy code
 
-git clone https://github.com/your-username/your-project.git
-cd your-project
+git clone [https://github.com/your-username/your-project.git](https://github.com/khaledbenmachiche/tp_igl_frontend)
+cd tp_igl_frontend
 ```
 2-Install dependencies.
 
