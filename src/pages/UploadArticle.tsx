@@ -4,12 +4,12 @@ import UploadFileFromUrl from "../components/UploadFileFromUrl"
 import UploadedFile from "../components/UploadedFile";
 import uploadIcon from '../assets/upload_cloud.svg';
 
-interface uploadedFile {
+interface UploadedFile {
     source:string
 }
 
 const UploadArticle = () => {
-    const [uploadedFiles,setUploadedFiles] = useState<uploadedFile[]>([]);
+    const [uploadedFiles,setUploadedFiles] = useState<UploadedFile[]>([]);
     const fileInputRef= useRef<HTMLInputElement>(null);
     
     const onDrop = useCallback((acceptedFiles:File[])=> {
