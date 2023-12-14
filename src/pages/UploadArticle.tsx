@@ -1,32 +1,42 @@
-import { useState, useRef,useCallback } from "react";
+import React, { useState, useRef,useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import UploadFileFromUrl from "../components/UploadFileFromUrl"
 import UploadedFile from "../components/UploadedFile";
 import uploadIcon from '../assets/upload_cloud.svg';
 
+interface uploadedFile {
+    source:string
+}
+
 const UploadArticle = () => {
-    const [uploadedFiles,setUploadedFiles] = useState([]);
-    const fileInputRef= useRef(null);
+    const [uploadedFiles,setUploadedFiles] = useState<uploadedFile[]>([]);
+    const fileInputRef= useRef<HTMLInputElement>(null);
     
-    const onDrop = useCallback(acceptedFiles => {
-        setUploadedFiles([...acceptedFiles.map(file => ({source:file.name})),...uploadedFiles]);
+    const onDrop = useCallback((acceptedFiles:File[])=> {
+        const newUploadedFiles = acceptedFiles.map(file => ({ source: file.name }));
+        setUploadedFiles([...newUploadedFiles,...uploadedFiles]);
       }, [uploadedFiles]);
     
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
     
-    const handleUrlInputSubmitEvent = (url) => {
+    const handleUrlInputSubmitEvent = (url:string) => {
         setUploadedFiles([{source:url},...uploadedFiles]);
     }
 
-    const handleFileInputChangeEvent = event => {
+    const handleFileInputChangeEvent = (event:React.ChangeEvent<HTMLInputElement>) => {
         const {files} = event.target;
-        const filesArray = Array.from(files);
-        setUploadedFiles([...filesArray.map(file => ({source:file.name})),...uploadedFiles]);
+        if(files){
+            const filesArray:File[] = Array.from(files);
+            const newUploadedFiles = filesArray.map(file => ({ source: file.name }));
+            setUploadedFiles([...newUploadedFiles, ...uploadedFiles]);
+        }
     }
     
-    const handleOpeningFileMenu = event =>{
+    const handleOpeningFileMenu = (event:React.MouseEvent) =>{
         event.preventDefault();
-        fileInputRef.current.click()
+        if(fileInputRef.current){
+            fileInputRef.current.click();
+        }
     }
     
     const handleClickedClear = () => {

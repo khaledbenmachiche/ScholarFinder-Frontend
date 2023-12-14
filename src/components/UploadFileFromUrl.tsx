@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import urlUploadIcon from '../assets/url_upload_icon.svg';
 
-const UploadFileFromUrl = ({label,placeholder,handleSubmitEvent}) => {
-    const [url, setUrl] = useState('');
-    const handleChange = (event) => {
+
+interface UploadFileFromUrlProps {
+    label: string;
+    placeholder: string;
+    handleSubmitEvent: (url:string) => void;
+}
+
+const UploadFileFromUrl:React.FC<UploadFileFromUrlProps> = ({label,placeholder,handleSubmitEvent}) => {
+    const [url, setUrl] = useState<string>('');
+    const handleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
         setUrl(event.target.value);
     }
     const handleClickEvent = () => {
