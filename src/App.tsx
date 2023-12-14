@@ -1,10 +1,9 @@
 import './App.css'
+import UploadArticle from './pages/UploadArticle'
 
 function App() {
   return (
-    <div>
-      <h1 className="text-red-500">hello IGL</h1>
-    </div>
+    <UploadArticle/>
   )
 }
 
