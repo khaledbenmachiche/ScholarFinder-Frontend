@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useMemo} from 'react';
 
 interface AuthUser{
     "user-type":string;
@@ -19,7 +19,7 @@ const AuthContext = React.createContext<AuthContextValue|null>(null);
 export default AuthContext;
 
 
-export function AuthProvider(props:AuthProviderProps) {
+export function AuthProvider(props: Readonly<AuthProviderProps>) {
     const [authUser,setAuthUser] = useState<AuthUser|null>(()=>{
         const user = localStorage.getItem('user');
         if(user){
@@ -28,10 +28,12 @@ export function AuthProvider(props:AuthProviderProps) {
             return null;
         }
     });
-    const value:AuthContextValue = {
-        authUser,
-        setAuthUser,
-    }
+    const value:AuthContextValue = useMemo(()=>{
+        return {
+            authUser,
+            setAuthUser
+        }
+    },[authUser,setAuthUser]);
 
     return(
         <AuthContext.Provider value={value}>
