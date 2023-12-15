@@ -1,11 +1,7 @@
 import { useContext } from "react";
 import  AuthContext  from "../context/AuthContext";
 import useLocalStorage  from "./useLocalStorage";
-
-interface AuthUser{
-    "user-type":string;
-    "AccessToken":string;
-}
+import AuthUser from "../types/AuthUser";
 
 const useUser = () => {
     const context = useContext(AuthContext);

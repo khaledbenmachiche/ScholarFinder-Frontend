@@ -1,9 +1,5 @@
 import React, {useState,useMemo} from 'react';
-
-interface AuthUser{
-    "user-type":string;
-    "AccessToken":string;
-}
+import AuthUser from '../types/AuthUser';
 
 interface AuthContextValue {
     authUser: AuthUser | null;
