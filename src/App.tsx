@@ -1,10 +1,13 @@
 import './App.css'
-import UploadArticle from './pages/UploadArticle'
+import UploadArticle from './pages/UploadArticle' 
+import WelcomePage from './pages/WelcomePage'
 
 function App() {
   return (
-    <UploadArticle/>
+   
+   <WelcomePage/>
   )
 }
 
 export default App
+{/* <UploadArticle/> */}  
