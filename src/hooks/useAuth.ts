@@ -5,7 +5,7 @@ import useLocalStorage from "./useLocalStorage";
 
 export default function useAuth() {
   const api = useAxios();
-  const {user, addUser, removeUser}= useUser();
+  const {addUser, removeUser}= useUser();
   const { getItem } = useLocalStorage();
 
   useEffect(() => {
