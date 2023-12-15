@@ -1,10 +1,10 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../hooks/useAxios';
-import useAuthentification from '../hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 const Test = () => {
   const api = useAxios();
-  const {logout} = useAuthentification()
+  const {logout} = useAuth()
   const navigate = useNavigate();
     const handleClickEvent = () => {
         console.log('clicked');

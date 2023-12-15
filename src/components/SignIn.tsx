@@ -6,7 +6,7 @@ import { Icon } from 'react-icons-kit'
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
 import { useNavigate } from "react-router-dom";
-import useAuthentification from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 
 const schema=yup.object().shape(
   {
@@ -26,7 +26,7 @@ interface SignInData{
 const SignIn:React.FC<SignInProps> =({ onSignUpClick })=>
 {
   const navigate = useNavigate();
-  const {login} = useAuthentification();
+  const {login} = useAuth();
   const {register , handleSubmit , formState: { errors },} = useForm({
     resolver : yupResolver(schema),
   });

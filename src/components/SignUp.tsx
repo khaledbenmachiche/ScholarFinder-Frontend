@@ -5,8 +5,8 @@ import * as yup from "yup";
  import { Icon } from 'react-icons-kit'
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
-import useAuthentification from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 const schema=yup.object().shape({
     username: yup.string().required(),
     firstName: yup.string().required(),
@@ -32,7 +32,7 @@ interface SignUpData{
 const SignUp:React.FC<SignUpProps> =({ onSignInClick })=>
 {
   const navigate = useNavigate();
-  const {subscribe,login} = useAuthentification();
+  const {subscribe,login} = useAuth();
   const [type, setType]=useState('password');
   const [icon, setIcon]=useState(eyeOff);
 
