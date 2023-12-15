@@ -1,20 +1,25 @@
-import { useContext } from "react";
+import { useEffect } from "react";
 import useAxios from "./useAxios";
-import AuthContext from "../context/AuthContext";
+import useUser from "./useUser";
+import useLocalStorage from "./useLocalStorage";
 
-export default function useAuthentification() {
+export default function useAuth() {
   const api = useAxios();
-  const context = useContext(AuthContext);
-  if(!context) throw new Error('AuthContext is not defined');
-  const { setAuthUser } = context;
+  const {user, addUser, removeUser}= useUser();
+  const { getItem } = useLocalStorage();
 
+  useEffect(() => {
+    const user = getItem("user");
+    if (user) {
+      addUser(JSON.parse(user));
+    }
+  }, []);
 
   async function login(username:string, password:string) {
     try {
       const response = await api.post("login", {username,password})
       if (response.data.AccessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-        setAuthUser(response.data);
+        addUser(response.data)
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -25,8 +30,7 @@ export default function useAuthentification() {
     try {
       const response = await api.post('logout');
       if (response.data.message === "success") {
-        localStorage.removeItem('user');
-        setAuthUser(null);
+        removeUser();
       }
       return true;
     } catch (error : any) {
@@ -43,7 +47,7 @@ export default function useAuthentification() {
   }
   
   function refreshAccessToken() {
-    return api.post("/refresh");
+    return api.post("refresh");
   }
   return { login, logout, subscribe, refreshAccessToken };
 } 
