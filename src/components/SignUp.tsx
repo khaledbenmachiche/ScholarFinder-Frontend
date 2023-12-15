@@ -5,7 +5,8 @@ import * as yup from "yup";
  import { Icon } from 'react-icons-kit'
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
-import useAuthentification from "../hooks/useAuthentification";
+import useAuthentification from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 const schema=yup.object().shape({
     username: yup.string().required(),
     firstName: yup.string().required(),
@@ -30,6 +31,7 @@ interface SignUpData{
 
 const SignUp:React.FC<SignUpProps> =({ onSignInClick })=>
 {
+  const navigate = useNavigate();
   const {subscribe,login} = useAuthentification();
   const [type, setType]=useState('password');
   const [icon, setIcon]=useState(eyeOff);
@@ -65,17 +67,17 @@ const SignUp:React.FC<SignUpProps> =({ onSignInClick })=>
      resolver : yupResolver(schema),
   });
 
-  //TODO:RETEST THIS!!!!!
    const  submitForm =async (data:SignUpData)=>{
     try {
       const response = await subscribe(data.username,data.firstName,data.lastName,data.email,data.password);
       if(response.status === 200){
-        login(data.username,data.password);
+        await login(data.username,data.password);
+        navigate('/test');
       }else{
         console.log(response.data);
       }
     } catch (error) {
-      
+      console.log(error)
     }
   } 
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../hooks/useAxios';
-import useAuthentification from '../hooks/useAuthentification';
+import useAuthentification from '../hooks/useAuth';
 const Test = () => {
   const api = useAxios();
   const {logout} = useAuthentification()

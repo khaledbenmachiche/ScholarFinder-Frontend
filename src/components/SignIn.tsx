@@ -6,7 +6,7 @@ import { Icon } from 'react-icons-kit'
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
 import { useNavigate } from "react-router-dom";
-import useAuthentification from "../hooks/useAuthentification";
+import useAuthentification from "../hooks/useAuth";
 
 const schema=yup.object().shape(
   {
@@ -43,7 +43,7 @@ const SignIn:React.FC<SignInProps> =({ onSignUpClick })=>
   
   const handleToggle=()=>{    
     if(type==='password'){
-      setIcon(eye);      
+      setIcon(eye);
       setType('text');
     }
     else{

@@ -1,11 +1,12 @@
+import dayjs from "dayjs";
 import { jwtDecode } from "jwt-decode";
+
 const isTokenExpired = (token: string): boolean => {
     const decodedToken = jwtDecode(token);
-    const currentTime = Date.now() / 1000;
-    if (!decodedToken.exp) {
+    if(decodedToken.exp === undefined){
         return false;
     }
-    return decodedToken.exp < currentTime;
+    return dayjs.unix(decodedToken.exp).diff(dayjs()) < 1
 }
 
 export default isTokenExpired;

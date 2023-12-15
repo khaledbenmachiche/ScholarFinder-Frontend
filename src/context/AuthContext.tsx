@@ -19,7 +19,6 @@ const AuthContext = React.createContext<AuthContextValue|null>(null);
 export default AuthContext;
 
 
-
 export function AuthProvider(props:AuthProviderProps) {
     const [authUser,setAuthUser] = useState<AuthUser|null>(()=>{
         const user = localStorage.getItem('user');
