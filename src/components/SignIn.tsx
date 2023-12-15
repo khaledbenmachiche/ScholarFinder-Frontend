@@ -5,7 +5,8 @@ import React, { useState } from "react";
 import { Icon } from 'react-icons-kit'
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
-import { login } from "../services/api/auth.service";
+import { useNavigate } from "react-router-dom";
+import useAuthentification from "../hooks/useAuthentification";
 
 const schema=yup.object().shape(
   {
@@ -24,13 +25,17 @@ interface SignInData{
 
 const SignIn:React.FC<SignInProps> =({ onSignUpClick })=>
 {
+  const navigate = useNavigate();
+  const {login} = useAuthentification();
   const {register , handleSubmit , formState: { errors },} = useForm({
     resolver : yupResolver(schema),
   });
 
-  const submitForm =(data:SignInData)=>{
-    login(data.username,data.password)
-  } 
+  const submitForm = async (data:SignInData)=>{
+    debugger
+    await login(data.username,data.password)
+    navigate('/test');
+  }
 
   const [type, setType]=useState('password');
   const [icon, setIcon]=useState(eyeOff);

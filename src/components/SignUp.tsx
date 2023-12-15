@@ -5,8 +5,7 @@ import * as yup from "yup";
  import { Icon } from 'react-icons-kit'
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
-import { login, subscribe } from "../services/api/auth.service";
-
+import useAuthentification from "../hooks/useAuthentification";
 const schema=yup.object().shape({
     username: yup.string().required(),
     firstName: yup.string().required(),
@@ -31,6 +30,7 @@ interface SignUpData{
 
 const SignUp:React.FC<SignUpProps> =({ onSignInClick })=>
 {
+  const {subscribe,login} = useAuthentification();
   const [type, setType]=useState('password');
   const [icon, setIcon]=useState(eyeOff);
 

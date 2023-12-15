@@ -1,22 +1,19 @@
-import React from 'react';
+import React,{ useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-
+import AuthContext from '../context/AuthContext';
 
 
 const RouteGuard = ({children}:{children:React.JSX.Element}) => {
-   function hasJWT() {
-       const user = localStorage.getItem("user");
-        if (user) {
-              return true;
-        }else{
-            return false;
-        }
-   }
-   if (hasJWT()) {
-       return children
-   }else{
-    return <Navigate to="/auth" replace />;
-   }
+    const context = useContext(AuthContext);
+    if(!context){
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    const {authUser} = context;
+    if (authUser) {
+        return children
+    }else{
+        return <Navigate to="/auth" replace />;
+    }
 };
  
 export default RouteGuard;
