@@ -80,40 +80,39 @@ const SignUpSection:React.FC =()=>
   }
 
   return(
-     <div className="w-full p-8 bg-white lg:w-5/12">
+     <div className="w-full p-8 bg-white lg:w-5/12 flex flex-col ">
       <div className="flex items-center mb-12">
          <img src={logo} alt="Logo" className="mr-4" />
          <div className="text-3xl font-medium ">Bienvenue</div>
       </div>
 
-      <form onSubmit={handleSubmit(submitForm)}>
-        <div className="flex flex-col items-center justify-center gap-2.5 ">
-          <div className="flex flex-col justify-center w-96">
+      <form className="flex flex-col w-full md:px-8 items-center justify-center gap-2.5" onSubmit={handleSubmit(submitForm)}>
+          <div className="flex flex-col justify-center w-full">
              <label className="block text-xl font-light ">Username</label>
              <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] " {...register("username")} />
              <p className="text-red-600 ">{errors.username?.message}</p>
           </div>
 
-          <div className="flex flex-col justify-center w-96">
+          <div className="flex flex-col justify-center w-full">
               <label className="block text-xl font-light ">First Name</label>
               <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] " {...register("firstName")} />
               <p className="text-red-600 ">{errors.firstName?.message}</p>
           </div>
 
 
-          <div className="flex flex-col justify-center w-96">
+          <div className="flex flex-col justify-center w-full">
               <label className="block text-xl font-light ">Last Name</label>
               <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] "{...register("lastName")} />
               <p className="text-red-600 ">{errors.lastName?.message}</p>
           </div>
 
-          <div className="flex flex-col justify-center w-96">
+          <div className="flex flex-col justify-center w-full">
               <label className="block text-xl font-light ">Email</label>
               <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] "{...register("email")} />
               <p className="text-red-600 ">{errors.email?.message}</p>
           </div>
 
-          <div className="flex flex-col justify-center w-96">
+          <div className="flex flex-col justify-center w-full">
               <label className="block text-xl font-light ">Password</label>
               <div className="relative">
               <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2  bg-[#EEF5FC] " type={type} {...register("password")} />
@@ -123,7 +122,7 @@ const SignUpSection:React.FC =()=>
           </div>
 
 
-          <div className="flex flex-col justify-center w-96">
+          <div className="flex flex-col justify-center w-full">
               <label className="block text-xl font-light ">Confirm Password</label>
               <div className="relative">
               <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] "  type={typeConfirm}   {...register("confirmPassword")} />
@@ -131,10 +130,9 @@ const SignUpSection:React.FC =()=>
               </div>
               <p className="text-red-600 ">{errors.confirmPassword?.message}</p>
           </div>
-          <button type="submit" className="border rounded-[10px] w-96 p-2 mt-4 bg-[#0671E0] text-white text-xl m2-4 hover:bg-[#0663C7] focus:bg-[#0663C7]">Sign Up</button>
-        </div>
-        <p className="text-center ">Already have an account? <span className="text-blue-700 hover:underline cursor-pointer">Sign In</span></p>
+          <button type="submit" className="border rounded-[10px] w-full p-2 mt-4 bg-[#0671E0] text-white text-xl hover:bg-[#0663C7] focus:bg-[#0663C7]">Sign Up</button>
       </form>
+         <p className="text-center mt-auto">Already have an account? <span className="text-blue-700 hover:underline cursor-pointer">Sign In</span></p>
      </div>
      
   )

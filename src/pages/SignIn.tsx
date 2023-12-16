@@ -6,7 +6,7 @@ const SignIn=()=>
     return(
         <div className="w-screen h-screen flex bg-[#EEF5FC] overflow-hidden">
             <SignInSection/>
-            <div>
+            <div className="hiddem md:block">
                 <NavBar/>
                 <p className="text-[#0053AD] text-3xl font-poppins font-medium text-center mt-32 mb-10 ">L'INFINI DU SAVOIR VOUS ATTEND A PORTEE DE CLIC</p>
                 <p className="text-2xl font-light text-center font-poppins">Votre passerelle vers une découverte scientifique<br/>Simplifiez l'exploration des articles savants <br/>avec notre plateforme conviviale.<br/>Donnez vie à votre curiosité.</p>
