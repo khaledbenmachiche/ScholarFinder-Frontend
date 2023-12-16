@@ -4,7 +4,7 @@ import earth from "../assets/wide_earth.svg";
 const SignUp=()=>
 {
     return(
-        <div className="w-screen h-screen flex bg-[#EEF5FC] ">
+        <div className="w-screen h-screen flex bg-[#EEF5FC] overflow-hidden">
             <SignUpSection/>
             <div>
                 <NavBar/>

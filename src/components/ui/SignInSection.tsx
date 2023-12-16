@@ -50,7 +50,7 @@ const SignInSection:React.FC =()=> {
   }
 
   return(
-     <div className="w-5/12 p-8 bg-white font-poppins ">
+     <div className="w-5/12 p-8 bg-white ">
 
       <div className="flex items-center mb-20">
        <img src={logo} alt="Logo" className="mr-4" />
