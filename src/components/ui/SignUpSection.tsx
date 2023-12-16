@@ -132,7 +132,7 @@ const SignUpSection:React.FC =()=>
           </div>
           <button type="submit" className="border rounded-[10px] w-full p-2 mt-4 bg-[#0671E0] text-white text-xl hover:bg-[#0663C7] focus:bg-[#0663C7]">Sign Up</button>
       </form>
-         <p className="text-center mt-auto">Already have an account? <span className="text-blue-700 hover:underline cursor-pointer">Sign In</span></p>
+         <p className="text-center mt-auto font-medium text-lg">Already have an account? <span className="text-blue-700 underline-offset-4 hover:font-semibold underline cursor-pointer">Sign In</span></p>
      </div>
      
   )

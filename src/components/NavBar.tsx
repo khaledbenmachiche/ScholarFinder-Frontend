@@ -1,14 +1,17 @@
 const NavBar=()=>
 {
   return(
-     <div className="flex justify-end">
-        <div className="p-8 font-medium ">
+     <div className="flex justify-end py-6 gap-20 pr-36 ">
+         <div className="font-medium cursor-pointer">
+             <a>Home</a>
+         </div>
+        <div className="font-medium cursor-pointer">
           <a>Login</a>
         </div>
-        <div className="p-8 font-medium">
+        <div className="font-medium cursor-pointer">
           <a>Contact</a>
         </div>
-        <div className="p-8 mr-6 font-medium">
+        <div className="font-medium cursor-pointer">
           <a>About</a>
         </div>
      </div>
