@@ -109,7 +109,7 @@ const SignUpSection:React.FC =()=>
           <div className="flex flex-col justify-center w-full">
               <label className="block text-xl font-light ">Email</label>
               <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] "{...register("email")} />
-              <p className="text-red-600 ">{errors.email?.message}</p>
+              <p className="text-red-600">{errors.email?.message}</p>
           </div>
 
           <div className="flex flex-col justify-center w-full">
