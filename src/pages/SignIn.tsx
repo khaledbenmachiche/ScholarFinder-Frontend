@@ -4,7 +4,7 @@ import earth from "../assets/wide_earth.svg";
 const SignIn=()=>
 {
     return(
-        <div className="w-screen h-screen flex bg-[#EEF5FC] overflow-scroll lg:overflow-hidden">
+        <div className="w-screen h-fit lg:h-screen flex bg-[#EEF5FC] overflow-scroll lg:overflow-hidden">
             <SignInSection/>
             <div className="hidden md:block">
                 <NavBar/>

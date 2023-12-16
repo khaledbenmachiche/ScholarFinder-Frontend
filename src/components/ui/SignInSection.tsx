@@ -50,14 +50,14 @@ const SignInSection:React.FC =()=> {
   }
 
   return(
-     <div className="relative w-[900px] h-fit lg:h-screen pt-4 pb-2 px-8 bg-white flex flex-col ">
+     <div className="relative w-full lg:w-[900px] h-fit lg:h-screen pt-4 pb-2  px-8 bg-white flex flex-col ">
          <div className="bg-[#0671E0] absolute left-0 top-0 h-full w-1"></div>
       <div className="flex items-center mb-20">
        <img src={logo} alt="Logo" className="mr-4" />
       <div className="text-3xl font-medium ">Bienvenue</div>
       </div>
 
-      <form className="flex flex-col w-full h-fit md:px-8 items-center justify-center gap-2.5 mb-6" onSubmit={handleSubmit(submitForm)}>
+      <form className="flex flex-col w-full h-[800px] md:px-8 items-center justify-center gap-2.5 mb-6" onSubmit={handleSubmit(submitForm)}>
         <div className="flex flex-col justify-center mb-12 w-full">
         <label className="block ml-2 text-md font-light ">Username</label>
         <input  className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC]" {...register("username")} />

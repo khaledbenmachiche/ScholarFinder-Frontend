@@ -9,7 +9,7 @@ const SignUp=()=>
             <SignUpSection/>
             <div className="hidden md:block">
                 <NavBar/>
-                <h1 className="text-[#0053AD] text-xl font-poppins font-medium text-center mt-32 mb-10">L'INFINI DU SAVOIR VOUS ATTEND A PORTEE DE CLIC</h1>
+                <h1 className="text-[#0053AD] text-xl font-medium text-center mt-32 mb-10">L'INFINI DU SAVOIR VOUS ATTEND A PORTEE DE CLIC</h1>
                 <p className="text-lg font-light text-center">Votre passerelle vers une découverte scientifique<br/>Simplifiez l'exploration des articles savants <br/>avec notre plateforme conviviale.<br/>Donnez vie à votre curiosité.</p>
                 <motion.img
                     src={earth}
