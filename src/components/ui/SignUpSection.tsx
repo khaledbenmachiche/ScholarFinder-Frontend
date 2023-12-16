@@ -80,59 +80,64 @@ const SignUpSection:React.FC =()=>
   }
 
   return(
-     <div className="w-full p-8 bg-white lg:w-5/12 flex flex-col ">
-      <div className="flex items-center mb-12">
+     <div className="relative w-[900px] h-fit lg:h-screen pt-4 pb-2 px-8 bg-white flex flex-col">
+         <div className="bg-[#0671E0] absolute left-0 top-0 h-full w-1"></div>
+         <div className="flex items-center mb-4">
          <img src={logo} alt="Logo" className="mr-4" />
          <div className="text-3xl font-medium ">Bienvenue</div>
       </div>
 
-      <form className="flex flex-col w-full md:px-8 items-center justify-center gap-2.5" onSubmit={handleSubmit(submitForm)}>
+      <form className="flex flex-col w-full h-[800px] md:px-8 items-center justify-center gap-2.5" onSubmit={handleSubmit(submitForm)}>
           <div className="flex flex-col justify-center w-full">
-             <label className="block text-xl font-light ">Username</label>
+             <label className="block ml-2 text-md font-light ">Username</label>
              <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] " {...register("username")} />
              <p className="text-red-600 ">{errors.username?.message}</p>
           </div>
 
           <div className="flex flex-col justify-center w-full">
-              <label className="block text-xl font-light ">First Name</label>
+              <label className="block ml-2 text-md font-light ">First Name</label>
               <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] " {...register("firstName")} />
               <p className="text-red-600 ">{errors.firstName?.message}</p>
           </div>
 
 
           <div className="flex flex-col justify-center w-full">
-              <label className="block text-xl font-light ">Last Name</label>
+              <label className="block ml-2 text-md font-light ">Last Name</label>
               <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] "{...register("lastName")} />
               <p className="text-red-600 ">{errors.lastName?.message}</p>
           </div>
 
           <div className="flex flex-col justify-center w-full">
-              <label className="block text-xl font-light ">Email</label>
+              <label className="block ml-2 text-md font-light ">Email</label>
               <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] "{...register("email")} />
               <p className="text-red-600">{errors.email?.message}</p>
           </div>
-
-          <div className="flex flex-col justify-center w-full">
-              <label className="block text-xl font-light ">Password</label>
-              <div className="relative">
-              <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2  bg-[#EEF5FC] " type={type} {...register("password")} />
-              <span  className="absolute right-0 flex items-center pr-3 cursor-pointer top-3" onClick={handleToggle}><Icon icon={icon} size={25}/></span>
+          <div className="flex gap-2 w-full">
+              <div className="flex flex-col justify-center w-full">
+                  <label className="block ml-2 text-md font-light ">Password</label>
+                  <div className="relative">
+                  <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2  bg-[#EEF5FC] " type={type} {...register("password")} />
+                  <span  className="absolute right-0 flex items-center pr-3 cursor-pointer top-3" onClick={handleToggle}><Icon icon={icon} size={20}/></span>
+                  </div>
+                  <p className="text-red-600 ">{errors.password?.message}</p>
               </div>
-              <p className="text-red-600 ">{errors.password?.message}</p>
-          </div>
 
 
-          <div className="flex flex-col justify-center w-full">
-              <label className="block text-xl font-light ">Confirm Password</label>
-              <div className="relative">
-              <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] "  type={typeConfirm}   {...register("confirmPassword")} />
-              <span  className="absolute right-0 flex items-center pr-3 cursor-pointer top-3 "  onClick={handleConfirmToggle}><Icon icon={iconConfirm} size={25} /></span>
+              <div className="flex flex-col justify-center w-full">
+                  <label className="block ml-2 text-md font-light ">Confirm Password</label>
+                  <div className="relative">
+                  <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] "  type={typeConfirm}   {...register("confirmPassword")} />
+                  <span  className="absolute right-0 flex items-center pr-3 cursor-pointer top-3 "  onClick={handleConfirmToggle}><Icon icon={iconConfirm} size={20} /></span>
+                  </div>
+                  <p className="text-red-600 ">{errors.confirmPassword?.message}</p>
               </div>
-              <p className="text-red-600 ">{errors.confirmPassword?.message}</p>
           </div>
           <button type="submit" className="border rounded-[10px] w-full p-2 mt-4 bg-[#0671E0] text-white text-xl hover:bg-[#0663C7] focus:bg-[#0663C7]">Sign Up</button>
       </form>
-         <p className="text-center mt-auto font-medium text-lg">Already have an account? <span className="text-blue-700 underline-offset-4 hover:font-semibold underline cursor-pointer">Sign In</span></p>
+         <div className="flex w-full justify-center gap-2 mt-auto">
+            <p className="text-center font-medium text-sm">Vous avez déjà un compte ?</p>
+             <span className="text-blue-700 font-medium text-sm cursor-pointer">Connectez-vous maintenant?</span>
+         </div>
      </div>
      
   )

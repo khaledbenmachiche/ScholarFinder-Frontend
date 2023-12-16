@@ -50,38 +50,34 @@ const SignInSection:React.FC =()=> {
   }
 
   return(
-     <div className="w-full h-fit lg:h-full lg:w-5/12 p-8 bg-white ">
-
+     <div className="relative w-[900px] h-fit lg:h-screen pt-4 pb-2 px-8 bg-white flex flex-col ">
+         <div className="bg-[#0671E0] absolute left-0 top-0 h-full w-1"></div>
       <div className="flex items-center mb-20">
        <img src={logo} alt="Logo" className="mr-4" />
       <div className="text-3xl font-medium ">Bienvenue</div>
       </div>
 
-      <form onSubmit={handleSubmit(submitForm)}>
-
-      <div className="flex flex-col items-center justify-center ">
-
+      <form className="flex flex-col w-full h-fit md:px-8 items-center justify-center gap-2.5 mb-6" onSubmit={handleSubmit(submitForm)}>
         <div className="flex flex-col justify-center mb-12 w-full">
-        <label className="block text-xl font-light ">Username</label>
-        <input  className="mt-2 border rounded-[10px] border-blue-700 w-full p-3 bg-[#EEF5FC] " {...register("username")} />
+        <label className="block ml-2 text-md font-light ">Username</label>
+        <input  className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC]" {...register("username")} />
         <p className="text-red-600 ">{errors.username?.message}</p>
         </div>
 
       <div className="flex flex-col justify-center mb-16 w-full">
-      <label className="block text-xl font-light ">Password</label>
+      <label className="block ml-2 text-md font-light ">Password</label>
       <div className="relative">
-      <input className="mt-2 border rounded-[10px] border-blue-700 w-full p-3  bg-[#EEF5FC] " type={type} {...register("password")} /> 
-      <span  className="absolute inset-y-0 right-0 flex items-center pr-3 mt-1 cursor-pointer" onClick={handleToggle}><Icon icon={icon} size={25}/></span>
+      <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC]" type={type} {...register("password")} />
+      <span  className="absolute inset-y-0 right-0 flex items-center pr-3 mt-1 cursor-pointer" onClick={handleToggle}><Icon icon={icon} size={20}/></span>
       </div>
       <p className="text-red-600 ">{errors.password?.message}</p>
       </div>
-
-        <div className="flex flex-col justify-center mb-40 w-full">
-        <button type="submit" className="border rounded-[10px] w-full p-3 bg-[#0671E0] hover:bg-[#0663C7] focus:bg-[#0663C7] text-white text-xl">Sign In</button>
-        </div>
-      </div>
-        <p className="text-center ">Don't have an account? <span className="text-blue-700 hover:underline">Sign Up</span></p>
+        <button type="submit" className="border rounded-[10px] w-full p-2 bg-[#0671E0] hover:bg-[#0663C7] focus:bg-[#0663C7] text-white text-xl">Sign In</button>
       </form>
+         <div className="flex w-full justify-center gap-2">
+             <p className="text-center font-medium text-sm">Vous n’avez pas un compte ?</p>
+             <span className="text-blue-700 font-medium text-sm cursor-pointer">Inscrivez-vous maintenant</span>
+         </div>
      </div>
   )
 }
