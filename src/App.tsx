@@ -1,18 +1,22 @@
 import './App.css'
 import { Routes,Route } from 'react-router-dom';
 import UploadArticle from './pages/UploadArticle'
-import Auth from "./pages/Auth";
 import RouteGuard from './components/RouteGuard';
 import Test from './pages/Test';
 import {AuthProvider} from './context/AuthContext';
-
+import SignIn from "./pages/SignIn.tsx";
+import SignUp from "./pages/SignUp.tsx";
 function App() {
   return (
     <AuthProvider>
       <Routes>
           <Route
-            path="/auth"
-            element={<Auth />}
+            path="/signup"
+            element={<SignUp />}
+          />
+          <Route
+                path="/signin"
+                element={<SignIn />}
           />
           <Route
             path='/upload'

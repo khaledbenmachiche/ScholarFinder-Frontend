@@ -6,7 +6,7 @@ import { Icon } from 'react-icons-kit'
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth.ts";
 
 const schema=yup.object().shape(
   {
@@ -14,17 +14,13 @@ const schema=yup.object().shape(
     password: yup.string().min(4).max(15).required(),
   }
 );
-interface SignInProps{
-    onSignUpClick: () => void;
-}
 
 interface SignInData{
   username:string;
   password:string;
 }
 
-const SignIn:React.FC<SignInProps> =({ onSignUpClick })=>
-{
+const SignInSection:React.FC =()=> {
   const navigate = useNavigate();
   const {login} = useAuth();
   const {register , handleSubmit , formState: { errors },} = useForm({
@@ -83,10 +79,10 @@ const SignIn:React.FC<SignInProps> =({ onSignUpClick })=>
         <button type="submit" className="border rounded-[10px] w-full p-3 bg-[#0671E0] hover:bg-[#0663C7] focus:bg-[#0663C7] text-white text-xl">Sign In</button>
         </div>
       </div>
-        <p className="text-center ">Don't have an account? <span className="text-blue-700 hover:underline" onClick={onSignUpClick}>Sign Up</span></p>
+        <p className="text-center ">Don't have an account? <span className="text-blue-700 hover:underline">Sign Up</span></p>
       </form>
      </div>
   )
 }
 
-export default SignIn;
+export default SignInSection;

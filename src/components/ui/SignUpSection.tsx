@@ -6,7 +6,7 @@ import * as yup from "yup";
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth.ts";
 const schema=yup.object().shape({
     username: yup.string().required(),
     firstName: yup.string().required(),
@@ -15,10 +15,6 @@ const schema=yup.object().shape({
     password: yup.string().min(4).max(15).required(),
     confirmPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match').required(),
   });
-
-interface SignUpProps{
-  onSignInClick: () => void;
-}
 
 interface SignUpData{
   confirmPassword: string;
@@ -29,7 +25,7 @@ interface SignUpData{
   username: string;
 }
 
-const SignUp:React.FC<SignUpProps> =({ onSignInClick })=>
+const SignUpSection:React.FC =()=>
 {
   const navigate = useNavigate();
   const {subscribe,login} = useAuth();
@@ -146,10 +142,10 @@ const SignUp:React.FC<SignUpProps> =({ onSignInClick })=>
       
       
 
-      <p className="text-center ">Already have an account? <span className="text-blue-700 hover:underline"onClick={onSignInClick}>Sign In</span></p>
+      <p className="text-center ">Already have an account? <span className="text-blue-700 hover:underline">Sign In</span></p>
       </form>
      </div>
      
   )
 }
-export default SignUp;
+export default SignUpSection;
