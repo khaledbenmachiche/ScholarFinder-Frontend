@@ -17,7 +17,7 @@ export default function useAuth() {
 
   async function login(username:string, password:string) {
     try {
-      const response = await api.post("login", {username,password})
+      const response = await api.post("login", {username,password},{withCredentials: true})
       if (response.data.AccessToken) {
         addUser(response.data)
       }
@@ -43,6 +43,8 @@ export default function useAuth() {
       username,
       email,
       password,
+      firstName,
+      lastName,
     });
   }
   
