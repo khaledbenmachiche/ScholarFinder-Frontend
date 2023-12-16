@@ -74,7 +74,7 @@ const SignInSection:React.FC =()=> {
       </div>
         <button type="submit" className="border rounded-[10px] w-full p-2 bg-[#0671E0] hover:bg-[#0663C7] focus:bg-[#0663C7] text-white text-xl">Sign In</button>
       </form>
-         <div className="flex w-full justify-center gap-2">
+         <div className="flex whitespace-nowrap w-full justify-center gap-2.5">
              <p className="text-center font-medium text-sm">Vous n’avez pas un compte ?</p>
              <span className="text-blue-700 font-medium text-sm cursor-pointer">Inscrivez-vous maintenant</span>
          </div>
