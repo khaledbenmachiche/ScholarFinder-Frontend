@@ -7,6 +7,7 @@ import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth.ts";
+import logo from '../../assets/logo.svg';
 
 const schema=yup.object().shape(
   {
@@ -52,7 +53,7 @@ const SignInSection:React.FC =()=> {
      <div className="w-5/12 p-8 bg-white font-poppins ">
 
       <div className="flex items-center mb-20">
-       <img src='logo.svg' alt="Logo" className="mr-4" />
+       <img src={logo} alt="Logo" className="mr-4" />
       <div className="text-3xl font-medium ">Bienvenue</div>
       </div>
 
