@@ -77,9 +77,7 @@ const SignUpSection:React.FC =()=>
     } catch (error) {
       console.log(error)
     }
-  } 
-
-
+  }
 
   return(
      <div className="w-full p-8 bg-white lg:w-5/12">
