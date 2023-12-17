@@ -1,6 +1,7 @@
 import './App.css'
 import { Routes,Route } from 'react-router-dom';
-import UploadArticle from './pages/UploadArticle'
+import UploadArticle from './pages/UploadArticle';
+import WelcomePage from './pages/WelcomePage'
 import RouteGuard from './components/RouteGuard';
 import Test from './pages/Test';
 import {AuthProvider} from './context/AuthContext';
@@ -26,9 +27,11 @@ function App() {
             path='/test'
             element={<RouteGuard><Test/></RouteGuard>}
           />
+        <Route
+          path='welcomepage'
+          element={<WelcomePage/>}
+          />
       </Routes>
     </AuthProvider>
-  )
+);
 }
-
-export default App
