@@ -16,7 +16,7 @@ const Test = () => {
         .then(state=>{
           if(state){
             console.log('logged out');
-            navigate('/auth');
+            navigate('/signin');
           }
         })
     }

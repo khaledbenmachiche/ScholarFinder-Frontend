@@ -80,7 +80,7 @@ const SignUpSection:React.FC =()=>
   }
 
   return(
-     <div className="relative w-[900px] h-fit lg:h-screen pt-4 pb-2 px-8 bg-white flex flex-col">
+     <div className="relative w-full lg:w-[900px] h-fit lg:h-screen pt-4 pb-2 px-8 bg-white flex flex-col">
          <div className="bg-[#0671E0] absolute left-0 top-0 h-full w-1"></div>
          <div className="flex items-center mb-4">
          <img src={logo} alt="Logo" className="mr-4" />
@@ -134,7 +134,7 @@ const SignUpSection:React.FC =()=>
           </div>
           <button type="submit" className="border rounded-[10px] w-full p-2 mt-4 bg-[#0671E0] text-white text-xl hover:bg-[#0663C7] focus:bg-[#0663C7]">Sign Up</button>
       </form>
-         <div className="flex w-full justify-center gap-2 mt-auto">
+         <div className="flex w-full whitespace-nowrap justify-center gap-2 mt-auto">
             <p className="text-center font-medium text-sm">Vous avez déjà un compte ?</p>
              <span className="text-blue-700 font-medium text-sm cursor-pointer">Connectez-vous maintenant?</span>
          </div>
