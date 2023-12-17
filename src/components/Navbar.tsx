@@ -21,12 +21,13 @@ export const navLinks = [
   ];
 
   const Navbar =() =>  
-  {   const [active, setActive] = useState("Home");
-     
-    const [toggle, setToggle] = useState(false);
+  {
+      const [active, setActive] = useState("Home");
+      const [toggle, setToggle] = useState(false);
+
     return ( 
-        <nav className="h-[4rem] mb-16 w-screen text-black flex items-center">  
-               
+        <nav className="h-[4rem] mb-16 w-screen text-black flex items-center">
+
                <div className="relative left-8 bottom-2"> <Logo/> </div> 
 
                <div className="w-full xl:max-w-[1250px] mx-auto px-6">   

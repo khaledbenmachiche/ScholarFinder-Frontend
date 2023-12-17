@@ -7,7 +7,7 @@ import Test from './pages/Test';
 import {AuthProvider} from './context/AuthContext';
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
-function App() {
+export default function App() {
   return (
     <AuthProvider>
       <Routes>
@@ -28,7 +28,7 @@ function App() {
             element={<RouteGuard><Test/></RouteGuard>}
           />
         <Route
-          path='welcomepage'
+          path='/'
           element={<WelcomePage/>}
           />
       </Routes>

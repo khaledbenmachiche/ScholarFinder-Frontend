@@ -1,4 +1,4 @@
-import NavBar from "../components/NavBar";
+import NavBar from "../components/NavbarAuth.tsx";
 import SignInSection from "../components/ui/SignInSection.tsx";
 import earth from "../assets/wide_earth.svg";
 const SignIn=()=>
