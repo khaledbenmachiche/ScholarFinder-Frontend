@@ -12,7 +12,7 @@ const RouteGuard = ({children}:{children:React.JSX.Element}) => {
     if (authUser) {
         return children
     }else{
-        return <Navigate to="/auth" replace />;
+        return <Navigate to="/signin" replace />;
     }
 };
  

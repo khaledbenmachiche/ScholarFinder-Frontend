@@ -29,7 +29,6 @@ const SignInSection:React.FC =()=> {
   });
 
   const submitForm = async (data:SignInData)=>{
-    debugger
     await login(data.username,data.password)
     navigate('/test');
   }
@@ -58,14 +57,14 @@ const SignInSection:React.FC =()=> {
       </div>
 
       <form className="flex flex-col w-full h-[800px] md:px-8 items-center justify-center gap-2.5 mb-6" onSubmit={handleSubmit(submitForm)}>
-        <div className="flex flex-col justify-center mb-12 w-full">
-        <label className="block ml-2 text-md font-light ">Username</label>
+        <div className="flex flex-col justify-center w-full mb-12">
+        <label className="block ml-2 font-light text-md ">Username</label>
         <input  className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC]" {...register("username")} />
         <p className="text-red-600 ">{errors.username?.message}</p>
         </div>
 
-      <div className="flex flex-col justify-center mb-16 w-full">
-      <label className="block ml-2 text-md font-light ">Password</label>
+      <div className="flex flex-col justify-center w-full mb-16">
+      <label className="block ml-2 font-light text-md ">Password</label>
       <div className="relative">
       <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC]" type={type} {...register("password")} />
       <span  className="absolute inset-y-0 right-0 flex items-center pr-3 mt-1 cursor-pointer" onClick={handleToggle}><Icon icon={icon} size={20}/></span>
@@ -75,8 +74,8 @@ const SignInSection:React.FC =()=> {
         <button type="submit" className="border rounded-[10px] w-full p-2 bg-[#0671E0] hover:bg-[#0663C7] focus:bg-[#0663C7] text-white text-xl">Sign In</button>
       </form>
          <div className=" flex whitespace-nowrap w-full justify-center gap-2.5">
-             <p className="text-center font-medium text-sm">Vous n’avez pas un compte ?</p>
-             <span className="text-blue-700 font-medium text-sm cursor-pointer">Inscrivez-vous maintenant</span>
+             <p className="text-sm font-medium text-center">Vous n’avez pas un compte ?</p>
+             <span className="text-sm font-medium text-blue-700 cursor-pointer">Inscrivez-vous maintenant</span>
          </div>
      </div>
   )

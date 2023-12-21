@@ -17,7 +17,6 @@ const useAxios = () => {
     axiosInstance.interceptors.request.use(
         async req => {
         if(!user) return req;
-            debugger;
         const isExpired = isTokenExpired(user.AccessToken);
     
         if(!isExpired) return req

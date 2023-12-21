@@ -26,11 +26,9 @@ export const navLinks = [
       const [toggle, setToggle] = useState(false);
 
     return ( 
-        <nav className="h-[4rem] mb-16 w-screen text-black flex items-center">
-
-               <div className="relative left-8 bottom-2"> <Logo/> </div> 
-
-               <div className="w-full xl:max-w-[1250px] mx-auto px-6">   
+        <nav className="h-[4rem] w-screen text-black flex items-center absolute top-0 px-10">
+                <Logo/>
+               <div className="w-full xl:max-w-[1250px] mx-auto px-6">
                <ul className="hidden w-full lg:flex justify-end relative left-11">   
                      { 
                         navLinks.map (      
