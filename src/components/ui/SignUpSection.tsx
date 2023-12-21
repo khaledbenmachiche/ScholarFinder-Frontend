@@ -27,8 +27,7 @@ interface SignUpData{
   username: string;
 }
 
-const SignUpSection:React.FC =()=>
-{
+const SignUpSection:React.FC =()=> {
   const navigate = useNavigate();
   const {subscribe,login} = useAuth();
   const [type, setType]=useState('password');
@@ -75,7 +74,7 @@ const SignUpSection:React.FC =()=>
         console.log(response.data);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -136,7 +135,7 @@ const SignUpSection:React.FC =()=>
       </form>
          <div className="flex w-full whitespace-nowrap justify-center gap-2 mt-auto">
             <p className="text-center font-medium text-sm">Vous avez déjà un compte ?</p>
-             <span className="text-blue-700 font-medium text-sm cursor-pointer">Connectez-vous maintenant?</span>
+             <span onClick={()=>navigate("/signin")} className="text-blue-700 font-medium text-sm cursor-pointer">Connectez-vous maintenant?</span>
          </div>
      </div>
      

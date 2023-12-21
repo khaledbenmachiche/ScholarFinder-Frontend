@@ -75,7 +75,7 @@ const SignInSection:React.FC =()=> {
       </form>
          <div className=" flex whitespace-nowrap w-full justify-center gap-2.5">
              <p className="text-sm font-medium text-center">Vous n’avez pas un compte ?</p>
-             <span className="text-sm font-medium text-blue-700 cursor-pointer">Inscrivez-vous maintenant</span>
+             <span onClick={()=>navigate("/signup")}  className="text-sm font-medium text-blue-700 cursor-pointer">Inscrivez-vous maintenant</span>
          </div>
      </div>
   )
