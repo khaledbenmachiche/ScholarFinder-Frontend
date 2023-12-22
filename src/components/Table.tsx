@@ -152,9 +152,9 @@ const renderPaginationButtons = () => {
 
 
 return (
-    <div className="flex-grow overflow-hidden mx-4">
-         <div className=" relative h-fit overflow-x-scroll shadow-md sm:rounded-lg flex-grow">
-            <table className='w-full text-sm text-left rtl:text-right text-gray-500'>
+    <div className="flex-grow mx-4 overflow-hidden">
+         <div className="relative flex-grow overflow-x-scroll shadow-md  h-fit sm:rounded-lg">
+            <table className='w-full text-sm text-left text-gray-500 rtl:text-right'>
               <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 '>
                 {table.getHeaderGroups().map(headerGroup => (
                   <tr key={headerGroup.id}>
@@ -197,9 +197,9 @@ return (
             </table>
 
         </div>
-        <div className="mx-6 my-2 flex items-center flex-column flex-wrap md:flex-row justify-between pt-4">
+        <div className="flex flex-wrap items-center justify-between pt-4 mx-6 my-2 flex-column md:flex-row">
             <button
-                className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700"
+                className="flex items-center justify-center h-8 px-3 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg ms-0 hover:bg-gray-100 hover:text-gray-700"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
             >
@@ -208,7 +208,7 @@ return (
             {renderPaginationButtons()}
             <span className="flex items-center gap-1">
                   <button
-                      className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 "
+                      className="flex items-center justify-center h-8 px-3 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg ms-0 hover:bg-gray-100 hover:text-gray-700 "
                       onClick={() => table.nextPage()}
                       disabled={!table.getCanNextPage()}
                   >
