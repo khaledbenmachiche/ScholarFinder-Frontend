@@ -53,7 +53,7 @@ const renderPaginationButtons = () => {
       <button
         key={i}
         className={`text-lg  ${
-          currentPageIndex === i ? 'bg-blue-800 text-white border rounded-lg lg:pl-3 lg:pr-3 lg:pt-1 lg:pb-1 ' : ''
+          currentPageIndex === i ? 'flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700' : ''
         }`}
         onClick={() => table.setPageIndex(i - 1)}
       >
@@ -68,7 +68,7 @@ const renderPaginationButtons = () => {
       
       <button
         key="next-group-arrow"
-        className=" font-bold text-lg"
+        className="text-lg font-bold "
         onClick={() => table.setPageIndex(nextGroupFirstPage - 1)}
       >
         {<MdOutlineNavigateNext  size={30} />}
@@ -152,116 +152,71 @@ const renderPaginationButtons = () => {
 
 
 return (
-  <div className="p-2">
-    
-    <div className= 'w-[1110px] '>  
-    
-    <div className='font-poppins  font-medium text-lg mb-4  flex flex-col lg:flex-row'>
-    
-    <div> 
-    
- {Object.keys(rowSelection).length === 0 ? (
-   <div>Aucune ligne sélectionnée</div>
- ) : (
-   <div>
-     {Object.keys(rowSelection).length}{' '}
-     {Object.keys(rowSelection).length === 1
-       ? 'ligne sélectionnée'
-       : 'lignes sélectionnées'}
-   </div>
- )}
-</div>     
-  {/** */}  
-  <select 
-        className=" w-[93px] lg:ml-[790px]"
-        value={table.getState().pagination.pageSize}
-        onChange={e => {
-          table.setPageSize(Number(e.target.value))
-        }}
-      >
-        {[5,10, 20, 30, 40, 50].map(pageSize => (
-          <option key={pageSize} value={pageSize}>
-            Show {pageSize}
-          </option>
-        ))}
-      </select>
-    {/** */} 
-     
-     </div> 
-     <div className=" overflow-auto rounded-xl h-[450px] shadow w-[200px] lg:w-full lg:h-full ">
-    <table className='w-full border  '> 
-    
-      <thead className='bg-blue-100 text-blue-500 font-poppins h-9 '>
-        {table.getHeaderGroups().map(headerGroup => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map(header => {
-              return (
-                <th key={header.id} colSpan={header.colSpan} className={` text-center border p-2 ${header.id === 'select' ? 'w-6' : ''}`}>
-                  {header.isPlaceholder ? null : (
-                    <div>
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      
-                    </div>
-                  )}
-                </th>
-              )
-            })}
-          </tr>
-        ))}
-      </thead> 
-      <tbody >
-        {table.getRowModel().rows.map(row => {
-          return (
-            <tr key={row.id}>
-              {row.getVisibleCells().map(cell => {
-                return (
-                  <td key={cell.id} className='p-2 text-center whitespace-nowrap border '>
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext()
-                    )}
-                  </td>
-                )
-              })}
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>  
-    </div>
-    </div>
-    <div className="flex justify-center space-x-2 lg:space-x-7 ml-0 lg:mt-6  lg:ml-64 w-fit">
-     
-      <button
-        className="border rounded p-1 ml-"
-        onClick={() => table.previousPage()}
-        disabled={!table.getCanPreviousPage()}
-      >
-       Prev  
-      </button> 
-      
-      
-      {renderPaginationButtons()} 
-      
-     
-      <span className="flex items-center gap-1"> 
-      <button
-        className="border rounded p-1 mr-80"
-        onClick={() => table.nextPage()}
-        disabled={!table.getCanNextPage()}
-      >
-        Next 
-      </button>
-      </span>
-    
-      
-    </div> 
-   
-    
-  </div>
+    <div className="flex-grow overflow-hidden mx-4">
+         <div className=" relative h-fit overflow-x-scroll shadow-md sm:rounded-lg flex-grow">
+            <table className='w-full text-sm text-left rtl:text-right text-gray-500'>
+              <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 '>
+                {table.getHeaderGroups().map(headerGroup => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map(header => {
+                      return (
+                        <th key={header.id} colSpan={header.colSpan} className={` text-center border p-2 ${header.id === 'select' ? 'w-6' : ''}`}>
+                          {header.isPlaceholder ? null : (
+                            <div>
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+
+                            </div>
+                          )}
+                        </th>
+                      )
+                    })}
+                  </tr>
+                ))}
+              </thead>
+              <tbody >
+                {table.getRowModel().rows.map(row => {
+                  return (
+                    <tr key={row.id}>
+                      {row.getVisibleCells().map(cell => {
+                        return (
+                          <td key={cell.id} className='p-2 text-center border whitespace-nowrap '>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+
+        </div>
+        <div className="mx-6 my-2 flex items-center flex-column flex-wrap md:flex-row justify-between pt-4">
+            <button
+                className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+            >
+                Prev
+            </button>
+            {renderPaginationButtons()}
+            <span className="flex items-center gap-1">
+                  <button
+                      className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 "
+                      onClick={() => table.nextPage()}
+                      disabled={!table.getCanNextPage()}
+                  >
+                    Next
+                  </button>
+                  </span>
+        </div>
+</div>
 )
-              }
+}
 export default Table;  

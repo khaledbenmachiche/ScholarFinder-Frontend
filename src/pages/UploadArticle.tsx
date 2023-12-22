@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import UploadFileFromUrl from "../components/UploadFileFromUrl"
 import UploadedFile from "../components/UploadedFile";
 import uploadIcon from '../assets/upload_cloud.svg';
+import AdminSideBar from "../components/AdminSideBar.tsx";
 
 interface UploadedFile {
     source:string
@@ -45,6 +46,7 @@ const UploadArticle = () => {
 
     return (
     <div className="flex items-start justify-center w-screen h-screen bg-blue-100">
+        <AdminSideBar/>
         <div className="flex flex-col gap-2 mt-4 w-[500px]">
             <form {...getRootProps({ className: "dropzone" })} className={`relative flex items-center justify-center rounded w-full h-60 outline-dashed outline-blue-500 outline-2 ${isDragActive ? '':'grayscale'}`}>
                 <button className="absolute w-full h-full" onClick={handleOpeningFileMenu} ></button>
