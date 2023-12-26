@@ -7,6 +7,7 @@ import AdminSideBar from "../components/AdminSideBar.tsx";
 import useAxios from "../hooks/useAxios.ts";
 import {AxiosProgressEvent, AxiosResponse} from "axios";
 import { v4 as uuidv4 } from 'uuid';
+import { AnimatePresence } from "framer-motion";
 
 enum UploadStatus {
     UPLOADING,
@@ -68,7 +69,7 @@ const UploadArticle = () => {
                             </div>
                             :
                             <div className="flex flex-col items-center">
-                                <img className="w-16 mb-2 " src={uploadIcon} alt="Upload icon"/>
+                                <img className="w-16 mb-2" src={uploadIcon} alt="Upload icon"/>
                                 <h1 className="mb-1 text-sm text-blue-500">Select an article to upload</h1>
                                 <h2 className="text-xs text-blue-500">or drag and drop it here</h2>
                             </div>
@@ -80,18 +81,20 @@ const UploadArticle = () => {
                     <span className="flex-1 h-px bg-blue-950"></span>
                 </div>
                 <UploadFileFromUrl placeholder="Entrer le lien" label="Upload from URL" handleSubmitEvent={handleUrlInputSubmitEvent}/>
-                {uploadsInfo.length !== 0 && (
-                    <>
-                        <button onClick={handleClickedClear} className="self-end my-0 mr-2 px-1 py-0.5 hover:text-red-500 text-slate-500 w-fit">clear</button>
-                        <div className="flex flex-col flex-grow w-full gap-1 overflow-y-auto">
-                            {
-                                uploadsInfo.map((item) =>{
-                                    return <UploadedFile uploadInfo={item} key={item.id}/>
-                                })
-                            }
+                    {uploadsInfo.length !== 0 && (
+                        <div className="flex flex-col flex-grow w-full gap-1 p-2 mb-10 bg-blue-100 rounded shadow h-2/5">
+                            <button onClick={handleClickedClear} className="self-end my-0 mr-2 px-1 py-0.5 hover:text-red-500 text-slate-500 w-fit">clear</button>
+                            <div className="flex flex-col h-full gap-1 overflow-y-scroll">
+                                <AnimatePresence initial={false}>
+                                    {
+                                        uploadsInfo.map((item) =>{
+                                            return <UploadedFile key={item.id} source={item.source} progress={item.progress} status={item.status} />
+                                        })
+                                    }
+                                </AnimatePresence>
+                            </div>
                         </div>
-                    </>
-                )}
+                    )}
             </div>
         </div>
     </>
@@ -117,6 +120,9 @@ const useUploadArticles = () => {
         const formData = new FormData();
         formData.append('file',file);
         return axios.post('/articles/upload-via-zip/',formData,{
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
             onUploadProgress:onUploadProgress,
         });
     }
