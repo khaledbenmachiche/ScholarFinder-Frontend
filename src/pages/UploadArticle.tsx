@@ -1,35 +1,43 @@
-import React, { useState, useRef,useCallback } from "react";
+import React, {useState, useRef, useCallback} from "react";
 import { useDropzone } from "react-dropzone";
 import UploadFileFromUrl from "../components/UploadFileFromUrl"
 import UploadedFile from "../components/UploadedFile";
 import uploadIcon from '../assets/upload_cloud.svg';
 import AdminSideBar from "../components/AdminSideBar.tsx";
+import useAxios from "../hooks/useAxios.ts";
+import {AxiosProgressEvent, AxiosResponse} from "axios";
+import { v4 as uuidv4 } from 'uuid';
 
-interface UploadedFile {
-    source:string
+enum UploadStatus {
+    UPLOADING,
+    SUCCESS,
+    FAILED
+}
+interface UploadInformations {
+    id:string;
+    source:string;
+    progress:number;
+    status?:UploadStatus;
 }
 
 const UploadArticle = () => {
-    const [uploadedFiles,setUploadedFiles] = useState<UploadedFile[]>([]);
+    const {uploadsInfo,clearUploadsInfo,uploadArticlesViaFiles,uploadArticleViaUrl} = useUploadArticles();
     const fileInputRef= useRef<HTMLInputElement>(null);
-    
     const onDrop = useCallback((acceptedFiles:File[])=> {
-        const newUploadedFiles = acceptedFiles.map(file => ({ source: file.name }));
-        setUploadedFiles([...newUploadedFiles,...uploadedFiles]);
-      }, [uploadedFiles]);
+        uploadArticlesViaFiles(acceptedFiles);
+      }, [uploadArticlesViaFiles]);
     
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
     
     const handleUrlInputSubmitEvent = (url:string) => {
-        setUploadedFiles([{source:url},...uploadedFiles]);
+        uploadArticleViaUrl(url);
     }
 
     const handleFileInputChangeEvent = (event:React.ChangeEvent<HTMLInputElement>) => {
         const {files} = event.target;
         if(files){
             const filesArray:File[] = Array.from(files);
-            const newUploadedFiles = filesArray.map(file => ({ source: file.name }));
-            setUploadedFiles([...newUploadedFiles, ...uploadedFiles]);
+            uploadArticlesViaFiles(filesArray);
         }
     }
     
@@ -41,7 +49,7 @@ const UploadArticle = () => {
     }
     
     const handleClickedClear = () => {
-        setUploadedFiles([]);
+        clearUploadsInfo();
     }
 
     return (
@@ -51,7 +59,7 @@ const UploadArticle = () => {
             <div className="flex flex-col gap-2 mt-4 lg:mt-10 lg:ml-64 lg:w-[700px]">
                 <form {...getRootProps({ className: "dropzone" })} className={`relative flex items-center justify-center rounded w-full h-60 outline-dashed outline-blue-500 outline-2 ${isDragActive ? '':'grayscale'}`}>
                     <button className="absolute w-full h-full" onClick={handleOpeningFileMenu} ></button>
-                    <input hidden {...getInputProps()} type="file" ref={fileInputRef} accept=".pdf" onChange={handleFileInputChangeEvent}/>
+                    <input hidden {...getInputProps()} type="file" ref={fileInputRef} accept=".pdf, .zip" onChange={handleFileInputChangeEvent}/>
                     {
                         isDragActive ? 
                             <div className="flex flex-col items-center">
@@ -72,11 +80,15 @@ const UploadArticle = () => {
                     <span className="flex-1 h-px bg-blue-950"></span>
                 </div>
                 <UploadFileFromUrl placeholder="Entrer le lien" label="Upload from URL" handleSubmitEvent={handleUrlInputSubmitEvent}/>
-                {uploadedFiles.length !== 0 && (
+                {uploadsInfo.length !== 0 && (
                     <>
                         <button onClick={handleClickedClear} className="self-end my-0 mr-2 px-1 py-0.5 hover:text-red-500 text-slate-500 w-fit">clear</button>
-                        <div className="flex flex-col w-full h-24 gap-2 overflow-y-auto ">
-                            {uploadedFiles.map((item,index) => <UploadedFile key={index} source={item.source}/>)}
+                        <div className="flex flex-col flex-grow w-full gap-1 overflow-y-auto">
+                            {
+                                uploadsInfo.map((item) =>{
+                                    return <UploadedFile uploadInfo={item} key={item.id}/>
+                                })
+                            }
                         </div>
                     </>
                 )}
@@ -87,3 +99,155 @@ const UploadArticle = () => {
 }
 
 export default UploadArticle;
+
+
+
+const useUploadArticles = () => {
+    const axios = useAxios();
+    const [uploadsInfo,setUploadsInfo] = useState<UploadInformations[]>([]);
+
+    function _uploadPdfFile(file:File, onUploadProgress: (progressEvent: AxiosProgressEvent) => void){
+        const formData = new FormData();
+        formData.append('file',file);
+        return axios.post('/articles/upload-via-file/',formData,{
+            onUploadProgress:onUploadProgress,
+        });
+    }
+    function _uploadZipFile(file:File, onUploadProgress: (progressEvent: AxiosProgressEvent) => void){
+        const formData = new FormData();
+        formData.append('file',file);
+        return axios.post('/articles/upload-via-zip/',formData,{
+            onUploadProgress:onUploadProgress,
+        });
+    }
+    function _uploadUrl(url:string, onUploadProgress:(progressEvent:AxiosProgressEvent) => void){
+        return axios.post('/articles/upload-via-url/',{url},{
+            onUploadProgress:onUploadProgress,
+        });
+    }
+    function uploadArticleViaUrl(url:string){
+        setUploadsInfo(prev=>{
+            const newUploadsInfo = [...prev];
+            newUploadsInfo.unshift({source:url,progress:0,status:UploadStatus.UPLOADING,id:uuidv4()});
+            return newUploadsInfo;
+        });
+
+        _uploadUrl(url,({loaded,total}) => {
+            setUploadsInfo(prevState => {
+                if(!total) return prevState;
+                const newUploadsInfo = [...prevState];
+                const fileToUpdate = newUploadsInfo.find(item => item.source === url);
+                if(fileToUpdate){
+                    fileToUpdate.progress = Math.round((loaded * 100/ total));
+                    fileToUpdate.status = UploadStatus.UPLOADING;
+                }
+                return newUploadsInfo;
+            });
+        }).then((response) => {
+                if(response.status === 201){
+                    setUploadsInfo(prevState => {
+                        const newUploadsInfo = [...prevState];
+                        const fileToUpdate = newUploadsInfo.find(item => item.source === url);
+                        if(fileToUpdate){
+                            fileToUpdate.progress = 100;
+                            fileToUpdate.status = UploadStatus.SUCCESS;
+                        }
+                        return newUploadsInfo;
+                    });
+                }else{
+                    setUploadsInfo(prevState => {
+                        const newUploadsInfo = [...prevState];
+                        const fileToUpdate = newUploadsInfo.find(item => item.source === url);
+                        if(fileToUpdate){
+                            fileToUpdate.progress = -1;
+                            fileToUpdate.status = UploadStatus.FAILED;
+                        }
+                        return newUploadsInfo;
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    function fileIsPdf(file:File){
+        return file.name.endsWith('.pdf');
+    }
+    function fileIsZip(file:File){
+        return file.name.endsWith('.zip');
+    }
+
+    function fileIsValid(file:File){
+        return fileIsPdf(file) || fileIsZip(file);
+    }
+
+    // the files : .pdf , .zip
+    function uploadArticlesViaFiles(files:File[]){
+        files = files.filter(fileIsValid);
+
+        const uploadPromises = files.map(async (file) => {
+            let uploadFunction : (file: File,onUploadProgress: (progressEvent: AxiosProgressEvent) => void) =>  Promise<AxiosResponse<any, any>>;
+
+            if(fileIsPdf(file)){
+                uploadFunction = _uploadPdfFile;
+            }else if(fileIsZip(file)){
+                uploadFunction = _uploadZipFile;
+            }else{
+                return Promise.reject(new Error("File type not supported"));
+            }
+            setUploadsInfo(prev=>{
+                const newUploadsInfo = [...prev];
+                newUploadsInfo.unshift({source:file.name,progress:0,status:UploadStatus.UPLOADING,id:uuidv4()});
+                return newUploadsInfo;
+            });
+            const formData = new FormData();
+            formData.append('file',file);
+            return uploadFunction(file,({loaded,total}) => {
+                setUploadsInfo(prevState => {
+                    if(!total) return prevState;
+                    const newUploadsInfo = [...prevState];
+                    const fileToUpdate = newUploadsInfo.find(item => item.source === file.name);
+                    if(fileToUpdate){
+                        fileToUpdate.progress = Math.round(((loaded * 100)/ total));
+                        fileToUpdate.status = UploadStatus.UPLOADING;
+                    }
+                    return newUploadsInfo;
+                });
+            })
+        });
+
+        Promise.all(uploadPromises)
+            .then((responses) => {
+                responses.forEach((response,index) => {
+                    if(response.status === 201){
+                        setUploadsInfo(prevState => {
+                            const newUploadsInfo = [...prevState];
+                            const fileToUpdate = newUploadsInfo.find(item => item.source === files[index].name)
+                            if(fileToUpdate){
+                                fileToUpdate.status = UploadStatus.SUCCESS;
+                            }
+                            return newUploadsInfo;
+                        });
+                    }else{
+                        setUploadsInfo(prevState => {
+                            const newUploadsInfo = [...prevState];
+                            const fileToUpdate = newUploadsInfo.find(item => item.source === files[index].name)
+                            if(fileToUpdate){
+                                fileToUpdate.progress = -1;
+                                fileToUpdate.status = UploadStatus.FAILED;
+                            }
+                            return newUploadsInfo;
+                        });
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+    function clearUploadsInfo(){
+        setUploadsInfo([]);
+    }
+    return {uploadsInfo,clearUploadsInfo,uploadArticlesViaFiles,uploadArticleViaUrl};
+}

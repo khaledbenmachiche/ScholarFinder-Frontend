@@ -20,7 +20,7 @@ const useAxios = () => {
         const isExpired = isTokenExpired(user.AccessToken);
     
         if(!isExpired) return req
-        const response = await axios.post(`${baseURL}/refresh`,{},{withCredentials: true});
+        const response = await axios.post(`${baseURL}/users/refresh`,{},{withCredentials: true});
         if (response.status===200 && response.data.AccessToken) {
             const RefreshedUser = {...user,AccessToken:response.data.AccessToken}
             addUser(RefreshedUser);

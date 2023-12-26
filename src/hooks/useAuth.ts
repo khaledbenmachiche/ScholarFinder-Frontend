@@ -17,7 +17,7 @@ export default function useAuth() {
 
   async function login(username:string, password:string) {
     try {
-      const response = await api.post("login", {username,password},{withCredentials: true})
+      const response = await api.post("users/login", {username,password},{withCredentials: true})
       if (response.data.AccessToken) {
         addUser(response.data)
       }
@@ -28,7 +28,7 @@ export default function useAuth() {
   
   async function logout(){
     try {
-      const response = await api.post('logout');
+      const response = await api.post('users/logout');
       if (response.data.message === "success") {
         removeUser();
       }
@@ -39,7 +39,7 @@ export default function useAuth() {
   }
   
   function subscribe(username:string,firstName:string,lastName:string,email:string,password:string){
-    return api.post("register", {
+    return api.post("users/register", {
       username,
       email,
       password,
@@ -49,7 +49,7 @@ export default function useAuth() {
   }
   
   function refreshAccessToken() {
-    return api.post("refresh");
+    return api.post("users/refresh/");
   }
   return { login, logout, subscribe, refreshAccessToken };
 } 
