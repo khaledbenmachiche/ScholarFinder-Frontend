@@ -1,140 +1,74 @@
-import React, { useState } from "react";
-import Autosuggest from "react-autosuggest";
-import FilterByAuthor from "./FilterByAuthor";
-import { FaTimes } from 'react-icons/fa';
-
-interface Article {
-  author: string;
-  title: string;
-  description: string;
-  publicationDate: string;
-  authorInstitution: string;
-}
+import React, { useState, ChangeEvent } from 'react';
+import Autosuggest from 'react-autosuggest';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 
 interface SearchBarProps {
-  data: Article[];
+  onSearch: (query: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ data }) => {
-  const [filteredData, setFilteredData] = useState<Article[]>([]);
-  const [wordEntered, setWordEntered] = useState<string>("");
-  const [authorFilter, setAuthorFilter] = useState<string | null>(null);
-  const [suggestions, setSuggestions] = useState<Article[]>([]);
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
-  const getSuggestions = (value: string) => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-
-    return inputLength === 0
-      ? []
-      : data.filter(
-          (article) =>
-            article.title.toLowerCase().includes(inputValue) ||
-            article.author.toLowerCase().includes(inputValue)
-        );
+  const fetchSuggestions = (value: string) => {
+    // Make API request to fetch suggestions based on the value
+    // Update 'suggestions' state with the fetched suggestions
   };
 
   const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
-    setSuggestions(getSuggestions(value));
+    fetchSuggestions(value);
   };
 
   const onSuggestionsClearRequested = () => {
     setSuggestions([]);
   };
 
-  const getSuggestionValue = (suggestion: Article) => suggestion.title;
+  const getSuggestionValue = (suggestion: string) => suggestion;
 
-  const renderSuggestion = (suggestion: Article) => (
-    <div>
-      <p>{suggestion.title}</p>
-      
-    </div>
-  );
+  const renderSuggestion = (suggestion: string) => <div>{suggestion}</div>;
 
-  const onChange = (event: React.ChangeEvent<{}>, { newValue }: { newValue: string }) => {
-    setWordEntered(newValue);
-  };
-
-  const handleFilter = () => {
-    const newFilter = data.filter((article) => {
-      const lowerCasedTitle = article.title.toLowerCase();
-      const lowerCasedAuthor = article.author.toLowerCase();
-      const lowerCasedWord = wordEntered.toLowerCase();
-
-      return (
-        lowerCasedTitle.includes(lowerCasedWord) &&
-        (!authorFilter || lowerCasedAuthor.includes(authorFilter))
-      );
-    });
-
-    setFilteredData(newFilter);
-  };
-
-  const clearInput = () => {
-    setFilteredData([]);
-    setWordEntered("");
+  const onChange = (event: ChangeEvent<{}>, { newValue }: { newValue: string }) => {
+    setSearchValue(newValue);
   };
 
   const handleSearch = () => {
-    handleFilter();
-    // Perform any other actions based on the search results
-    console.log("Search results:", filteredData);
+    onSearch(searchValue);
   };
 
-  const handleFilterByAuthorChange = (author: string | null) => {
-    setAuthorFilter(author);
+  const clearInput = () => {
+    setSearchValue('');
   };
-
-  const inputProps = {
-    placeholder: "Search articles",
-    value: wordEntered,
-    onChange,
-    className: "mt-2 border  border-blue-700  w-1/2 mx-auto p-2 bg-[#EEF5FC] ",
-    
-  };
- 
 
   return (
-    <div className="search ">
-      <div className=" ">
-      
-     
+    <div className="flex items-center relative w-3/5">
+      <div className="flex items-center border border-blue-500 p-3 rounded w-full relative">
+        <FaSearch className="text-blue-500 mr-2" />
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           getSuggestionValue={getSuggestionValue}
           renderSuggestion={renderSuggestion}
-          
-          inputProps={inputProps}
-         
+          inputProps={{
+            placeholder: 'Search articles',
+            value: searchValue,
+            onChange,
+            className: 'w-full outline-none ',
+          }}
         />
-        
-        {wordEntered && (
-        <button className="clearButton" onClick={clearInput}>
-          <FaTimes />
-        </button>
-      )}
-     
-        <button className="border  p-2 mt-2 bg-[#0671E0] text-white text-xl m2-4 hover:bg-[#0663C7] focus:bg-[#0663C7]" onClick={handleSearch}>Search</button>
-        </div>
-        <div>
-          <label>
-            Filter by Author:
-            <FilterByAuthor onChange={handleFilterByAuthorChange} />
-          </label>
-        </div>
-     
-      {filteredData.length !== 0 && (
-        <div className="dataResult">
-          {filteredData.slice(0, 5).map((article, index) => (
-            <div key={index}>
-              <p>{article.title}</p>
-              <p>{article.author}</p>
-            </div>
-          ))}
-        </div>
-      )}
+        {searchValue && (
+          <FaTimes
+            className="cursor-pointer text-blue-500 ml-2 absolute right-1"
+            onClick={clearInput}
+          />
+        )}
+      </div>
+      <button
+        className="bg-[#0671E0] hover:bg-[#0663C7] focus:bg-[#0663C7] text-white p-3 rounded ml-2"
+        onClick={handleSearch}
+      >
+        Rechercher
+      </button>
     </div>
   );
 };

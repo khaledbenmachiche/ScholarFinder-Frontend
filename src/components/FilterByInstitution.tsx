@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
 
-interface FilterByAuthorProps {
-  onChange: (author: string | null) => void;
+interface FilterByInstitutionProps {
+  onChange: (institution: string | null) => void;
 }
 
-const FilterByAuthor: React.FC<FilterByAuthorProps> = ({ onChange }) => {
+const FilterByInstitution: React.FC<FilterByInstitutionProps> = ({ onChange }) => {
   const [isActive, setIsActive] = useState(false);
-  const [authorName, setAuthorName] = useState('');
+  const [institutionName, setInstitutionName] = useState('');
 
   const handleToggle = () => {
     setIsActive(!isActive);
-    onChange(isActive ? null : authorName);
+    onChange(isActive ? null : institutionName);
   };
 
-  const handleAuthorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInstitutionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value;
-    setAuthorName(name);
+    setInstitutionName(name);
     onChange(isActive ? name : null);
   };
 
   return (
-    <div className="w-full mb-5 max-w-[300px] rounded-md bg-[#eef5fc40] p-10 shadow-custom">
+    <div className="w-full mb-5  max-w-[300px] rounded-md bg-[#eef5fc40] p-10 shadow-custom">
       <div className="flex items-center mb-6">
-        <p className=" font-medium text-xl">Filter par auteur :</p>
-
+        <p className=" font-medium text-xl">Filter par institution :</p>
         <>
       <label className=' relative inline-flex cursor-pointer select-none items-center'>
         <input
@@ -47,13 +46,12 @@ const FilterByAuthor: React.FC<FilterByAuthorProps> = ({ onChange }) => {
       </label>
     </>
 
-
       </div>
       <input
         type="text"
-        placeholder="Enter author name"
-        value={authorName}
-        onChange={handleAuthorChange}
+        placeholder="Enter institution name"
+        value={institutionName}
+        onChange={handleInstitutionChange}
         className={`border w-full p-2 rounded-md ${
           isActive ? 'bg-[#EEF5FC] border-blue-500' : 'bg-gray-100'
         }`}
@@ -62,4 +60,4 @@ const FilterByAuthor: React.FC<FilterByAuthorProps> = ({ onChange }) => {
   );
 };
 
-export default FilterByAuthor;
+export default FilterByInstitution;

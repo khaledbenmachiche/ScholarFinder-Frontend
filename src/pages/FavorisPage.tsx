@@ -3,7 +3,7 @@ import SearchBar from '../components/SearchBar';
 
 import logo from '../assets/Logo.svg'
 import Filters from '../components/Filters';
-import ArticleResult from '../components/ArticleResult';
+import ArticleFavorisResult from '../components/ArticleFavorisResult';
 import { AiOutlineMail } from 'react-icons/ai';
 
 interface Article {
@@ -17,7 +17,7 @@ const SearchPage: React.FC = () => {
 
   const [searchResultsCount, setSearchResultsCount] = useState<number>(0);
   const [sortingOption, setSortingOption] = useState<string>('plusRecent');
-  const [searchResults, setSearchResults] = useState<Article[]>([]); 
+  const [searchResults, setSearchResults] = useState<Article[]>([]); // Assuming Article is a type/interface for your articles
 
   const handleSearch = async (query: string) => {
     try {
@@ -46,6 +46,12 @@ const SearchPage: React.FC = () => {
   },
   {
     title: 'Article 2',
+    authors: ['Author 3', 'Author 4'],
+    institution: 'Institution 2',
+    abstract: 'Abstract for Article 2...Abstract : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially ....',
+  },
+  {
+    title: 'Article 3',
     authors: ['Author 3', 'Author 4'],
     institution: 'Institution 2',
     abstract: 'Abstract for Article 2...Abstract : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially ....',
@@ -111,9 +117,9 @@ const SearchPage: React.FC = () => {
       </select>
     </div>
   </div>
-
+        <div className=' grid grid-cols-2 gap-4'>
           {articlesToShow.map((article, index) => (
-            <ArticleResult
+            <ArticleFavorisResult
               key={index}
               title={article.title}
               authors={article.authors}
@@ -127,6 +133,7 @@ const SearchPage: React.FC = () => {
               }}
             />
           ))}
+          </div>
         </div>
 
     </div> 
