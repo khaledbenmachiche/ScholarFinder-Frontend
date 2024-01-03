@@ -40,7 +40,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className="flex items-center relative w-3/5">
+    <div className="flex items-center relative md:w-3/5">
       <div className="flex items-center border border-blue-500 p-3 rounded w-full relative">
         <FaSearch className="text-blue-500 mr-2" />
         <Autosuggest

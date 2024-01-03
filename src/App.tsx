@@ -8,6 +8,10 @@ import FavorisPage from './pages/FavorisPage'
 
 function App() {
   return (
+    
+    
+    
+    
     <SearchPage/>
    
    
