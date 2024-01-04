@@ -1,14 +1,12 @@
 import './App.css'
 import { Routes,Route } from 'react-router-dom';
 import UploadArticle from './pages/UploadArticle';
-import RouteGuard from './components/RouteGuard';
 import Test from './pages/Test';
 import {AuthProvider} from './context/AuthContext';
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import WelcomePage from "./pages/WelcomePage.tsx";
 import AdminModerateurPage from "./pages/AdminModerateurPage.tsx";
-import AdminUtilisateurPage from "./pages/AdminUtilisateurPage.tsx";
 export default function App() {
   return (
     <AuthProvider>
@@ -23,7 +21,7 @@ export default function App() {
           />
           <Route
             path='/test'
-            element={<RouteGuard><Test/></RouteGuard>}
+            element={<Test/>}
           />
         <Route
           path='/'
@@ -40,10 +38,6 @@ export default function App() {
           <Route
               path='/admin/moderateur'
               element={<AdminModerateurPage/>}
-          />
-          <Route
-              path='/admin/utilisateur'
-              element={<AdminUtilisateurPage/>}
           />
       </Routes>
     </AuthProvider>
