@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,3 +8,6 @@
   box-shadow: 4px 4px 30px 1px rgba(0, 0, 0, 0.10);
 }
 
+body {
+    font-family: 'Poppins', sans-serif;
+}

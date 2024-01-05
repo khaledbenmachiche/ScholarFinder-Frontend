@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import urlUploadIcon from '../assets/url_upload_icon.svg';
 
 
@@ -27,11 +26,5 @@ const UploadFileFromUrl:React.FC<UploadFileFromUrlProps> = ({label,placeholder,h
     </div>
   );
 }
-
-UploadFileFromUrl.propTypes = {
-    label: PropTypes.string.isRequired,
-    placeholder: PropTypes.string.isRequired,
-    handleSubmitEvent: PropTypes.func.isRequired,
-};
 
 export default UploadFileFromUrl
