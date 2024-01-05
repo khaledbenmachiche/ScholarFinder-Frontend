@@ -38,10 +38,10 @@ const FilterByTag: React.FC<FilterByTagProps> = ({onChange, clear}) => {
     }, [clear]);
 
     return (
-        <div className="w-full max-w-[300px] rounded-md bg-[#eef5fc40] p-10 shadow-custom my-5">
-            <div className="flex items-center mb-6">
-                <p className="mr-6 font-medium text-xl">Filter par tag :</p>
-                <label className='relative inline-flex cursor-pointer select-none items-center'>
+        <div className="max-w-[300px] rounded-md bg-[#eef5fc40] p-10 shadow-custom my-5">
+            <div className="flex items-center justify-between mb-6">
+                <p className="text-lg font-medium">Filter par tag :</p>
+                <label className='relative inline-flex items-center cursor-pointer select-none'>
                     <input
                         type='checkbox'
                         className='sr-only'
@@ -61,14 +61,14 @@ const FilterByTag: React.FC<FilterByTagProps> = ({onChange, clear}) => {
           </span>
                 </label>
             </div>
-            <div className="flex mb-2">
+            <div className="flex w-full mb-2">
                 <input
                     type="text"
                     placeholder="Ajouter un tag"
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
                     disabled={!isActive}
-                    className={`border p-2  ${
+                    className={`border p-2 w-full ${
                         isActive ? 'bg-[#EEF5FC] border-blue-500' : 'bg-gray-100'
                     }`}
                 />

@@ -6,6 +6,7 @@ import Filters from '../components/Filters';
 import ArticleResult from '../components/ArticleResult';
 import {AiOutlineMail} from 'react-icons/ai';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 interface Institution {
     id: number;
@@ -24,7 +25,9 @@ interface Article {
     resume: string;
 }
 
-const SearchPage: React.FC = () => {
+const SearchResultsPage: React.FC = () => {
+
+    const {searchQuery} = useParams<string>();
     const [searchResultsCount, setSearchResultsCount] = useState<number>(0);
     const [sortingOption, setSortingOption] = useState<string>('plusRecent');
     const [searchResults, setSearchResults] = useState<Article[]>([]);
@@ -33,7 +36,7 @@ const SearchPage: React.FC = () => {
     const [nextPage, setNextPage] = useState(null);
     const [prevPage, setPrevPage] = useState(null);
 
-    const [query, setQuery] = useState<string>('');
+    const [query, setQuery] = useState(searchQuery);
     const handleSearch = async (query: string) => {
         setQuery(query);
         try {
@@ -126,10 +129,10 @@ const SearchPage: React.FC = () => {
             <div className='Header'>
                 <div className='bg-[#EEF5FC] p-6'>
                     <div className='flex mb-24'>
-                        <img src={logo} alt='logo'/><span className=' text-xl font-bold'>Truth Finder</span>
-                        <p className='mx-32 text-xl font-medium  '>Accueil</p>
-                        <p className=' text-xl font-medium '>Article Favoris</p>
-                        <p className=' ml-auto text-xl font-medium '> Username </p>
+                        <img src={logo} alt='logo'/><span className='text-xl font-bold '>Truth Finder</span>
+                        <p className='mx-32 text-xl font-medium '>Accueil</p>
+                        <p className='text-xl font-medium '>Article Favoris</p>
+                        <p className='ml-auto text-xl font-medium '> Username </p>
                     </div>
                     <p className='mb-4 md:mb-24 text-2xl md:text-4xl font-medium text-[#0053AD] text-center'>L'INFINI DU
                         SAVOIR VOUS ATTEND A PORTEE DE CLIC.</p>
@@ -138,14 +141,14 @@ const SearchPage: React.FC = () => {
             </div>
 
             <div className='flex justify-center'>
-                <SearchBar onSearch={handleSearch}/>
+                <SearchBar initialValue={searchQuery} onSearch={handleSearch}/>
             </div>
 
             <div className='my-6 p-4 border-y border-solid border-[#00000038] bg-[#d9d9d91e]'>
                 <p className='ml-2 md:ml-12'>Accueil {'>'} Recherche </p>
             </div>
 
-            <div className='Body flex flex-col md:flex-row'>
+            <div className='flex flex-col Body md:flex-row'>
 
                 <div>
                     <button
@@ -159,12 +162,12 @@ const SearchPage: React.FC = () => {
                 {/* Responsive Filters Section */}
                 <div
                     className={`Filters ${showFilters ? 'block' : 'hidden'}  md:block w-full md:w-1/3`}>
-                    <div className=' flex justify-around'>
+                    <div className='flex justify-around '>
                         <p className='mb-4  ml-4 md:ml-16 text-xl text-[#00000080] font-medium'>FILTRES</p>
-                        <p className='mb-4  ml-72 md:ml-52 text-xl text-[#ff020280] cursor-pointer font-medium'
+                        <button className='mb-4  ml-72 md:ml-52 text-xl text-[#ff020280] cursor-pointer font-medium'
                            onClick={handleClearAllFilters}>
                             CLEAR ALL
-                        </p>
+                        </button>
                     </div>
                     <div className="mx-4 md:mx-16 mb-12 border-t border-solid border-[#00000080]"></div>
                     <Filters handleFilterByInstitutionChange={handleFilterByInstitutionChange}
@@ -176,7 +179,7 @@ const SearchPage: React.FC = () => {
                 </div>
 
 
-                <div className="Results w-full md:w-2/3 p-4">
+                <div className="w-full p-4 Results md:w-2/3">
 
                     <div
                         className="flex justify-between items-center mb-6 md:mb-16 border-b p-2 md:p-6 border-[#00000080]">
@@ -211,10 +214,10 @@ const SearchPage: React.FC = () => {
                             }}
                         />
                     ))}
-                    <div className="w-full flex gap-5 justify-center">
-                        {prevPage && <button className="bg-blue-500 text-white px-4 py-2 rounded"
+                    <div className="flex justify-center w-full gap-5">
+                        {prevPage && <button className="px-4 py-2 text-white bg-blue-500 rounded"
                                              onClick={() => handlePageChange(prevPage)}>Previous</button>}
-                        {nextPage && <button className="bg-blue-500 text-white px-4 py-2 rounded"
+                        {nextPage && <button className="px-4 py-2 text-white bg-blue-500 rounded"
                                              onClick={() => handlePageChange(nextPage)}>Next</button>}
                     </div>
                 </div>
@@ -224,28 +227,28 @@ const SearchPage: React.FC = () => {
             <div className='Footer flex flex-col md:flex-row justify-between bg-[#EEF5FC]'>
 
                 <div className='md:ml-20'>
-                    <p className='font-medium mt-8 mb-6 md:mb-10 text-center md:text-left'>QUI SOMMES NOUS</p>
+                    <p className='mt-8 mb-6 font-medium text-center md:mb-10 md:text-left'>QUI SOMMES NOUS</p>
                     <div className='flex justify-center mb-6 md:mb-10'>
                         <img className='font-medium' src={logo} alt='logo'/><span
                         className='font-bold'>Truth Finder</span>
                     </div>
-                    <p className='font-medium mb-4 md:mb-20 text-center md:text-left'>L'INFINITE DU SAVOIR <br/>VOUS
+                    <p className='mb-4 font-medium text-center md:mb-20 md:text-left'>L'INFINITE DU SAVOIR <br/>VOUS
                         ATTEND A <br/>PORTEE DU CLIC.</p>
                 </div>
 
                 <div>
-                    <p className='font-medium my-8 cursor-pointer text-center'>SIGNALER ERREUR</p>
+                    <p className='my-8 font-medium text-center cursor-pointer'>SIGNALER ERREUR</p>
                 </div>
 
-                <div className='text-center mb-4 md:mb-0'>
-                    <p className='font-medium my-4 md:my-8'>SECTIONS</p>
+                <div className='mb-4 text-center md:mb-0'>
+                    <p className='my-4 font-medium md:my-8'>SECTIONS</p>
                     <p className='text-[#717171] font-medium mb-4'>ACCUEIL</p>
                     <p className='text-[#717171] font-medium mb-4'>ARTICLES FAVORIS</p>
                     <p className='text-[#717171] font-medium mb-4'>RECHERCHE</p>
                 </div>
 
-                <div className='md:mr-20 text-center md:text-left mb-20'>
-                    <p className='font-medium my-4 md:my-8 '>S'ABONNER</p>
+                <div className='mb-20 text-center md:mr-20 md:text-left'>
+                    <p className='my-4 font-medium md:my-8 '>S'ABONNER</p>
                     <p className='text-[#717171] font-medium mb-6'>ENTRER VOTRE EMAIL<br/> POUR ETRE NOTIFIE SUR <br/>LES
                         NOUVEUX ARTICLES <br/>DISPONIBLES</p>
                     <div className="relative">
@@ -256,7 +259,7 @@ const SearchPage: React.FC = () => {
                         />
                         <div
                             className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none md:flex">
-                            <AiOutlineMail className="text-gray-500 text-2xl"/>
+                            <AiOutlineMail className="text-2xl text-gray-500"/>
                         </div>
                     </div>
                 </div>
@@ -269,4 +272,4 @@ const SearchPage: React.FC = () => {
     );
 };
 
-export default SearchPage;
+export default SearchResultsPage;
