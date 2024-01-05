@@ -1,12 +1,14 @@
 import './App.css'
 import { Routes,Route } from 'react-router-dom';
-import UploadArticle from './pages/UploadArticle';
-import Test from './pages/Test';
+import SearchPage from './pages/SearchResultsPage.tsx'
+import UploadArticle from './pages/UploadArticle'
+import WelcomePage from './pages/WelcomePage'
+import FavorisPage from './pages/FavorisPage'
 import {AuthProvider} from './context/AuthContext';
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
-import WelcomePage from "./pages/WelcomePage.tsx";
 import AdminModerateurPage from "./pages/AdminModerateurPage.tsx";
+
 export default function App() {
   return (
     <AuthProvider>
@@ -20,8 +22,12 @@ export default function App() {
                 element={<SignIn />}
           />
           <Route
-            path='/test'
-            element={<Test/>}
+          path='/utilisateur/resultat'
+          element={<SearchPage/>}
+          />
+          <Route
+          path='/utilisateur/article-facoris'
+          element={<FavorisPage/>}
           />
         <Route
           path='/'
