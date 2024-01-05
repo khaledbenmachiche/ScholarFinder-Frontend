@@ -1,15 +1,16 @@
 import React, { useState, ChangeEvent } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { FaSearch, FaTimes } from 'react-icons/fa';
-
+import { useNavigate } from 'react-router-dom';
 interface SearchBarProps {
   onSearch: (query: string) => void;
+  initialValue:string|undefined;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-  const [searchValue, setSearchValue] = useState<string>('');
+const SearchBar: React.FC<SearchBarProps> = ({ initialValue,onSearch }) => {
+  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState<string>(initialValue === undefined ? '':initialValue);
   const [suggestions, setSuggestions] = useState<string[]>([]);
-
   const fetchSuggestions = (value: string) => {
     // Make API request to fetch suggestions based on the value
     // Update 'suggestions' state with the fetched suggestions
@@ -33,6 +34,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
   const handleSearch = () => {
     onSearch(searchValue);
+    navigate(`/utilisateur/resultat/${searchValue}`);
   };
 
   const clearInput = () => {
@@ -40,9 +42,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className="flex items-center relative md:w-3/5">
-      <div className="flex items-center border border-blue-500 p-3 rounded w-full relative">
-        <FaSearch className="text-blue-500 mr-2" />
+    <div className="relative flex items-center md:w-3/5">
+      <div className="relative flex items-center w-full p-3 border border-blue-500 rounded">
+        <FaSearch className="mr-2 text-blue-500" />
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -58,7 +60,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         />
         {searchValue && (
           <FaTimes
-            className="cursor-pointer text-blue-500 ml-2 absolute right-1"
+            className="absolute ml-2 text-blue-500 cursor-pointer right-1"
             onClick={clearInput}
           />
         )}

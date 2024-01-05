@@ -1,6 +1,7 @@
 import './App.css'
 import { Routes,Route } from 'react-router-dom';
-import SearchPage from './pages/SearchResultsPage.tsx'
+import SearchResultsPage from './pages/SearchResultsPage.tsx'
+import SearchPage from './pages/SearchPage'
 import UploadArticle from './pages/UploadArticle'
 import WelcomePage from './pages/WelcomePage'
 import FavorisPage from './pages/FavorisPage'
@@ -8,7 +9,6 @@ import {AuthProvider} from './context/AuthContext';
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import AdminModerateurPage from "./pages/AdminModerateurPage.tsx";
-
 export default function App() {
   return (
     <AuthProvider>
@@ -22,11 +22,15 @@ export default function App() {
                 element={<SignIn />}
           />
           <Route
-          path='/utilisateur/resultat'
+          path='/utilisateur/recherche'
           element={<SearchPage/>}
           />
           <Route
-          path='/utilisateur/article-facoris'
+          path='/utilisateur/resultat/:searchQuery'
+          element={<SearchResultsPage/>}
+          />
+          <Route
+          path='/utilisateur/article-favoris'
           element={<FavorisPage/>}
           />
         <Route

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface FilterByInstitutionProps {
     onChange: (institution: string | null) => void;
@@ -27,9 +27,8 @@ const FilterByInstitution: React.FC<FilterByInstitutionProps> = ({onChange, clea
     return (
         <div className="w-full mb-5  max-w-[300px] rounded-md bg-[#eef5fc40] p-10 shadow-custom">
             <div className="flex items-center mb-6">
-                <p className=" font-medium text-xl">Filter par institution :</p>
-                <>
-                    <label className=' relative inline-flex cursor-pointer select-none items-center'>
+                <p className="text-lg font-medium ">Filter par institution :</p>
+                    <label className='relative inline-flex items-center cursor-pointer select-none '>
                         <input
                             type='checkbox' className='sr-only '
                             checked={isActive}
@@ -49,7 +48,6 @@ const FilterByInstitution: React.FC<FilterByInstitutionProps> = ({onChange, clea
 
 
                     </label>
-                </>
 
             </div>
             <input

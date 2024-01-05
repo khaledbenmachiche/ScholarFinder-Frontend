@@ -28,10 +28,10 @@ const FilterByAuthor: React.FC<FilterByAuthorProps> = ({onChange, clear}) => {
     return (
         <div className="w-full mb-5 max-w-[300px] rounded-md bg-[#eef5fc40] p-10 shadow-custom">
             <div className="flex items-center mb-6">
-                <p className=" font-medium text-xl">Filter par auteur :</p>
+                <p className="text-lg font-medium ">Filter par auteur :</p>
 
                 <>
-                    <label className=' relative inline-flex cursor-pointer select-none items-center'>
+                    <label className='relative inline-flex items-center cursor-pointer select-none '>
                         <input
                             type='checkbox' className="sr-only"
                             checked={isActive}
