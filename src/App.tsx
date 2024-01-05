@@ -9,6 +9,7 @@ import {AuthProvider} from './context/AuthContext';
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import AdminModerateurPage from "./pages/AdminModerateurPage.tsx";
+import DetailArticle from './pages/DetailArticle.tsx';
 export default function App() {
   return (
     <AuthProvider>
@@ -30,7 +31,11 @@ export default function App() {
           element={<SearchResultsPage/>}
           />
           <Route
-          path='/utilisateur/article-favoris'
+          path='/utilisateur/article/:id'
+          element={<DetailArticle/>}
+          />
+          <Route
+          path='/utilisateur/articles-favoris'
           element={<FavorisPage/>}
           />
         <Route

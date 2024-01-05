@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import logo from "../assets/logo.svg"
 import useNavigationBar from "../hooks/useNavigationBar.ts";
 
-export const navLinks = [
+const navLinks = [
     {
         id: "Home",
         title: "Home",
@@ -34,7 +34,7 @@ const Navbar = () => {
     return (
         <nav className="h-[4rem] w-screen text-black flex justify-between items-center absolute top-0 px-4 z-10">
             <img className="w-10 mt-1 cursor-pointer" alt="logo" src={logo} onClick={() => navigate("/")}/>
-            <ul className="hidden w-full lg:flex md:flex justify-end">
+            <ul className="justify-end hidden w-full lg:flex md:flex">
                 {navLinks.map((nav, index) =>
                     <li
                         key={nav.id}
@@ -53,7 +53,7 @@ const Navbar = () => {
                     onClick={() => setToggle(!toggle)}/>
             <div
                 className={`${!toggle ? "hidden" : "flex"} p-6 bg-cyan-500 absolute top-11 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar lg:hidden `}>
-                <ul className="list-none flex justify-end items-start flex-1 flex-col">
+                <ul className="flex flex-col items-start justify-end flex-1 list-none">
                     {navLinks.map((nav, index) =>
                         <li key={nav.id}
                             className={`font-poppins  font-medium cursor-pointer text-[16px] ${active === nav.title ? "text-white" : "text-dimWhite"} ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}

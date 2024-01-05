@@ -5,9 +5,9 @@ import logo from '../assets/Logo.svg'
 import Filters from '../components/Filters';
 import ArticleResult from '../components/ArticleResult';
 import {AiOutlineMail} from 'react-icons/ai';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-
+import { useParams,useNavigate } from 'react-router-dom';
+import useAxios from '../hooks/useAxios';
+import NavBarUtilisateur from '../components/NavBarUtilisateur';
 interface Institution {
     id: number;
     nom: string;
@@ -20,16 +20,17 @@ interface Auteur {
 }
 
 interface Article {
+    id:number;
     titre: string;
     auteurs: Auteur[];
     resume: string;
 }
 
 const SearchResultsPage: React.FC = () => {
-
+    const axios = useAxios();
+    const navigate = useNavigate()
     const {searchQuery} = useParams<string>();
     const [searchResultsCount, setSearchResultsCount] = useState<number>(0);
-    const [sortingOption, setSortingOption] = useState<string>('plusRecent');
     const [searchResults, setSearchResults] = useState<Article[]>([]);
     const [articlesToShow, setArticlesToShow] = useState<Article[]>([]);
 
@@ -46,6 +47,7 @@ const SearchResultsPage: React.FC = () => {
             setSearchResultsCount(response.data.count);
             setNextPage(response.data.next);
             setPrevPage(response.data.previous);
+            console.log(response.data)
         } catch (error) {
             console.error('Error fetching search results:', error);
         }
@@ -56,7 +58,6 @@ const SearchResultsPage: React.FC = () => {
             .then(response => {
                 const data: Article[] = response.data.results;
                 setSearchResults(data);
-                setSearchResultsCount(data.length);
                 setNextPage(response.data.next);
                 setPrevPage(response.data.previous);
             })
@@ -100,7 +101,6 @@ const SearchResultsPage: React.FC = () => {
         setEndDate(endDate);
     };
     const handleTagFilterChange = (tags: string[]) => {
-        console.log(tags)
         setTagsFilter(tags.join(','));
     };
     useEffect(() => {
@@ -126,21 +126,14 @@ const SearchResultsPage: React.FC = () => {
 
     return (
         <div className='Page'>
-            <div className='Header'>
-                <div className='bg-[#EEF5FC] p-6'>
-                    <div className='flex mb-24'>
-                        <img src={logo} alt='logo'/><span className='text-xl font-bold '>Truth Finder</span>
-                        <p className='mx-32 text-xl font-medium '>Accueil</p>
-                        <p className='text-xl font-medium '>Article Favoris</p>
-                        <p className='ml-auto text-xl font-medium '> Username </p>
-                    </div>
-                    <p className='mb-4 md:mb-24 text-2xl md:text-4xl font-medium text-[#0053AD] text-center'>L'INFINI DU
-                        SAVOIR VOUS ATTEND A PORTEE DE CLIC.</p>
-                </div>
-
+            <div className='h-72 flex flex-col bg-[#EEF5FC]'>
+                <NavBarUtilisateur/>
+                <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>L'INFINI DU
+                        SAVOIR VOUS ATTEND A PORTEE DE CLIC.
+                </p>
             </div>
 
-            <div className='flex justify-center'>
+            <div className='flex justify-center sm:mx-10'>
                 <SearchBar initialValue={searchQuery} onSearch={handleSearch}/>
             </div>
 
@@ -162,9 +155,9 @@ const SearchResultsPage: React.FC = () => {
                 {/* Responsive Filters Section */}
                 <div
                     className={`Filters ${showFilters ? 'block' : 'hidden'}  md:block w-full md:w-1/3`}>
-                    <div className='flex justify-around '>
-                        <p className='mb-4  ml-4 md:ml-16 text-xl text-[#00000080] font-medium'>FILTRES</p>
-                        <button className='mb-4  ml-72 md:ml-52 text-xl text-[#ff020280] cursor-pointer font-medium'
+                    <div className='flex justify-around mb-4 '>
+                        <p className=' text-xl text-[#00000080] font-medium'>FILTRES</p>
+                        <button className=' whitespace-nowrap text-lg text-[#ff020280] cursor-pointer hover:text-red-700 font-medium'
                            onClick={handleClearAllFilters}>
                             CLEAR ALL
                         </button>
@@ -184,20 +177,8 @@ const SearchResultsPage: React.FC = () => {
                     <div
                         className="flex justify-between items-center mb-6 md:mb-16 border-b p-2 md:p-6 border-[#00000080]">
                         <p className="text-sm md:text-lg">
-                            {searchResultsCount} Résultats pour la recherche de "{/* Include the search query here */}"
+                            {searchResultsCount} Résultats pour la recherche de "{query}"
                         </p>
-                        <div className="flex items-center">
-                            <p className="mr-2">Trier par :</p>
-                            <select
-                                value={sortingOption}
-                                onChange={(e) => setSortingOption(e.target.value)}
-                                className="border p-1 rounded-md bg-[#EEF5FC]"
-                            >
-                                <option value="plusRecent">Plus récent</option>
-                                <option value="plusAncien">Plus ancien</option>
-                                {/* Add more sorting options as needed */}
-                            </select>
-                        </div>
                     </div>
 
                     {articlesToShow.map((article, index) => (
@@ -207,7 +188,8 @@ const SearchResultsPage: React.FC = () => {
                             auteurs={article.auteurs}
                             resume={article.resume}
                             onViewArticle={() => {
-                                // Implement logic to view the article
+                                console.log(article)
+                                navigate(`/utilisateur/article/${article.id}`)
                             }}
                             onAddToFavorites={() => {
                                 // Implement logic to add to favorites
