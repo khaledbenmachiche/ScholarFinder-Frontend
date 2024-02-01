@@ -9,6 +9,7 @@ import {AuthProvider} from './context/AuthContext';
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import AdminModerateurPage from "./pages/AdminModerateurPage.tsx";
+import ModerateurPage from './pages/ModerateurPage.tsx';
 export default function App() {
   return (
     <AuthProvider>
@@ -48,6 +49,10 @@ export default function App() {
           <Route
               path='/admin/moderateur'
               element={<AdminModerateurPage/>}
+          />
+          <Route
+              path='/moderateur'
+              element={<ModerateurPage/>}
           />
       </Routes>
     </AuthProvider>
