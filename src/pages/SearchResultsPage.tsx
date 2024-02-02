@@ -124,7 +124,7 @@ const SearchResultsPage: React.FC = () => {
 
 
     return (
-        <div className='Page'>
+        <div className='Page overflow-x-hidden'>
             <div className='relative h-72 mb-16 flex flex-col bg-[#EEF5FC]'>
                 <NavBarUtilisateur/>
                 <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>L'INFINI DU

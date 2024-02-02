@@ -6,7 +6,7 @@ const SignUp = () => {
     return (
         <>
             <Navbar/>
-            <div className="w-screen h-fit lg:h-screen  flex bg-[#EEF5FC] overflow-scroll lg:overflow-hidden">
+            <div className="w-screen h-fit lg:h-screen  flex bg-[#EEF5FC]   lg:overflow-hidden">
                 <SignUpSection/>
                 <div className="hidden lg:block">
                     <h1 className="text-[#0053AD] text-2xl font-bold text-center mt-40 mb-10">L'INFINI DU SAVOIR VOUS
