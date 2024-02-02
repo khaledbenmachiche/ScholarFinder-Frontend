@@ -10,6 +10,8 @@ import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import AdminModerateurPage from "./pages/AdminModerateurPage.tsx";
 import DetailArticle from './pages/DetailArticle.tsx';
+import ArticleUpdate from './pages/ArticleUpdate.tsx';
+
 export default function App() {
   return (
     <AuthProvider>
@@ -36,23 +38,27 @@ export default function App() {
           />
           <Route
           path='/utilisateur/articles-favoris'
-          element={<FavorisPage/>}
+          element={<FavorisPage />}
           />
         <Route
           path='/'
-          element={<WelcomePage/>}
+          element={<WelcomePage />}
           />
           <Route
               path='/admin/dashboard'
-              element={<WelcomePage/>}
+              element={<WelcomePage />}
           />
           <Route
               path='/admin/upload-article'
-              element={<UploadArticle/>}
+              element={<UploadArticle />}
           />
           <Route
               path='/admin/moderateur'
-              element={<AdminModerateurPage/>}
+              element={<AdminModerateurPage />}
+          />
+          <Route
+              path='/moderateur/update_article/:id'
+              element={<ArticleUpdate />}
           />
       </Routes>
     </AuthProvider>

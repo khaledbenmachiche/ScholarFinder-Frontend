@@ -7,6 +7,8 @@ import {GrMenu} from "react-icons/gr";
 import useAxios from "../hooks/useAxios";
 import {useParams} from "react-router-dom";
 import NavBarUtilisateur from "../components/NavBarUtilisateur";
+import _ from 'lodash';
+
 
 interface Institution {
     id: number;
@@ -40,6 +42,10 @@ interface Article {
     url: string;
 }
 
+interface TextIntegralType {
+    header:string;
+    body: Array<string>;
+}
 const DetailArticle = () => {
     const {id} = useParams<{ id: string }>();
     const axios = useAxios();
@@ -57,8 +63,26 @@ const DetailArticle = () => {
             alert("Pas de pdf pour cet article");
         }
     }
+    const renderTextIntegral = () => {
+        if (article) {
+            return (
+                <div>
+                    {Object.entries(JSON.parse(article.text_integral)).map(
+                        ([key, value]) => (
+                            <div key={key} className="">
+                                <h1 className="pt-5 text-xl font-bold font-poppins">{key}</h1>
+                                <p className="pt-5">: {String(value)}</p>
+                            </div>
+                        )
+                    )}
+                </div>
+            );
+        } else {
+            return <></>;
+        }
+    };
+    
     return (
-
         <div className="w-screen h-screen ">
             <div className='h-72 flex flex-col bg-[#EEF5FC]'>
                 <NavBarUtilisateur/>
@@ -121,8 +145,8 @@ const DetailArticle = () => {
                     )
 
                 })}
-                <div className="mt-14  w-[400px] lg:w-[1180px]">
-                    {article?.text_integral}
+               <div className=" mt-10 font-poppins text-sm   w-[400px] lg:w-[1180px]">
+                    {renderTextIntegral()}
                 </div>
             </div>
             <h1 className="mt-8 ml-12 text-xl font-bold font-poppins lg:ml-20 "> REFERENCES</h1>
