@@ -9,6 +9,7 @@ import {AuthProvider} from './context/AuthContext';
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import AdminModerateurPage from "./pages/AdminModerateurPage.tsx";
+import ModerateurPage from './pages/ModerateurPage.tsx';
 import DetailArticle from './pages/DetailArticle.tsx';
 import ArticleUpdate from './pages/ArticleUpdate.tsx';
 
@@ -59,6 +60,10 @@ export default function App() {
           <Route
               path='/moderateur/update_article/:id'
               element={<ArticleUpdate />}
+          />
+          <Route
+              path='/moderateur'
+              element={<ModerateurPage/>}
           />
       </Routes>
     </AuthProvider>
