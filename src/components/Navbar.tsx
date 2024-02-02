@@ -38,7 +38,7 @@ const Navbar = () => {
                 {navLinks.map((nav, index) =>
                     <li
                         key={nav.id}
-                        className={`cursor-pointer font-poppins font-medium text-[20px] ${
+                        className={`cursor-pointer font-poppins font-semibold text-lg ${
                             active === nav.title ? "text-blue-400" : "text-dimWhite"
                         } ${index === navLinks.length - 1 ? "mr-10" : "mr-10"}`}
                         onClick={() => handleNavigation(nav)}
@@ -56,7 +56,7 @@ const Navbar = () => {
                 <ul className="flex flex-col items-start justify-end flex-1 list-none">
                     {navLinks.map((nav, index) =>
                         <li key={nav.id}
-                            className={`font-poppins  font-medium cursor-pointer text-[16px] ${active === nav.title ? "text-white" : "text-dimWhite"} ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}
+                            className={`font-poppins font-medium cursor-pointer text-10 ${active === nav.title ? "text-white" : "text-dimWhite"} ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}
                             onClick={() => handleNavigation(nav)}>
                             <Link to={nav.path}>{nav.title}</Link>
                         </li>)}

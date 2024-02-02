@@ -47,7 +47,6 @@ const SearchResultsPage: React.FC = () => {
             setSearchResultsCount(response.data.count);
             setNextPage(response.data.next);
             setPrevPage(response.data.previous);
-            console.log(response.data)
         } catch (error) {
             console.error('Error fetching search results:', error);
         }
@@ -126,18 +125,16 @@ const SearchResultsPage: React.FC = () => {
 
     return (
         <div className='Page'>
-            <div className='h-72 flex flex-col bg-[#EEF5FC]'>
+            <div className='relative h-72 mb-16 flex flex-col bg-[#EEF5FC]'>
                 <NavBarUtilisateur/>
                 <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>L'INFINI DU
                         SAVOIR VOUS ATTEND A PORTEE DE CLIC.
                 </p>
-            </div>
+            <div className='absolute flex justify-center w-full -bottom-7'>
+                <SearchBar initialValue={query} onSearch={handleSearch}/>
+            </div></div>
 
-            <div className='flex justify-center sm:mx-10'>
-                <SearchBar initialValue={searchQuery} onSearch={handleSearch}/>
-            </div>
-
-            <div className='my-6 p-4 border-y border-solid border-[#00000038] bg-[#d9d9d91e]'>
+            <div className='sticky top-0 z-50 my-6 p-4 border-y border-solid border-[#00000038] bg-white'>
                 <p className='ml-2 md:ml-12'>Accueil {'>'} Recherche </p>
             </div>
 
@@ -176,19 +173,18 @@ const SearchResultsPage: React.FC = () => {
 
                     <div
                         className="flex justify-between items-center mb-6 md:mb-16 border-b p-2 md:p-6 border-[#00000080]">
-                        <p className="text-sm md:text-lg">
-                            {searchResultsCount} Résultats pour la recherche de "{query}"
+                        <p className="text-sm text-gray-500 md:text-lg">
+                            {searchResultsCount} RESULTATS POUR LA RECHERCHE DE “ {query?.toUpperCase()} ”
                         </p>
                     </div>
 
-                    {articlesToShow.map((article, index) => (
+                    {articlesToShow.map((article) => (
                         <ArticleResult
-                            key={index}
+                            key={article.id}
                             titre={article.titre}
                             auteurs={article.auteurs}
                             resume={article.resume}
                             onViewArticle={() => {
-                                console.log(article)
                                 navigate(`/utilisateur/article/${article.id}`)
                             }}
                             onAddToFavorites={() => {

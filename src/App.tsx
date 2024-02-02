@@ -9,14 +9,19 @@ import {AuthProvider} from './context/AuthContext';
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import AdminModerateurPage from "./pages/AdminModerateurPage.tsx";
-import ModerateurPage from './pages/ModerateurPage.tsx';
+import NonValidateArticlesModerateurPage from './pages/NonValidateArticlesModerateurPage.tsx';
 import DetailArticle from './pages/DetailArticle.tsx';
 import ArticleUpdate from './pages/ArticleUpdate.tsx';
+import { AdminDashborad } from './pages/AdminDashborad.tsx';
 
 export default function App() {
   return (
     <AuthProvider>
       <Routes>
+          <Route
+            path='/'
+            element={<WelcomePage />}
+          />
           <Route
             path="/signup"
             element={<SignUp />}
@@ -25,29 +30,30 @@ export default function App() {
                 path="/signin"
                 element={<SignIn />}
           />
+
           <Route
-          path='/utilisateur/recherche'
+          path='/rechercher-article'
           element={<SearchPage/>}
           />
+
           <Route
-          path='/utilisateur/resultat/:searchQuery'
+          path='/resultat-de-recherche/:searchQuery'
           element={<SearchResultsPage/>}
           />
+
           <Route
-          path='/utilisateur/article/:id'
+          path='/article/:id'
           element={<DetailArticle/>}
           />
+
           <Route
-          path='/utilisateur/articles-favoris'
+          path='/articles-favoris'
           element={<FavorisPage />}
           />
-        <Route
-          path='/'
-          element={<WelcomePage />}
-          />
+       
           <Route
               path='/admin/dashboard'
-              element={<WelcomePage />}
+              element={<AdminDashborad />}
           />
           <Route
               path='/admin/upload-article'
@@ -62,8 +68,8 @@ export default function App() {
               element={<ArticleUpdate />}
           />
           <Route
-              path='/moderateur'
-              element={<ModerateurPage/>}
+              path='/moderateur/all_articles'
+              element={<NonValidateArticlesModerateurPage/>}
           />
       </Routes>
     </AuthProvider>

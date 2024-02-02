@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import ArticleFavorisResult from '../components/ArticleFavorisResult';
 import {AiOutlineMail} from 'react-icons/ai';
 import NavBarUtilisateur from '../components/NavBarUtilisateur';
-
+import logo from '../assets/Logo.svg';
 interface Article {
     title: string;
     authors: string[];
@@ -56,20 +56,20 @@ const SearchPage: React.FC = () => {
 
     return (
         <div className='Page'>
-            <div className='h-72 flex flex-col bg-[#EEF5FC]'>
+            <div className=' flex flex-col bg-[#EEF5FC]'>
                 <NavBarUtilisateur/>
-                <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>L'INFINI DU
-                    SAVOIR VOUS ATTEND A PORTEE DE CLIC.
+                <p className='my-auto py-6 lg:py-16 md:py-16 text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>
+                REDÉCOUVREZ VOS ARTICLES PRÉFÉRÉS.
                 </p>
             </div>
 
-            <div className='mb-6 p-4 border-y border-solid border-[#00000038]  bg-[#d9d9d91e] '>
+            <div className='sticky top-0 bg-white mb-6 p-4 border-y border-solid border-[#00000038]   '>
                 <p className='ml-2 md:ml-12'>Accueil {'>'} Article Favoris </p>
             </div>
 
             <div className='flex flex-col Body md:flex-row'>
                 <div className=''>
-                    <div className=' lg:grid lg:grid-cols-3 lg:gap-4 px-10'>
+                    <div className='px-10 lg:grid lg:grid-cols-3 lg:gap-4'>
                         {articlesToShow.map((article, index) => (
                             <ArticleFavorisResult
                                 key={index}

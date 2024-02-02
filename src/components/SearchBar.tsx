@@ -34,7 +34,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ initialValue,onSearch }) => {
 
   const handleSearch = () => {
     onSearch(searchValue);
-    navigate(`/utilisateur/resultat/${searchValue}`);
+    navigate(`/resultat-de-recherche/${searchValue}`);
   };
 
   const clearInput = () => {
@@ -42,9 +42,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ initialValue,onSearch }) => {
   };
 
   return (
-    <div className="relative flex items-center md:w-3/5">
-      <div className="relative flex items-center w-full p-3 border border-blue-500 rounded">
-        <FaSearch className="mr-2 text-blue-500" />
+    <div className="relative flex items-center w-4/6">
+      <div className="relative flex items-center w-full bg-white border border-blue-500 shadow-lg">
+        <FaSearch className="mx-4 text-blue-500" />
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -55,18 +55,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ initialValue,onSearch }) => {
             placeholder: 'Search articles',
             value: searchValue,
             onChange,
-            className: 'w-full outline-none ',
+            className: 'w-full outline-none bg-white py-4',
           }}
         />
         {searchValue && (
           <FaTimes
-            className="absolute ml-2 text-blue-500 cursor-pointer right-1"
+            className="absolute text-blue-500 cursor-pointer right-5"
             onClick={clearInput}
           />
         )}
       </div>
       <button
-        className="bg-[#0671E0] hover:bg-[#0663C7] focus:bg-[#0663C7] text-white p-3 rounded ml-2"
+        className=" px-6 py-4 bg-[#0671E0] text-lg font-bold hover:bg-[#0663C7] rounded-sm focus:bg-[#0663C7] text-white ml-2"
         onClick={handleSearch}
       >
         Rechercher

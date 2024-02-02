@@ -44,7 +44,7 @@ const FilterByPeriod: React.FC<FilterByPeriodProps> = ({onChange, clear}) => {
                 </label>
             </div>
             <div>
-                <label className="block mb-2">Début:</label>
+                <label className="block mb-1.5 text-gray-500">Début:</label>
                 <input
                     type="date"
                     value={startDate}
@@ -56,7 +56,7 @@ const FilterByPeriod: React.FC<FilterByPeriodProps> = ({onChange, clear}) => {
                 />
             </div>
             <div>
-                <label className="block mb-2">Fin:</label>
+                <label className="block mb-1.5 text-gray-500">Fin:</label>
                 <input
                     type="date"
                     value={endDate}

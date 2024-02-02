@@ -18,7 +18,7 @@ export default function useNavigationBar(Links:LinkType[]){
     useEffect(()=>{
         const currentPath = Links.find(link => link.path === location.pathname )
         if(currentPath){
-            setActive(currentPath.id)
+            setActive(currentPath.title)
         }
     },[location.pathname]);
 

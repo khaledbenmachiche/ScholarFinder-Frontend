@@ -1,7 +1,6 @@
 import React,{useState} from 'react';
 import { FaSearch, FaBookmark ,FaRegBookmark,FaBook} from 'react-icons/fa';
 import Book from '../assets/Book.svg'
-
 interface ArticleProps {
   title: string;
   authors: string[];
@@ -30,21 +29,21 @@ const ArticleResult: React.FC<ArticleProps> = ({
   
 
   return (
-    <div className="article-box border border-solid border-[#00000033] p-10 mb-4 ">
-      <h2 className="text-lg font-bold mb-2">{title}</h2>
-      <p className="text-sm mb-2">
+    <div className="article-box border border-solid shadow-lg border-[#00000033] p-10 mb-4 ">
+      <h2 className="mb-2 text-lg font-bold">{title}</h2>
+      <p className="mb-2 text-sm">
         <strong>Authors:</strong> {authors.join(', ')}
       </p>
-      <p className="text-sm mb-2">
+      <p className="mb-2 text-sm">
         <strong>Institution:</strong> {institution}
       </p>
-      <p className="text-sm mb-2">
+      <p className="mb-2 text-sm">
         <strong>Abstract:</strong> {abstract}
       </p>
-      <div className="flex space-x-2 mt-16 justify-center">
-        <img src={Book}  alt='view_article' className=" mr-12"  onClick={onViewArticle}/>
+      <div className="flex justify-center mt-16 space-x-2">
+        <img src={Book}  alt='view_article' className="mr-12 hover:cursor-pointer "  onClick={onViewArticle}/>
         
-        <FaBookmark className="text-5xl text-[#0671E0]"  />
+        <FaBookmark className="text-5xl hover:cursor-pointer text-[#0671E0]"  />
       </div>
     </div>
   );

@@ -25,13 +25,13 @@ const sideBarLinks = [
         icon: <FaUsersBetweenLines
             className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"/>
     },
-    {
+  /*  {
         id: "utilisateur",
         title: "Utilisateur",
         path: "/admin/utilisateur",
         icon: <FaUsers
             className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"/>
-    },
+    },*/
     {
         id: "upload-file",
         title: "Upload File",
@@ -72,8 +72,7 @@ const AdminSideBar = () => {
                     className="relative flex flex-col justify-center h-full px-3 py-4 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800">
                     <IoIosClose onClick={toggleSidebar}
                                 className="absolute block w-10 h-10 cursor-pointer md:hidden lg:hidden text-slate-800 dark:text-white top-2 right-2 hover:bg-gray-100 dark:hover:bg-gray-700"/>
-                    <a href="#"
-                       className="flex items-center p-2 mt-6 mb-auto text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="#" className="flex items-center p-2 mt-6 mb-auto text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <MdOutlineAdminPanelSettings
                             className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"/>
                         <span className="flex-1 font-bold ms-3 whitespace-nowrap">Admin</span>
@@ -83,7 +82,7 @@ const AdminSideBar = () => {
                             sideBarLinks.map((link) => (
                                 <li key={link.id}>
                                     <Link to={link.path}
-                                          className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${active == link.id ? 'bg-gray-200' : ''}`}>
+                                          className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${active == link.title ? 'bg-gray-200' : ''}`}>
                                         {link.icon}
                                         <span className="flex-1 ms-3">{link.title}</span>
                                     </Link>

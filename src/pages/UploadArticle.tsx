@@ -95,8 +95,7 @@ const UploadArticle = () => {
                                 <AnimatePresence initial={false}>
                                     {
                                         uploadsInfo.map((item) => {
-                                            return <UploadedFile key={item.id} source={item.source}
-                                                                 progress={item.progress} status={item.status}/>
+                                            return <UploadedFile key={item.id} source={item.source}  status={item.status}/>
                                         })
                                     }
                                 </AnimatePresence>

@@ -44,19 +44,19 @@ const ArticleResult: React.FC<ArticleProps> = ({
 
     return (
         <div className="article-box border border-solid border-[#00000033] p-4 md:p-10 mb-4 ">
-            <h2 className="text-lg font-bold mb-2">{titre}</h2>
-            <p className="text-sm mb-2">
+            <h2 className="mb-2 text-lg font-bold">{titre}</h2>
+            <p className="mb-2 text-sm">
                 <strong>Authors:</strong> {[...new Set(auteurs.map(auteur => auteur.nom))].join(', ')}
             </p>
-            <p className="text-sm mb-2">
+            <p className="mb-2 text-sm">
                 <strong>Institution:</strong> {[...new Set(auteurs.flatMap(auteur => auteur.institutions.map(institution => institution.nom)))].join(', ')}
             </p>
-            <p className="text-sm mb-2">
-                <strong>Abstract:</strong> {resume}
+            <p className="mb-2 text-sm">
+                <strong>Abstract:</strong> {resume.slice(0, 300) + '...'}
             </p>
-            <div className="flex flex-col md:flex-row  md:space-x-2 mt-16 justify-center ">
-                <button className="btn border py-3 px-10 mr-8 flex mb-2  " onClick={onViewArticle}>
-                    <FaSearch className="icon mr-4 "/>
+            <div className="flex flex-col justify-center mt-16 md:flex-row md:space-x-2 ">
+                <button className="flex px-10 py-3 mb-2 mr-8 border btn " onClick={onViewArticle}>
+                    <FaSearch className="mr-4 icon "/>
                     VOIR L'ARTICLE
                 </button>
                 <button

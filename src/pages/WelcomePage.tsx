@@ -24,9 +24,8 @@ function WelcomePage() {
                     Donnez vie à votre curiosité et plongez <br/>
                     dans un monde de connaissances.
                 </p>
-                <button onClick={handleClickEvent}
-                        className="px-10 py-3 text-base font-medium text-white transition duration-200 bg-blue-600 rounded-xl font-poppins hover:bg-blue-300 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">JOIN
-                    NOW
+                <button onClick={handleClickEvent} className="px-10 py-3 text-base font-medium text-white bg-blue-600 border-2 border-blue-600 hover:text-blue-800 hover:border-blue-800 rounded-xl font-poppins hover:bg-blue-100 active:bg-brand-700">
+                    JOIN NOW
                 </button>
             </div>
             <img className="absolute -bottom-28 md:bottom-0 md:left-[300px] lg:top-[50px] lg:left-[450px]  "

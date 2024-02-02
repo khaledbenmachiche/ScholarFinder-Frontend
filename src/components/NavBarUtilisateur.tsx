@@ -1,30 +1,32 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import logo from "../assets/logo.svg"
 import useNavigationBar from '../hooks/useNavigationBar'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GrMenu } from 'react-icons/gr';
-const navLinks = [
-    {
-        id: "1",
-        title: "Accueil",
-        path: "/utilisateur/recherche"
-    },
-    {
-        id: "2",
-        title: "Articles Favoris",
-        path: "/utilisateur/articles-favoris",
-    },
-]
-
 const NavBarUtilisateur = () => {
+    const navLinks = [
+        {
+            id: "1",
+            title: "Accueil",
+            path: "/rechercher-article"
+        },
+        {
+            id: "2",
+            title: "Articles Favoris",
+            path: "/articles-favoris",
+        },
+    ]
     const [toggle, setToggle] = useState(false);
     const {active, handleNavigation} = useNavigationBar(navLinks);
+    useEffect(()=>{
+        console.log(active)
+    },[active])
+    const navigate = useNavigate();
     return (
             <nav className="h-[4rem] w-screen bg-transparent text-black flex px-10  ">
             {/*Large */}
             <div className="hidden lg:flex">
-                <div className="flex flex-row space-x-4 "><img className="w-10 cursor-pointer" alt="logo"
-                                                            src={logo}/>  <h3
+                <div className="flex flex-row space-x-4 hover:cursor-pointer" onClick={() => navigate(navLinks[0].path)}><img className="w-10 cursor-pointer" alt="logo" src={logo} />  <h3
                     className="absolute font-bold font-poppins top-5 left-20">Truth finder </h3></div>
                 <div>
                     <ul className="absolute flex flex-row space-x-5 font-bold font-poppins top-5 left-56 ">

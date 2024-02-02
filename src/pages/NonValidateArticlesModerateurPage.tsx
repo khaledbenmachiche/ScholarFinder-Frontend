@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import logo from '../assets/Logo.svg';
 import ArticleModerateur from '../components/ArticleModerateur';
 import { AiOutlineMail } from 'react-icons/ai';
+import useAxios from '../hooks/useAxios';
 
 interface Institution {
   id: number;
@@ -21,7 +22,7 @@ interface Article {
   is_validated: boolean;
 }
 
-const SearchPage: React.FC = () => {
+const NonValidateArticlesModerateurPage: React.FC = () => {
 
   
 
@@ -29,13 +30,13 @@ const SearchPage: React.FC = () => {
   const [sortingOption, setSortingOption] = useState<string>('plusRecent');
 
   const [unvalidatedArticles, setUnvalidatedArticles] = useState<Article[]>([]);
-
+  const axios = useAxios();
   useEffect(() => {
     // Effectue une requête pour récupérer les articles non validés depuis l'API
     const fetchUnvalidatedArticles = async () => {
       try {
-        const response = await fetch('/api/articles?is_validated=false');
-        const data: Article[] = await response.json();
+        const response = await axios.get('/api/articles/not_validated');
+        const data: Article[] = await response.data;
         setUnvalidatedArticles(data);
         setSearchResultsCount(data.length); // Mettez à jour le nombre de résultats
       } catch (error) {
@@ -58,7 +59,7 @@ const SearchPage: React.FC = () => {
       <div className='Header'>
         <div className='bg-[#EEF5FC] p-6'>
           <div className='flex mb-24'>
-            <img src={logo} alt='logo' /><span className=' text-xl font-bold'>Truth Finder</span>
+            <img src={logo} alt='logo' /><span className='text-xl font-bold '>Truth Finder</span>
           </div>
           <p className='mb-4 md:mb-24 text-2xl md:text-4xl font-medium text-[#0053AD] text-center'>L'INFINI DU SAVOIR VOUS ATTEND A PORTEE DE CLIC.</p>
         </div>
@@ -68,8 +69,8 @@ const SearchPage: React.FC = () => {
         <p className='ml-2 md:ml-12'>Articles </p>
       </div>
 
-      <div className='Body  flex flex-col md:flex-row'>
-        <div className="Results w-full  p-4">
+      <div className='flex flex-col Body md:flex-row'>
+        <div className="w-full p-4 Results">
           <div className="flex justify-between items-center mb-6 md:mb-16 border-b p-2 md:p-6 border-[#00000080]">
             <p className="text-sm md:text-lg">
               {searchResultsCount} ARTICLES NON APPROUVES 
@@ -101,30 +102,30 @@ const SearchPage: React.FC = () => {
         </div>
       </div>
 
-      <div className='PREVIOUS  p-20 '></div>
+      <div className='p-20 PREVIOUS '></div>
 
       <div className='Footer flex flex-col md:flex-row justify-between bg-[#EEF5FC]'>
         <div className='md:ml-20'>
-          <p className='font-medium mt-8 mb-6 md:mb-10 text-center md:text-left'>QUI SOMMES NOUS</p>
+          <p className='mt-8 mb-6 font-medium text-center md:mb-10 md:text-left'>QUI SOMMES NOUS</p>
           <div className='flex justify-center mb-6 md:mb-10'>
             <img className='font-medium' src={logo} alt='logo' /><span className='font-bold'>Truth Finder</span>
           </div>
-          <p className='font-medium mb-4 md:mb-20 text-center md:text-left'>L'INFINITE DU SAVOIR <br />VOUS ATTEND A <br />PORTEE DU CLIC.</p>
+          <p className='mb-4 font-medium text-center md:mb-20 md:text-left'>L'INFINITE DU SAVOIR <br />VOUS ATTEND A <br />PORTEE DU CLIC.</p>
         </div>
 
         <div>
-          <p className='font-medium my-8 cursor-pointer text-center'>SIGNALER ERREUR</p>
+          <p className='my-8 font-medium text-center cursor-pointer'>SIGNALER ERREUR</p>
         </div>
 
-        <div className='text-center mb-4 md:mb-0'>
-          <p className='font-medium my-4 md:my-8'>SECTIONS</p>
+        <div className='mb-4 text-center md:mb-0'>
+          <p className='my-4 font-medium md:my-8'>SECTIONS</p>
           <p className='text-[#717171] font-medium mb-4'>ACCUEIL</p>
           <p className='text-[#717171] font-medium mb-4'>ARTICLES FAVORIS</p>
           <p className='text-[#717171] font-medium mb-4'>RECHERCHE</p>
         </div>
 
-        <div className='md:mr-20 text-center md:text-left mb-20'>
-          <p className='font-medium my-4 md:my-8 '>S'ABONNER</p>
+        <div className='mb-20 text-center md:mr-20 md:text-left'>
+          <p className='my-4 font-medium md:my-8 '>S'ABONNER</p>
           <p className='text-[#717171] font-medium mb-6'>ENTRER VOTRE EMAIL<br /> POUR ETRE NOTIFIE SUR <br />LES NOUVEUX ARTICLES <br />DISPONIBLES</p>
           <div className="relative">
             <input
@@ -132,8 +133,8 @@ const SearchPage: React.FC = () => {
               placeholder="Enter your email"
               className="border rounded p-2 w-64 bg-[#C9CED6]"
             />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none hidden md:flex">
-              <AiOutlineMail className="text-gray-500 text-2xl" />
+            <div className="absolute inset-y-0 right-0 flex items-center hidden pr-2 pointer-events-none md:flex">
+              <AiOutlineMail className="text-2xl text-gray-500" />
             </div>
           </div>
         </div>
@@ -143,4 +144,4 @@ const SearchPage: React.FC = () => {
   );
 };
 
-export default SearchPage;
+export default NonValidateArticlesModerateurPage;
