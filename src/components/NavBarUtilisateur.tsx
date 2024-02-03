@@ -50,7 +50,8 @@ const NavBarUtilisateur = () => {
 
             {/*Mobile  */}
             <div className="flex "><img className="w-10 lg:hidden" alt="logo" src={logo}/>  <h3
-                className="mt-5 ml-3 font-bold lg:hidden font-poppins whitespace-nowrap">Truth finder </h3>  <GrMenu
+                className="mt-5 ml-3 font-bold lg:hidden font-poppins whitespace-nowrap">Truth finder </h3> 
+                 <GrMenu
                 size={28} className='mt-4 cursor-pointer ml-60 lg:hidden' onClick={() => setToggle(!toggle)}/></div>
             <div
                 className={`${!toggle ? "hidden" : "flex"} p-6 bg-blue-800  mx-4 my-2 h-fit absolute top-11 right-0  rounded-xl sidebar lg:hidden `}>
@@ -66,7 +67,8 @@ const NavBarUtilisateur = () => {
                         )
                     }
                 </ul>
-            </div>
+                </div>  
+                 
             {/*Mobile  */}
 
         </nav>
