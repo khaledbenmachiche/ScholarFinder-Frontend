@@ -9,7 +9,7 @@ function WelcomePage() {
         navigate("/signup");
     }
     return (
-        <main className="relative w-screen h-screen overflow-hidden">
+        <main className="relative w-screen h-screen overflow-hidden bg-blue-50">
             <Navrbar/>
             <div className="flex flex-col items-start ml-10 w-fit mt-28 lg:bottom-52 ">
                 <h4 className="mb-10 text-sm font-semibold whitespace-nowrap font-poppins lg:text-2xl md:text-2xl">Truth
@@ -28,7 +28,7 @@ function WelcomePage() {
                     JOIN NOW
                 </button>
             </div>
-            <img className="absolute -bottom-28 md:bottom-0 md:left-[300px] lg:top-[50px] lg:left-[450px]  "
+            <img className="absolute -bottom-52 md:bottom-0 md:left-[300px] lg:top-[50px] lg:left-[450px]  "
                  src={Earth} alt="earth "/>
         </main>
 

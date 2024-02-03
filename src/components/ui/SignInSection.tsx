@@ -64,11 +64,11 @@ const SignInSection: React.FC = () => {
     }
 
     return (
-        <div className="relative w-full md:w-screen lg:w-[900px] h-fit lg:h-screen pt-4 pb-2  px-8 bg-white flex flex-col justify-between ">
+        <div className="relative w-full md:w-screen lg:w-[900px] h-screen  pt-4 pb-2  px-8 bg-white flex flex-col justify-between  ">
             <div className="bg-[#0671E0] absolute left-0 top-0 h-full w-1"></div>
             <div className="ml-10 text-3xl font-medium ">Bienvenue</div>
 
-            <form className="flex flex-col w-full h-screen md:px-8 items-center justify-center gap-2.5"
+            <form className="flex flex-col w-full  md:px-8 items-center justify-center gap-2.5 "
                   onSubmit={handleSubmit(submitForm)}>
                 <div className="relative flex flex-col justify-center w-full mb-12">
                     <label className="block ml-2 font-light text-md ">Nom d'utilisateur</label>
@@ -77,7 +77,7 @@ const SignInSection: React.FC = () => {
                     <p className="absolute text-xs text-red-600 left-2 -bottom-5">{errors.username?.message}</p>
                 </div>
 
-                <div className="relative flex flex-col justify-center w-full mb-16">
+                <div className="relative flex flex-col justify-center w-full mb-16 ">
                     <label className="block ml-2 font-light text-md ">Mot de passe</label>
                     <div className="relative">
                         <input className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC]"

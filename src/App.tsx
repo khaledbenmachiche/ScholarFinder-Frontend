@@ -12,8 +12,10 @@ import AdminModerateurPage from "./pages/AdminModerateurPage.tsx";
 import NonValidateArticlesModerateurPage from './pages/NonValidateArticlesModerateurPage.tsx';
 import DetailArticle from './pages/DetailArticle.tsx';
 import ArticleUpdate from './pages/ArticleUpdate.tsx';
-import { AdminDashborad } from './pages/AdminDashborad.tsx';
 import RouteGuard from './components/RouteGuard.tsx';
+import { AdminDashborad } from './pages/AdminDashborad.tsx'; 
+import NotFound  from './pages/NotFound.tsx';
+
 export default function App() {
   return (
     <AuthProvider>
@@ -70,8 +72,8 @@ export default function App() {
           <Route
               path='/moderateur/all_articles'
               element={<RouteGuard roles={['Mod']}><NonValidateArticlesModerateurPage/></RouteGuard>}
-          />
-      </Routes>
+          /> 
+          <Route path ='*'  element = {<NotFound/>}/>
+        </Routes>
     </AuthProvider>
-);
-}
+)}

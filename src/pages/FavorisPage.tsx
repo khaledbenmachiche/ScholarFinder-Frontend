@@ -40,10 +40,10 @@ const SearchPage: React.FC = () => {
     },[]);
 
     return (
-        <div className='Page'>
+        <div className='Page overflow-x-hidden'>
             <div className=' flex flex-col bg-[#EEF5FC]'>
                 <NavBarUtilisateur/>
-                <p className='my-auto py-6 lg:py-16 md:py-16 text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>
+                <p className='my-auto  py-6 lg:py-16 md:py-16 text-[22px] lg:text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>
                 REDÉCOUVREZ VOS ARTICLES PRÉFÉRÉS.
                 </p>
             </div>
