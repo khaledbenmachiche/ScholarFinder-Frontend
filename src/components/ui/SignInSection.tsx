@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Icon} from 'react-icons-kit'
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
@@ -28,26 +28,25 @@ const SignInSection: React.FC = () => {
     const {register, handleSubmit, formState: {errors},} = useForm({
         resolver: yupResolver(schema),
     });
-
+    useEffect(() => {
+        if(user != null) {
+            switch (user["user-type"]) {
+                case "Admin":
+                    navigate("/admin/dashboard");
+                    break;
+                case "Mod":
+                    navigate("/moderateur/dashboard");
+                    break;
+                case "User":
+                    navigate("/rechercher-article");
+                    break;
+                default:
+                    break;
+            }
+        }
+    },[user])
     const submitForm = async (data: SignInData) => {
         await login(data.username, data.password);
-        if(user == null) {
-            navigate("/signup");
-            return;
-        }
-        switch (user["user-type"]) {
-            case "Admin":
-                navigate("/admin/dashboard");
-                break;
-            case "Mod":
-                navigate("/moderateur/dashboard");
-                break;
-            case "User":
-                navigate("/utilisateur/recherche");
-                break;
-            default:
-                break;
-        }
     }
 
     const [type, setType] = useState('password');

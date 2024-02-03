@@ -12,6 +12,7 @@ import AdminModerateurPage from "./pages/AdminModerateurPage.tsx";
 import NonValidateArticlesModerateurPage from './pages/NonValidateArticlesModerateurPage.tsx';
 import DetailArticle from './pages/DetailArticle.tsx';
 import ArticleUpdate from './pages/ArticleUpdate.tsx';
+import RouteGuard from './components/RouteGuard.tsx';
 import { AdminDashborad } from './pages/AdminDashborad.tsx'; 
 import NotFound  from './pages/NotFound.tsx';
 
@@ -34,48 +35,45 @@ export default function App() {
 
           <Route
           path='/rechercher-article'
-          element={<SearchPage/>}
+          element={<RouteGuard roles={['User']}><SearchPage/></RouteGuard>}
           />
 
           <Route
           path='/resultat-de-recherche/:searchQuery'
-          element={<SearchResultsPage/>}
+          element={<RouteGuard roles={['User']}><SearchResultsPage/></RouteGuard>}
           />
 
           <Route
           path='/article/:id'
-          element={<DetailArticle/>}
+          element={<RouteGuard roles={['User']}><DetailArticle/></RouteGuard>}
           />
 
           <Route
           path='/articles-favoris'
-          element={<FavorisPage />}
+          element={<RouteGuard roles={['User']}><FavorisPage /></RouteGuard>}
           />
        
           <Route
               path='/admin/dashboard'
-              element={<AdminDashborad />}
+              element={<RouteGuard roles={['Admin']}><AdminDashborad /></RouteGuard>}
           />
           <Route
               path='/admin/upload-article'
-              element={<UploadArticle />}
+              element={<RouteGuard roles={['Admin']}><UploadArticle /></RouteGuard>}
           />
           <Route
               path='/admin/moderateur'
-              element={<AdminModerateurPage />}
+              element={<RouteGuard roles={['Admin']}><AdminModerateurPage /></RouteGuard>}
           />
           <Route
               path='/moderateur/update_article/:id'
-              element={<ArticleUpdate />}
+              element={<RouteGuard roles={['Mod']}><ArticleUpdate /></RouteGuard>}
           />
           <Route
               path='/moderateur/all_articles'
-              element={<NonValidateArticlesModerateurPage/>}
+              element={<RouteGuard roles={['Mod']}><NonValidateArticlesModerateurPage/></RouteGuard>}
           /> 
-          <Route   
-               path ='*'  element = {<NotFound/>}
-          />
-      </Routes>
+          <Route path ='*'  element = {<NotFound/>}/>
+        </Routes>
     </AuthProvider>
-);
-}
+)}

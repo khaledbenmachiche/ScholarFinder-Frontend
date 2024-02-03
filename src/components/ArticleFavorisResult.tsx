@@ -7,7 +7,7 @@ interface ArticleProps {
   institution: string;
   abstract: string;
   onViewArticle: () => void;
-  onAddToFavorites: () => void;
+  onRemoveFromFavorites: () => void;
 }
 
 const ArticleResult: React.FC<ArticleProps> = ({
@@ -16,7 +16,7 @@ const ArticleResult: React.FC<ArticleProps> = ({
   institution,
   abstract,
   onViewArticle,
-  onAddToFavorites,
+  onRemoveFromFavorites,
 }) => {
 
   const [isFavorite, setIsFavorite] = useState(false);
@@ -43,7 +43,7 @@ const ArticleResult: React.FC<ArticleProps> = ({
       <div className="flex justify-center mt-16 space-x-2">
         <img src={Book}  alt='view_article' className="mr-12 hover:cursor-pointer "  onClick={onViewArticle}/>
         
-        <FaBookmark className="text-5xl hover:cursor-pointer text-[#0671E0]"  />
+        <FaBookmark onClick={onRemoveFromFavorites} className="text-5xl hover:cursor-pointer text-[#0671E0]"  />
       </div>
     </div>
   );

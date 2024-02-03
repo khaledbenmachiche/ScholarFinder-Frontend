@@ -1,58 +1,43 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ArticleFavorisResult from '../components/ArticleFavorisResult';
 import {AiOutlineMail} from 'react-icons/ai';
 import NavBarUtilisateur from '../components/NavBarUtilisateur';
 import logo from '../assets/Logo.svg';
+import useAxios from '../hooks/useAxios';
+import { useNavigate } from 'react-router-dom';
+interface Institution {
+    id: number;
+    nom: string;
+}
+
+interface Auteur {
+    id: number
+    nom: string;
+    institutions: Institution[];
+}
+
 interface Article {
-    title: string;
-    authors: string[];
-    institution: string;
-    abstract: string;
+    id:number;
+    titre: string;
+    auteurs: Auteur[];
+    resume: string;
 }
 
 const SearchPage: React.FC = () => {
-    const sampleArticles = [
-        {
-            title: 'Article 1',
-            authors: ['Author 1', 'Author 2'],
-            institution: 'Institution 1',
-            abstract: 'Abstract for Article 1...Abstract : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially ....',
-        },
-        {
-            title: 'Article 2',
-            authors: ['Author 3', 'Author 4'],
-            institution: 'Institution 2',
-            abstract: 'Abstract for Article 2...Abstract : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially ....',
-        },
-        {
-            title: 'Article 3',
-            authors: ['Author 3', 'Author 4'],
-            institution: 'Institution 2',
-            abstract: 'Abstract for Article 2...Abstract : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially ....',
-        },
-        {
-            title: 'Article 3',
-            authors: ['Author 3', 'Author 4'],
-            institution: 'Institution 2',
-            abstract: 'Abstract for Article 2...Abstract : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially ....',
-        },
-        {
-            title: 'Article 3',
-            authors: ['Author 3', 'Author 4'],
-            institution: 'Institution 2',
-            abstract: 'Abstract for Article 2...Abstract : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially ....',
-        },
-        {
-            title: 'Article 3',
-            authors: ['Author 3', 'Author 4'],
-            institution: 'Institution 2',
-            abstract: 'Abstract for Article 2...Abstract : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially ....',
-        },
-        // Add more articles as needed
-    ];
-
-    const articlesToShow = sampleArticles.slice(0, 5);
-
+    const navigate = useNavigate();
+    const [articles, setArticles] = useState<Article[]>([]);
+    const axios = useAxios();
+    useEffect(()=>{
+        const fetchArticlesFavoris = async () => {
+            try {
+              const response = await axios.get('/articles_favoris/');
+              setArticles(response.data);
+            } catch (error) {
+              console.error('Erreur lors de la récupération des articles favoris :', error);
+            }
+        };
+        fetchArticlesFavoris();
+    },[]);
 
     return (
         <div className='Page overflow-x-hidden'>
@@ -70,18 +55,29 @@ const SearchPage: React.FC = () => {
             <div className='flex flex-col Body md:flex-row'>
                 <div className=''>
                     <div className='px-10 lg:grid lg:grid-cols-3 lg:gap-4'>
-                        {articlesToShow.map((article, index) => (
+                        {articles.map((article, index) => (
                             <ArticleFavorisResult
-                                key={index}
-                                title={article.title}
-                                authors={article.authors}
-                                institution={article.institution}
-                                abstract={article.abstract}
+                                key={article.id}
+                                title={article.titre}
+                                authors={article.auteurs.map((auteur) => auteur.nom)}
+                                institution={[...new Set(
+                                    article.auteurs.flatMap(auteur => auteur.institutions.map(institution => institution.nom))
+                                )].join(', ')}
+                                abstract={article.resume.slice(0, 150)+"..."}
                                 onViewArticle={() => {
-                                    // Implement logic to view the article
+                                    navigate(`/article/${article.id}`);
                                 }}
-                                onAddToFavorites={() => {
-                                    // Implement logic to add to favorites
+                                onRemoveFromFavorites={async () => {
+                                    //to remove
+                                    try{
+                                        const response = await axios.delete(`/articles_favoris/${article.id}`);
+                                        setArticles(prevArticles => prevArticles.filter((prevArticle) => prevArticle.id !== article.id));
+                                        if(response.status !== 200){
+                                            throw new Error('Erreur lors de la suppression de l\'article des favoris');
+                                        }
+                                    }catch(e){
+                                        console.error('Erreur lors de la suppression de l\'article des favoris');
+                                    }
                                 }}
                             />
                         ))}

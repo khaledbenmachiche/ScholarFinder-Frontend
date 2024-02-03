@@ -16,6 +16,7 @@ interface Auteur {
 }
 
 interface Article {
+  id: number;
   titre: string;
   auteurs: Auteur[];
   resume: string;
@@ -35,10 +36,10 @@ const NonValidateArticlesModerateurPage: React.FC = () => {
     // Effectue une requête pour récupérer les articles non validés depuis l'API
     const fetchUnvalidatedArticles = async () => {
       try {
-        const response = await axios.get('/api/articles/not_validated');
+        const response = await axios.get('/articles/not_validated/');
         const data: Article[] = await response.data;
         setUnvalidatedArticles(data);
-        setSearchResultsCount(data.length); // Mettez à jour le nombre de résultats
+        setSearchResultsCount(data.length);
       } catch (error) {
         console.error('Erreur lors de la récupération des articles non validés :', error);
       }
@@ -47,26 +48,29 @@ const NonValidateArticlesModerateurPage: React.FC = () => {
     fetchUnvalidatedArticles();
   }, []); // Le tableau vide signifie que cet effet ne s'exécutera qu'une fois après le montage du composant
 
-  const handleApproveArticle = (articleId: string) => {
+  const handleApproveArticle = async (articleId: string) => {
     // Mettez à jour l'état des articles en marquant l'article comme approuvé
-    setUnvalidatedArticles((prevArticles) =>
-      prevArticles.filter((article) => article.titre !== articleId)
-    );
+    try{
+      const response = await axios.post(`/articles/${articleId}/validate`);
+      if(response.status !== 200){
+        throw new Error('Erreur lors de la validation de l\'article');
+      }
+      setUnvalidatedArticles(prevArticles =>prevArticles.filter((article) => article.titre !== articleId));
+      setSearchResultsCount(prevCount => prevCount - 1);
+    }catch(error){
+      console.error('Erreur lors de la validation de l\'article');
+    }
+   
   };
 
   return (
     <div className='Page'>
       <div className='Header'>
         <div className='bg-[#EEF5FC] p-6'>
-          <div className='flex mb-24'>
+          <div className='flex'>
             <img src={logo} alt='logo' /><span className='text-xl font-bold '>Truth Finder</span>
           </div>
-          <p className='mb-4 md:mb-24 text-2xl md:text-4xl font-medium text-[#0053AD] text-center'>L'INFINI DU SAVOIR VOUS ATTEND A PORTEE DE CLIC.</p>
         </div>
-      </div>
-
-      <div className='my-8 p-4 border-y border-solid border-[#00000038]  bg-[#d9d9d91e] '>
-        <p className='ml-2 md:ml-12'>Articles </p>
       </div>
 
       <div className='flex flex-col Body md:flex-row'>
@@ -75,18 +79,6 @@ const NonValidateArticlesModerateurPage: React.FC = () => {
             <p className="text-sm md:text-lg">
               {searchResultsCount} ARTICLES NON APPROUVES 
             </p>
-            <div className="flex items-center">
-              <p className="mr-2">Trier par :</p>
-              <select
-                value={sortingOption}
-                onChange={(e) => setSortingOption(e.target.value)}
-                className="border p-1 rounded-md bg-[#EEF5FC]"
-              >
-                <option value="plusRecent">Plus récent</option>
-                <option value="plusAncien">Plus ancien</option>
-                {/* Add more sorting options as needed */}
-              </select>
-            </div>
           </div>
 
           <div className='lg:grid lg:grid-cols-2 lg:gap-4'>
@@ -95,7 +87,7 @@ const NonValidateArticlesModerateurPage: React.FC = () => {
                 key={article.titre}
                 article={article}
                 onViewArticle={() => console.log('View Article')}  
-                onApproveArticle={() => handleApproveArticle(article.titre)}
+                onApproveArticle={() => handleApproveArticle(String(article.id))}
               />
             ))}
           </div>
