@@ -35,7 +35,7 @@ const AdminModerateurPage = () => {
             <div className="flex w-screen h-screen overflow-hidden">
                 <AdminSideBar/>
                 <div className="w-full md:ml-64 lg:ml-64">
-                    <div className="flex items-center justify-between w-full mt-12 mb-4 ml-3 lg:mt-4 md:px-4 lg:px-4">
+                    <div className="flex items-center  justify-between w-full mt-12 mb-4 px-8 lg:mt-4 md:px-4 lg:px-[31px]">
                         <button type="button"
                                 className=" whitespace-nowrap text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                                 onClick={handleOpenAjoutPopUp}

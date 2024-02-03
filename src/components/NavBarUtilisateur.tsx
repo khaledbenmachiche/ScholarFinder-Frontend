@@ -29,7 +29,7 @@ const NavBarUtilisateur = () => {
                 <div className="flex flex-row space-x-4 hover:cursor-pointer" onClick={() => navigate(navLinks[0].path)}><img className="w-10 cursor-pointer" alt="logo" src={logo} />  <h3
                     className="absolute font-bold font-poppins top-5 left-20">Truth finder </h3></div>
                 <div>
-                    <ul className="absolute flex flex-row space-x-5 font-bold font-poppins top-5 left-56 ">
+                    <ul className="  absolute flex flex-row space-x-5 font-bold font-poppins top-5 left-56 ">
                         {
                             navLinks.map(nav =>
                                 (
@@ -59,9 +59,12 @@ const NavBarUtilisateur = () => {
                     {
                         navLinks.map(nav =>
                             (
-                                <li key={nav.id}>
-                                    <a href={`#${nav.id}`}>{nav.title}</a>
-                                </li>
+                                <li className={`${active === nav.title ? "text-blue-400" : "text-dimWhite"}`} 
+                                key={nav.id}
+                                onClick={()=> handleNavigation(nav)}
+                            >
+                                <Link to={nav.path}>{nav.title}</Link>
+                            </li>
 
                             )
                         )

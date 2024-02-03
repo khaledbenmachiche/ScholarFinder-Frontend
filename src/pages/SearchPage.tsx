@@ -12,11 +12,11 @@ const SearchPage = () => {
         <div className="relative h-screen bg-white">
             <div className='relative h-72 flex flex-col bg-[#EEF5FC]'>
                 <NavBarUtilisateur/>
-                <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>L'INFINI DU
+                <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center pl-2 pr-2'>L'INFINI DU
                         SAVOIR VOUS ATTEND A PORTEE DE CLIC.
                 </p>
             <div className='absolute flex justify-center w-full -bottom-7'>
-                <SearchBar initialValue="" onSearch={handleSearch}/>
+                <SearchBar initialValue="" onSearch={handleSearch} />
             </div>
             </div>
             <img className="absolute bottom-0" src={earth_search_page} alt="earth"/>

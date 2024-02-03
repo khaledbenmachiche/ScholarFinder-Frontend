@@ -83,9 +83,10 @@ const DetailArticle = () => {
     };
     
     return (
-        <div className="w-screen h-screen ">
-            <div className='h-72 flex flex-col bg-[#EEF5FC]'>
-                <NavBarUtilisateur/>
+        <div className=" relative w-screen   overflow-x-hidden h-screen ">
+            <div className='h-72 flex flex-col bg-[#EEF5FC]'> 
+               
+                <NavBarUtilisateur />
                 <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>L'INFINI DU
                     SAVOIR VOUS ATTEND A PORTEE DE CLIC.
                 </p>

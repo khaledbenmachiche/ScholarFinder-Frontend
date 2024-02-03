@@ -97,11 +97,11 @@ const SignUpSection: React.FC = () => {
 
     return (
         <div
-            className="relative w-full md:w-screen lg:w-[900px] md:h-screen h-fit lg:h-screen pt-4 pb-2 px-8 bg-white flex flex-col">
+            className="relative w-full md:w-screen  h-screen lg:w-[900px] md:h-screen  lg:h-screen pt-4 pb-2 px-8 bg-white flex flex-col">
             <div className="bg-[#0671E0] absolute left-0 top-0 h-full w-1"></div>
             <div className="ml-10 text-3xl font-medium">Bienvenue</div>
 
-            <form className="flex flex-col gap-5 w-full h-[800px] md:px-8 items-center justify-center"
+            <form className="flex flex-col gap-5 w-full  md:px-8 items-center justify-center mt-4 "
                   onSubmit={handleSubmit(submitForm)}>
                 <div className="relative flex flex-col justify-center w-full">
                     <label className="block ml-2 text-sm font-light ">Nom d'utilisateur</label>

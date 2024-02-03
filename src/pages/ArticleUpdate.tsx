@@ -208,7 +208,7 @@ const ArticleUpdate = () => {
         }
     };
     return (
-        <div className="w-screen h-screen ">
+        <div className="  relative w-screen overflow-x-hidden h-screen ">
             <div className='h-72 flex flex-col bg-[#EEF5FC]'>
                 <NavBarUtilisateur/>
                 <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>L'INFINI DU
@@ -218,18 +218,18 @@ const ArticleUpdate = () => {
             <div  className="flex w-screen p-3 mt-2 bg-gray-100 border pl-14 "> 
             <h4>Acceuil</h4> <MdOutlineNavigateNext  size={20} className="relative top-1" /> <h4>Recherche</h4>  <MdOutlineNavigateNext  size={20} className="relative top-1" /> <h4>Article detail</h4> 
         </div> 
-        <div className="flex space-x-4 mt-10 ml-12 lg:mt-3 lg:ml-[900px]">
+        <div className="flex space-x-4 mt-10 ml-2 lg:mt-3 lg:ml-[860px]">
                 
-                <button onClick={openPdf} className="flex p-2 bg-gray-300 rounded-sm">
-                    <FaRegFilePdf size={20} />
+                <button onClick={openPdf} className="flex  p-2 lg:p-2 bg-gray-300 rounded-sm">
+                    <FaRegFilePdf size={20} /> Ouvrir sous forme pdf
                 </button>
                 <button
-                    className="flex p-2 px-2 font-semibold text-white bg-blue-700 rounded-sm font-poppins"
+                    className="flex  p-2 lg:p-2 px-2 font-semibold text-white bg-blue-700 rounded-sm font-poppins"
                     onClick={handleEditToggle}
                 >
                 {editing ? 'Enregistrer Article' : 'Editer Article'}
                 </button>
-                <button onClick={handleDeleteArticle} className="flex p-2 font-semibold text-white bg-red-600 rounded-sm font-poppins">
+                <button onClick={handleDeleteArticle} className="flex justify-center items-center p-1 lg:p-2 font-semibold text-white bg-red-600 rounded-sm font-poppins">
                     <RiDeleteBin5Line size={25} /> Supprimer
                 </button>
         </div>
