@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {Icon} from 'react-icons-kit'
@@ -73,19 +73,8 @@ const SignUpSection: React.FC = () => {
                 if(user == null) {
                     navigate("/signup");
                     return;
-                }
-                switch (user["user-type"]) {
-                    case "Admin":
-                        navigate("/admin/dashboard");
-                        break;
-                    case "Mod":
-                        navigate("/moderateur/dashboard");
-                        break;
-                    case "User":
-                        navigate("/utilisateur/recherche");
-                        break;
-                    default:
-                        break;
+                }else{
+                    navigate("/rechercher-article")
                 }
             } else {
                 console.log(response.data);

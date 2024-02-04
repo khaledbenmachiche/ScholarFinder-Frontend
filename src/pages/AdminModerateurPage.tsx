@@ -9,9 +9,9 @@ const AdminModerateurPage = () => {
     const [triggerAjoutPopUp,setTriggerAjoutPopUp] = useState(false);
     const [moderateurToDelete, setModerateurToDelete] = useState<number[]>([]);
     const handleDeleteButtonEvent = () => {
-        axios.delete("/moderation/",{data: { moderators_ids: moderateurToDelete}})
+        axios.delete("/moderation/delete_by_ids/",{data: { moderators_ids: moderateurToDelete}})
             .then(res => {
-                if (res.status === 204) {
+                if (res.status === 200) {
                     console.log("Moderateur supprimé");
                     window.location.reload();
                 }})

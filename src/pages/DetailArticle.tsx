@@ -32,6 +32,7 @@ interface ReferenceBibliographique {
 }
 
 interface Article {
+    id: number;
     titre: string;
     auteurs: Auteur[];
     resume: string;
@@ -44,7 +45,7 @@ interface Article {
 
 interface TextIntegralType {
     header:string;
-    body: Array<string>;
+    paragraph: Array<string>;
 }
 const DetailArticle = () => {
     const {id} = useParams<{ id: string }>();
@@ -53,6 +54,7 @@ const DetailArticle = () => {
     useEffect(() => {
         axios.get<Article>(`/articles/${id}`).then((response) => {
             setArticle(response.data);
+            console.log(JSON.parse(response.data.text_integral));
         });
     }, [id]);
 
@@ -63,18 +65,42 @@ const DetailArticle = () => {
             alert("Pas de pdf pour cet article");
         }
     }
+    const ajouterFavoris = async () => {
+        try{
+            if (article) {
+                const response = await axios.post(`/articles_favoris/`, {article_id: article.id});
+                if(response.status === 201) {
+                    alert("Article ajouté aux favoris avec succès");
+                }else{
+                    alert("Erreur lors de l'ajout de l'article aux favoris");
+                }
+            }
+        }catch(e){
+            console.log("Erreur lors de l'ajout de l'article aux favoris");
+        }
+    }
     const renderTextIntegral = () => {
         if (article) {
             return (
                 <div>
-                    {Object.entries(JSON.parse(article.text_integral)).map(
-                        ([key, value]) => (
-                            <div key={key} className="">
-                                <h1 className="pt-5 text-xl font-bold font-poppins">{key}</h1>
-                                <p className="pt-5">: {String(value)}</p>
-                            </div>
-                        )
-                    )}
+                    {
+                        JSON.parse(article.text_integral).map((section: TextIntegralType) => {
+                            return (
+                                <>
+                                    <h1 className="font-bold text-xl mt-4">{section.header}</h1>
+                                    <div>
+                                        {
+                                            section.paragraph.map((paragraph) => {
+                                                return (
+                                                    <p className="font-thin">{paragraph}</p>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </>
+                            );
+                        })
+                    }
                 </div>
             );
         } else {
@@ -99,7 +125,7 @@ const DetailArticle = () => {
                 <button onClick={openPdf} className="flex items-center p-2 bg-gray-300 whitespace-nowrap"><FaRegFilePdf
                     size={20}/> Ouvrir sous forme pdf
                 </button>
-                <button className="flex items-center p-2 bg-gray-300 whitespace-nowrap"><MdFavoriteBorder
+                <button onClick={ajouterFavoris} className="flex items-center p-2 bg-gray-300 whitespace-nowrap"><MdFavoriteBorder
                     size={20}/> AJOUTER AUX FAVORIS
                 </button>
             </div>
@@ -151,7 +177,7 @@ const DetailArticle = () => {
                 </div>
             </div>
             <h1 className="mt-8 ml-12 text-xl font-bold font-poppins lg:ml-20 "> REFERENCES</h1>
-            <div className=" font-poppins text-sm   ml-12 lg:ml-20 w-[400px]  lg:w-[1180px] ">
+            <div className=" font-poppins text-sm ml-12 lg:ml-20 w-[400px]  lg:w-[1180px] ">
                 {
                     article?.references_bibliographique.map(ref => {
                         return (

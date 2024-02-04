@@ -3,6 +3,7 @@ import logo from "../assets/logo.svg"
 import useNavigationBar from '../hooks/useNavigationBar'
 import { Link, useNavigate } from 'react-router-dom';
 import { GrMenu } from 'react-icons/gr';
+import useAuth from "../hooks/useAuth.ts";
 const NavBarUtilisateur = () => {
     const navLinks = [
         {
@@ -22,29 +23,41 @@ const NavBarUtilisateur = () => {
         console.log(active)
     },[active])
     const navigate = useNavigate();
+    const {logout} = useAuth();
+    const handleLogout = async () => {
+        try{
+            const loggingOutStatus = await logout();
+            if(loggingOutStatus){
+                navigate("/");
+            }else{
+                console.log("Failed to logout")
+            }
+        }catch{
+            console.log("Failed to logout");
+        }
+    }
     return (
-            <nav className="h-[4rem] w-screen bg-transparent text-black flex px-10  ">
+            <nav className="h-[4rem] w-screen bg-transparent text-black flex px-10">
             {/*Large */}
-            <div className="hidden lg:flex">
-                <div className="flex flex-row space-x-4 hover:cursor-pointer" onClick={() => navigate(navLinks[0].path)}><img className="w-10 cursor-pointer" alt="logo" src={logo} />  <h3
-                    className="absolute font-bold font-poppins top-5 left-20">Truth finder </h3></div>
-                <div>
-                    <ul className="  absolute flex flex-row space-x-5 font-bold font-poppins top-5 left-56 ">
-                        {
-                            navLinks.map(nav =>
-                                (
-                                    <li className={`${active === nav.title ? "text-blue-400" : "text-dimWhite"}`} 
-                                        key={nav.id}
-                                        onClick={()=> handleNavigation(nav)}
-                                    >
-                                        <Link to={nav.path}>{nav.title}</Link>
-                                    </li>
-
-                                )
-                            )
-                        }
-                    </ul>
+            <div className="hidden lg:flex justify-between w-full">
+                <div className="flex flex-row space-x-4 hover:cursor-pointer" onClick={() => navigate(navLinks[0].path)}><img className="w-10 cursor-pointer" alt="logo" src={logo} />
+                    <h3 className="absolute font-bold font-poppins top-5 left-20">Truth finder </h3>
                 </div>
+                <ul className="  absolute flex flex-row space-x-5 font-bold font-poppins top-5 left-56 ">
+                    {
+                        navLinks.map(nav =>
+                            (
+                                <li className={`${active === nav.title ? "text-blue-400" : "text-dimWhite"}`}
+                                    key={nav.id}
+                                    onClick={()=> handleNavigation(nav)}
+                                >
+                                    <Link to={nav.path}>{nav.title}</Link>
+                                </li>
+                            )
+                        )
+                    }
+                </ul>
+                <button onClick={handleLogout} className=" font-poppins font-bold">Déconnexion</button>
             </div>
             {/*Large */}
 

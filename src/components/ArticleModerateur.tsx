@@ -26,33 +26,36 @@ interface ArticleProps {
     onApproveArticle: () => void;
 }
 
-const ArticleResult: React.FC<ArticleProps> = ({ article, onViewArticle, onApproveArticle }) => {
+const ArticleModerateur: React.FC<ArticleProps> = ({ article, onViewArticle, onApproveArticle }) => {
 
    
   const handleApproveArticle = () => {
     // Approuver l'article et le faire disparaître de la liste
     onApproveArticle();
   };
+  const handleViewArticle = () => {
+    onViewArticle();
+  }
 
     return (
         <div className="article-box border border-solid border-[#00000033] p-4 md:p-10 mb-4 ">
             <h2 className="mb-2 text-lg font-bold">{article.titre}</h2>
             <p className="mb-2 text-sm">
-            <strong>Authors:</strong> {[...new Set(article.auteurs.map((auteur) => auteur.nom))].join(', ')}
+            <strong>Authors:</strong> {[...new Set(article.auteurs.map((auteur) => auteur.nom))].join(', ').slice(0,120)+"..."}
             </p>
             <p className="mb-2 text-sm">
-                <strong>Institution:</strong>  {[...new Set(article.auteurs.flatMap((auteur) => auteur.institutions.map((institution) => institution.nom)))].join(', ')}
+                <strong>Institution:</strong>  {[...new Set(article.auteurs.flatMap((auteur) => auteur.institutions.map((institution) => institution.nom)))].join(', ').slice(0,120)+"..."}
             </p>
             <p className="mb-2 text-sm">
                 <strong>Abstract:</strong> {article.resume.slice(0,100)+"..."}
             </p>
-            <div className="flex flex-col justify-center mt-16 md:flex-row md:space-x-2 ">
-                <button className="flex items-center justify-center px-10 py-3 mb-2 mr-8 border btn " onClick={onViewArticle}>
+            <div className="flex flex-col md:flex-col lg:flex-row items-center mt-10 justify-center gap-2 ">
+                <button className="flex w-full items-center justify-center px-10 py-3 border " onClick={onViewArticle}>
                     <FaSearch className="mr-4 icon "/>
                     VOIR L'ARTICLE
                 </button>
                 <button
-                    className={` bg-[#0663C7]  items-center justify-center text-center text-white border py-3 px-10 mr-8 flex mb-2 add-to-favorites-btn ${article.is_validated ? 'approved' : ''}  flex-shrink-0 `}
+                    className={`bg-[#0663C7] w-full items-center justify-center text-center text-white border py-3 px-10 flex ${article.is_validated ? 'approved' : ''} `}
                     onClick={onApproveArticle}
                     disabled={article.is_validated}>
                     APPROUVER ARTICLE
@@ -62,4 +65,4 @@ const ArticleResult: React.FC<ArticleProps> = ({ article, onViewArticle, onAppro
     );
 };
 
-export default ArticleResult;
+export default ArticleModerateur;

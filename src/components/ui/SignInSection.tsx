@@ -35,7 +35,7 @@ const SignInSection: React.FC = () => {
                     navigate("/admin/dashboard");
                     break;
                 case "Mod":
-                    navigate("/moderateur/dashboard");
+                    navigate("/moderateur/all_articles");
                     break;
                 case "User":
                     navigate("/rechercher-article");
