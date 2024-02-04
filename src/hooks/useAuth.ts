@@ -20,6 +20,9 @@ export default function useAuth() {
       const response = await api.post("authentication/login/", {username,password},{withCredentials: true})
       if (response.data.AccessToken) {
         addUser(response.data)
+        return true;
+      }else {
+        return false;
       }
     } catch (error) {
       throw error;

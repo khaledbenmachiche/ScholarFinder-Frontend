@@ -52,11 +52,11 @@ const Navbar = () => {
             <GrMenu size={28} className='cursor-pointer lg:hidden md:hidden'
                     onClick={() => setToggle(!toggle)}/>
             <div
-                className={`${!toggle ? "hidden" : "flex"} p-6 bg-blue-800 absolute top-11 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar lg:hidden md:hidden`}>
+                className={`${!toggle ? "hidden" : "flex"} p-6 bg-cyan-500 absolute top-11 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar lg:hidden `}>
                 <ul className="flex flex-col items-start justify-end flex-1 list-none">
                     {navLinks.map((nav, index) =>
                         <li key={nav.id}
-                            className={`font-poppins font-medium cursor-pointer text-10 ${active === nav.title ? "text-blue-300" : "text-white"} ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}
+                            className={`font-poppins font-medium cursor-pointer text-10 ${active === nav.title ? "text-white" : "text-dimWhite"} ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}
                             onClick={() => handleNavigation(nav)}>
                             <Link to={nav.path}>{nav.title}</Link>
                         </li>)}
