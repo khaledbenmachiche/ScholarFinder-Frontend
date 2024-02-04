@@ -43,8 +43,8 @@ export default function useAuth() {
       username,
       email,
       password,
-      firstName,
-      lastName,
+      first_name:firstName,
+      last_name:lastName,
     });
   }
   
