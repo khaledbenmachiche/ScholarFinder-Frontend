@@ -22,7 +22,7 @@ export default function useAuth() {
         addUser(response.data)
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      throw error;
     }
   }
   

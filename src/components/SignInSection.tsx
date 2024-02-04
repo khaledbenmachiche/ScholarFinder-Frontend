@@ -6,8 +6,8 @@ import {Icon} from 'react-icons-kit'
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
 import {useNavigate} from "react-router-dom";
-import useAuth from "../../hooks/useAuth.ts";
-import useUser from "../../hooks/useUser.ts";
+import useAuth from "../hooks/useAuth.ts";
+import useUser from "../hooks/useUser.ts";
 
 const schema = yup.object().shape(
     {

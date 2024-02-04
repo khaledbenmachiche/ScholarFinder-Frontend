@@ -3,6 +3,7 @@ import AdminSideBar from "../components/AdminSideBar.tsx";
 import {useState} from "react";
 import useAxios from "../hooks/useAxios.ts";
 import AjouterModerateurForms from "../components/AjouterModerateurForms.tsx";
+import {toast,Bounce} from "react-toastify";
 
 const AdminModerateurPage = () => {
     const axios = useAxios();
@@ -12,10 +13,46 @@ const AdminModerateurPage = () => {
         axios.delete("/moderation/delete_by_ids/",{data: { moderators_ids: moderateurToDelete}})
             .then(res => {
                 if (res.status === 200) {
-                    console.log("Moderateur supprimé");
+                    toast("Moderateur supprimé avec success",{
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            transition: Bounce,
+                        }
+                    );
                     window.location.reload();
-                }})
-            .catch(err => console.log(err));
+                }else{
+                    toast.warning(res.data.message,{
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                }
+            })
+            .catch(() => {
+                toast.error("suppression de moderateur echouer",{
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            });
     }
 
     const updateSelectedRows = (selectedModertors:number[])=>{

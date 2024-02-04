@@ -9,6 +9,7 @@ import {RiDeleteBin5Line} from "react-icons/ri";
 import useForceUpdate from "../hooks/useForceUpdate";
 import {useNavigate} from "react-router-dom";
 import ModerateurNavBar from "../components/ModerateurNavBar.tsx";
+import {toast, ToastContainer,Bounce} from "react-toastify";
 interface Institution {
     id: number;
     nom: string;
@@ -160,10 +161,47 @@ const ArticleUpdate = () => {
     const handleSubmitUpdate = () => {
         if(!articleRef.current) return;
         articleRef.current.text_integral = turnTextIntegralIntoJSON();
-        
-        axios.put(`/articles/${id}/`, articleRef.current).then(() => {
+        axios.put(`/articles/${id}/`, articleRef.current).then(res => {
+            if(res.status === 200){
+                toast.success('Article modifié avec succès', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+                forceUpdate();
+            }else{
+                toast.error('Erreur lors de la modification de l\'article', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }
             setEditing(false);
-        });
+        }).catch(() => {
+            toast.error('Erreur lors de la modification de l\'article', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        })
     }
 
     const handleEditToggle = () => {
@@ -176,9 +214,48 @@ const ArticleUpdate = () => {
     }
 
     const handleDeleteArticle = () => {
-        axios.delete(`/articles/${id}/`).then(() => {
-            navigate('/moderateur/all_articles')
-        });
+        axios.delete(`/articles/${id}/`).then(res => {
+            if(res.status === 204){
+                navigate('/moderateur/all_articles');
+                toast.success('Article supprimé avec succès', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }else{
+                toast.error('Erreur lors de la suppression de l\'article', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }
+        })
+            .catch(e => {
+                console.error('Erreur lors de la suppression de l\'article :', e);
+                toast.error('Erreur lors de la suppression de l\'article', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            })
     }
 
     const renderTextIntegral = () => {
@@ -201,6 +278,7 @@ const ArticleUpdate = () => {
     };
     return (
         <div className="  relative w-screen overflow-x-hidden h-screen pb-6">
+            <ToastContainer/>
             <div className='h-48 flex flex-col bg-[#EEF5FC]'>
                 <ModerateurNavBar/>
                 <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>L'INFINI DU

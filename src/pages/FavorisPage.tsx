@@ -5,6 +5,7 @@ import NavBarUtilisateur from '../components/NavBarUtilisateur';
 import logo from '../assets/Logo.svg';
 import useAxios from '../hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
+import {ToastContainer,toast,Bounce} from "react-toastify";
 interface Institution {
     id: number;
     nom: string;
@@ -23,7 +24,7 @@ interface Article {
     resume: string;
 }
 
-const SearchPage: React.FC = () => {
+const FavorisPage: React.FC = () => {
     const navigate = useNavigate();
     const [articles, setArticles] = useState<Article[]>([]);
     const axios = useAxios();
@@ -39,8 +40,10 @@ const SearchPage: React.FC = () => {
         fetchArticlesFavoris();
     },[]);
 
+
     return (
         <div className='Page overflow-x-hidden'>
+            <ToastContainer/>
             <div className=' flex flex-col bg-[#EEF5FC]'>
                 <NavBarUtilisateur/>
                 <p className='my-auto  py-6 lg:py-16 md:py-16 text-[22px] lg:text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>
@@ -55,7 +58,7 @@ const SearchPage: React.FC = () => {
             <div className='flex flex-col Body md:flex-row'>
                 <div className=''>
                     <div className='px-10 lg:grid lg:grid-cols-3 lg:gap-4'>
-                        {articles.map((article, index) => (
+                        {articles.map((article) => (
                             <ArticleFavorisResult
                                 key={article.id}
                                 title={article.titre}
@@ -68,22 +71,53 @@ const SearchPage: React.FC = () => {
                                     navigate(`/article/${article.id}`);
                                 }}
                                 onRemoveFromFavorites={async () => {
-                                    //to remove
                                     try{
                                         const response = await axios.delete(`/articles_favoris/${article.id}`);
                                         setArticles(prevArticles => prevArticles.filter((prevArticle) => prevArticle.id !== article.id));
-                                        if(response.status !== 200){
-                                            throw new Error('Erreur lors de la suppression de l\'article des favoris');
+                                        if(response.status === 204){
+                                            toast.success('Article supprimé des favoris avec succès', {
+                                                position: "top-right",
+                                                autoClose: 5000,
+                                                hideProgressBar: false,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                                theme: "light",
+                                                transition: Bounce,
+                                            })
+                                        }else{
+                                            toast.warning('Erreur lors de la suppression de l\'article des favoris', {
+                                                position: "top-right",
+                                                autoClose: 5000,
+                                                hideProgressBar: false,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                                theme: "light",
+                                                transition: Bounce,
+                                            })
                                         }
+
                                     }catch(e){
-                                        console.error('Erreur lors de la suppression de l\'article des favoris');
+                                        toast.error('Erreur lors de la suppression de l\'article des favoris', {
+                                            position: "top-right",
+                                            autoClose: 5000,
+                                            hideProgressBar: false,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: true,
+                                            progress: undefined,
+                                            theme: "light",
+                                            transition: Bounce,
+                                        })
                                     }
                                 }}
                             />
                         ))}
                     </div>
                 </div>
-
             </div>
 
             <div className='p-20 PREVIOUS '></div>
@@ -136,4 +170,4 @@ const SearchPage: React.FC = () => {
     );
 };
 
-export default SearchPage;
+export default FavorisPage;
