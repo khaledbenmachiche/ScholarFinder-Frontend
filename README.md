@@ -7,20 +7,29 @@ une application web permettant aux utilisateurs authentifiés de rechercher des 
 ## Folder structure
 tp_igl_frontend
 |-- src
-|   |-- assets                  # Store images and styles
-|   |-- components              # Reusable React components
-|   |-- context                 # React context providers for global state
-|   |-- hooks                   # Custom React hooks
-|   |-- pages                   # React components representing different pages
-|   |-- services                # Modules for interacting with external services or APIs
-|   |-- types                   # TypeScript definition files
-|   |-- utils                   # General utility functions
-|-- public                      # Static files copied into the build folder
-|-- .gitignore                  # Specifies files and directories ignored by Git
-|-- package.json                # Node.js package configuration
-|-- README.md                   # Project documentation
-|-- Dockerfile                  # Instructions for building a Docker image
-|-- selenium-test               # Test Fonctionnel
+| |-- assets # Store images and styles
+| | |-- ... # (Images and styles subdirectories)
+| |-- components # Reusable React components
+| | |-- ... # (Component subdirectories)
+| |-- context # React context providers for global state
+| | |-- ... # (Context subdirectories)
+| |-- hooks # Custom React hooks
+| | |-- ... # (Hook subdirectories)
+| |-- pages # React components representing different pages
+| | |-- ... # (Page subdirectories)
+| |-- services # Modules for interacting with external services or APIs
+| | |-- ... # (Service subdirectories)
+| |-- types # TypeScript definition files
+| | |-- ... # (Type subdirectories)
+| |-- utils # General utility functions
+| | |-- ... # (Utility subdirectories)
+|-- public # Static files copied into the build folder
+|-- selenium-test # Test Fonctionnel
+|-- .gitignore # Specifies files and directories ignored by Git
+|-- package.json # Node.js package configuration
+|-- README.md # Project documentation
+|-- Dockerfile # Instructions for building a Docker image
+|-- selenium-test # Test Fonctionnel
 ## Prerequisites
 
 * Node.js
