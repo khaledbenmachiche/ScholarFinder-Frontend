@@ -44,7 +44,7 @@ npm start
 ```
 
 
-## Docker Usage
+## Docker Support
 
 To run the application using Docker, follow these steps:
 1- Build the Docker image.
@@ -53,11 +53,11 @@ To run the application using Docker, follow these steps:
   ```
 2- Run the Docker container.
   ```bash
-  docker run -p 5173:5173 tp_igl_frontend
+  docker run -dp 8080:8080 tp_igl_frontend
   ```
 
 ## Functional Testing
-For functional testing, we use [Selenium].:
+For functional testing, Selenium is used :
   ```bash
   python3 selenium-test.py
   ```
