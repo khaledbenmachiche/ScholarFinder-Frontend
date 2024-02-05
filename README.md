@@ -5,35 +5,13 @@ une application web permettant aux utilisateurs authentifiés de rechercher des 
 
 # Getting Started
 ## Folder structure
-tp_igl_frontend
-| |-- components # Reusable React components
-
-| |-- context # React context providers for global state
-
-| |-- hooks # Custom React hooks
-
-| |-- pages # React components representing different pages
-
-| |-- services # Modules for interacting with external services or APIs
-
-| |-- types # TypeScript definition files
-
-| |-- utils # General utility functions
-
-|-- public # Static files copied into the build folder
-
-|-- selenium-test # Test Fonctionnel
-
-|-- .gitignore # Specifies files and directories ignored by Git
-
-|-- package.json # Node.js package configuration
-
-|-- README.md # Project documentation
-
-|-- Dockerfile # Instructions for building a Docker image
-
-|-- selenium-test # Test Fonctionnel
-
+**components** # Reusable React components
+**context** # React context providers for global state
+**hooks** # Custom React hooks
+**pages** # React components representing different pages
+**services** # Modules for interacting with external services or APIs
+**types** # TypeScript definition files
+**utils** # General utility functions
 
 ## Prerequisites
 
