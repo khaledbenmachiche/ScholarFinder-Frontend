@@ -45,6 +45,10 @@ npm run dev
 
 
 ## Docker Support
+### Prerequisites
+  **Docker**
+
+### Usage 
 
 To run the application using Docker, follow these steps:
 1- Build the Docker image.
