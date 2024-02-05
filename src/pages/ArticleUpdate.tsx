@@ -152,6 +152,14 @@ const ArticleUpdate = () => {
             textIntegralRef.current[index].paragraph = [newBody];
         }
     }
+    const handleDateDePublicationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newDateDePublication = e.currentTarget.textContent;
+        if(!articleRef.current) return;
+        if (newDateDePublication) {
+            articleRef.current.date_de_publication = newDateDePublication;
+        }
+    }
+
 
     const turnTextIntegralIntoJSON = () => {
         const textIntegral = textIntegralRef.current.filter((text) => text.header !== '' && text.paragraph[0] !== '');
@@ -309,7 +317,11 @@ const ArticleUpdate = () => {
             </div>
 
             <div className="mt-5 ml-12 lg:ml-20">
-                <h6 className="font-poppins "> Date de publication : {articleRef.current?.date_de_publication}</h6>
+                <div className="flex gap-2">
+                    <span>Date de publication :</span>
+                    <h6 className="font-poppins" contentEditable={editing} dangerouslySetInnerHTML={{__html: articleRef.current ? articleRef.current?.date_de_publication : '' }} onInput={handleDateDePublicationChange}/>
+                </div>
+
                 <br/>
                 <div>
                     {
@@ -332,7 +344,7 @@ const ArticleUpdate = () => {
                 </div>
             </div>
             <h1 className="mt-10 ml-12 text-xl font-bold font-poppins lg:ml-20 "> ABSTRACT </h1>
-            <p className="font-poppins ml-12 lg:ml-20 mr-2 " contentEditable={editing} dangerouslySetInnerHTML={{__html: articleRef.current ? articleRef.current.resume : '' }} onInput={handleResumeChange} />
+            <p className="font-poppins ml-12 lg:ml-20 pr-16 " contentEditable={editing} dangerouslySetInnerHTML={{__html: articleRef.current ? articleRef.current.resume : '' }} onInput={handleResumeChange} />
             <h1 className="mt-8 ml-12 text-xl font-bold font-poppins lg:ml-20"> KEYWORDS </h1>
             <div className="flex font-poppins text-sm flex-row ml-12  lg:ml-20 flex-wrap">
                 {articleRef.current?.mot_cles.map((motcle,index) => {
