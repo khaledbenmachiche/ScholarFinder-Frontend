@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import ArticleFavorisResult from '../components/ArticleFavorisResult';
 import {AiOutlineMail} from 'react-icons/ai';
 import NavBarUtilisateur from '../components/NavBarUtilisateur';
-import logo from '../assets/Logo.svg';
+import logo from '../assets/logo.svg';
 import useAxios from '../hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
 interface Institution {

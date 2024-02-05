@@ -52,6 +52,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ initialValue,onSearch }) => {
           getSuggestionValue={getSuggestionValue}
           renderSuggestion={renderSuggestion}
           inputProps={{
+            name:'searchBar',
             placeholder: 'Search articles',
             value: searchValue,
             onChange,

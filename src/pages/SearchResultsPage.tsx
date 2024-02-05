@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import SearchBar from '../components/SearchBar';
 
-import logo from '../assets/Logo.svg'
+import logo from '../assets/logo.svg'
 import Filters from '../components/Filters';
 import ArticleResult from '../components/ArticleResult';
 import {AiOutlineMail} from 'react-icons/ai';

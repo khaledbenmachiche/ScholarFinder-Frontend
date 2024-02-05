@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../assets/Logo.svg';
+import logo from '../assets/logo.svg';
 import ArticleModerateur from '../components/ArticleModerateur';
 import { AiOutlineMail } from 'react-icons/ai';
 import useAxios from '../hooks/useAxios';
