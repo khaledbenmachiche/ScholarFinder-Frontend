@@ -5,13 +5,19 @@ une application web permettant aux utilisateurs authentifiés de rechercher des 
 
 # Getting Started
 ## Folder structure
-**components** # Reusable React components
-**context** # React context providers for global state
-**hooks** # Custom React hooks
-**pages** # React components representing different pages
-**services** # Modules for interacting with external services or APIs
-**types** # TypeScript definition files
-**utils** # General utility functions
+**components** : Reusable React components
+
+**context** : React context providers for global state
+
+**hooks** : Custom React hooks
+
+**pages** : React components representing different pages
+
+**services** : Modules for interacting with external services or APIs
+
+**types** : TypeScript definition files
+
+**utils** : General utility functions
 
 ## Prerequisites
 
