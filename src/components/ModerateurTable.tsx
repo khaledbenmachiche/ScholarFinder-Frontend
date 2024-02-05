@@ -1,6 +1,7 @@
 import {MdOutlineNavigateNext} from "react-icons/md";
 import {GrFormPrevious} from "react-icons/gr";
 import User from '../types/User';
+import {toast, Bounce, ToastContainer} from "react-toastify";
 
 import {
     //Column,
@@ -13,11 +14,11 @@ import {
     //OnChangeFn,
     flexRender,
 } from '@tanstack/react-table'
-import {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import useAxios from "../hooks/useAxios";
 import ModifierModerateurForms from "./ModifierModerateurForms";
-
+import useForceUpdate from "../hooks/useForceUpdate";
 interface ModerateurTableProps {
     updateSelectedRows: (selectedModertors:number[]) => void;
 }
@@ -25,7 +26,8 @@ interface ModerateurTableProps {
 const ModerateurTable = ({updateSelectedRows}:ModerateurTableProps) => {
     const axios = useAxios();
     const [tableData, setTableData] = useState<User[]>([]);
-    
+    const forceUpdate = useForceUpdate();
+
     useEffect(() => {
         axios.get('/moderation/')
             .then(res => {
@@ -45,7 +47,6 @@ const ModerateurTable = ({updateSelectedRows}:ModerateurTableProps) => {
                 console.error(`Moderateur with id ${id} not found in tableData`);
                 return prevTableData;
             };
-            console.log('Setting moderateur to modify:', moderateur);
             setModerateurToModify({...moderateur});
             setTriggerModificationPopUp(true);
             return prevTableData;
@@ -199,7 +200,8 @@ const ModerateurTable = ({updateSelectedRows}:ModerateurTableProps) => {
 
     return (
         <>
-            <ModifierModerateurForms moderateurToModify={moderateurToModify} trigger={triggerModificationPopUp} handleCloseModificationPopUp={handleCloseModificationPopUp} />
+            <ToastContainer/>
+            <ModifierModerateurForms forceUpdate={forceUpdate} moderateurToModify={moderateurToModify} trigger={triggerModificationPopUp} handleCloseModificationPopUp={handleCloseModificationPopUp} />
             <div className="flex-grow mx-4 overflow-hidden">
                 <div className="relative flex flex-grow overflow-x-scroll shadow-md h-fit sm:rounded-lg">
                     <table className='w-full text-sm text-left text-gray-500 rtl:text-right'>

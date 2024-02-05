@@ -1,13 +1,14 @@
 import {useForm} from "react-hook-form";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {Icon} from 'react-icons-kit'
 import {eye} from 'react-icons-kit/feather/eye'
 import {eyeOff} from 'react-icons-kit/feather/eyeOff'
 import {useNavigate} from "react-router-dom";
-import useAuth from "../../hooks/useAuth.ts";
-import useUser from "../../hooks/useUser.ts";
+import useAuth from "../hooks/useAuth.ts";
+import useUser from "../hooks/useUser.ts";
+import {toast,Bounce,ToastContainer} from "react-toastify";
 
 
 const schema = yup.object().shape({
@@ -68,38 +69,48 @@ const SignUpSection: React.FC = () => {
     const submitForm = async (data: SignUpData) => {
         try {
             const response = await subscribe(data.username, data.firstName, data.lastName, data.email, data.password);
-            if (response.status === 200) {
+            if (response.status === 201) {
                 await login(data.username, data.password);
-                if(user == null) {
-                    navigate("/signup");
-                    return;
-                }
-                switch (user["user-type"]) {
-                    case "Admin":
-                        navigate("/admin/dashboard");
-                        break;
-                    case "Mod":
-                        navigate("/moderateur/dashboard");
-                        break;
-                    case "User":
-                        navigate("/utilisateur/recherche");
-                        break;
-                    default:
-                        break;
-                }
+                navigate("/rechercher-article")
             } else {
-                console.log(response.data);
+                toast.error(
+                    "Erreur lors de l'inscription",
+                    {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    }
+                )
             }
         } catch (error) {
-            console.log(error);
+            toast.error(
+                "Erreur lors de l'inscription",
+                {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                }
+            )
         }
     }
 
     return (
-        <div
-            className="relative w-full md:w-screen  h-screen lg:w-[900px] md:h-screen  lg:h-screen pt-4 pb-2 px-8 bg-white flex flex-col">
+        <div className="relative w-full md:w-screen  h-screen lg:w-[900px] md:h-screen  lg:h-screen pt-4 pb-2 px-8 bg-white flex flex-col">
+            <ToastContainer/>
             <div className="bg-[#0671E0] absolute left-0 top-0 h-full w-1"></div>
-            <div className="ml-10 text-3xl font-medium">Bienvenue</div>
+            <div className="ml-10 text-3xl font-medium ">Bienvenue</div>
 
             <form className="flex flex-col gap-5 w-full  md:px-8 items-center justify-center mt-4 "
                   onSubmit={handleSubmit(submitForm)}>

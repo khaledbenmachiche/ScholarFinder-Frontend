@@ -20,9 +20,12 @@ export default function useAuth() {
       const response = await api.post("authentication/login/", {username,password},{withCredentials: true})
       if (response.data.AccessToken) {
         addUser(response.data)
+        return true;
+      }else {
+        return false;
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      throw error;
     }
   }
   
@@ -43,8 +46,8 @@ export default function useAuth() {
       username,
       email,
       password,
-      firstName,
-      lastName,
+      first_name:firstName,
+      last_name:lastName,
     });
   }
   

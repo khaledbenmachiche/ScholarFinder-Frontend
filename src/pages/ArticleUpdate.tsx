@@ -1,15 +1,15 @@
 import {FaRegFilePdf} from "react-icons/fa6";
-import {MdFavoriteBorder} from "react-icons/md";
 import {MdOutlineNavigateNext} from "react-icons/md";
 import quotes from "../assets/quotes.svg" ;
 import React, {useState, useEffect, useRef} from 'react';
-import {GrMenu} from "react-icons/gr";
 import useAxios from "../hooks/useAxios";
 import {useParams} from "react-router-dom";
-import NavBarUtilisateur from "../components/NavBarUtilisateur";
 import _ from 'lodash';
 import {RiDeleteBin5Line} from "react-icons/ri";
 import useForceUpdate from "../hooks/useForceUpdate";
+import {useNavigate} from "react-router-dom";
+import ModerateurNavBar from "../components/ModerateurNavBar.tsx";
+import {toast, ToastContainer,Bounce} from "react-toastify";
 interface Institution {
     id: number;
     nom: string;
@@ -44,10 +44,11 @@ interface Article {
 
 interface TextIntegralType {
     header:string;
-    body: string;
+    paragraph: string[];
 }
 
 const ArticleUpdate = () => {
+    const navigate = useNavigate();
     const {id} = useParams<{ id: string }>();
     const axios = useAxios();
     const articleRef = useRef<Article | null>(null);
@@ -56,10 +57,7 @@ const ArticleUpdate = () => {
     useEffect(() => {
         axios.get<Article>(`/articles/${id}`).then((response) => {
             articleRef.current = response.data;
-            textIntegralRef.current = [];
-            Object.entries(JSON.parse(articleRef.current.text_integral)).forEach(([key, value]) => {
-                textIntegralRef.current.push({header: key, body: String(value)});
-            });
+            textIntegralRef.current = JSON.parse(articleRef.current.text_integral);
             forceUpdate();
         });
     }, [id]);
@@ -151,27 +149,67 @@ const ArticleUpdate = () => {
         const index = Number(indexString);
         if(!articleRef.current) return;
         if (newBody) {
-            textIntegralRef.current[index].body = newBody;
+            textIntegralRef.current[index].paragraph = [newBody];
+        }
+    }
+    const handleDateDePublicationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newDateDePublication = e.currentTarget.textContent;
+        if(!articleRef.current) return;
+        if (newDateDePublication) {
+            articleRef.current.date_de_publication = newDateDePublication;
         }
     }
 
+
     const turnTextIntegralIntoJSON = () => {
-        let textIntegralJSON: {[key: string]: string} = {};
-        textIntegralRef.current.forEach((text) => {
-            if(text.body && text.header){
-                textIntegralJSON[text.header] = text.body;
-            }
-        });
-        return JSON.stringify(textIntegralJSON);
+        const textIntegral = textIntegralRef.current.filter((text) => text.header !== '' && text.paragraph[0] !== '');
+        return JSON.stringify(textIntegral);
     }
     
     const handleSubmitUpdate = () => {
         if(!articleRef.current) return;
         articleRef.current.text_integral = turnTextIntegralIntoJSON();
-        
-        axios.put(`/articles/${id}/`, articleRef.current).then(() => {
+        axios.put(`/articles/${id}/`, articleRef.current).then(res => {
+            if(res.status === 200){
+                toast.success('Article modifié avec succès', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+                forceUpdate();
+            }else{
+                toast.error('Erreur lors de la modification de l\'article', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }
             setEditing(false);
-        });
+        }).catch(() => {
+            toast.error('Erreur lors de la modification de l\'article', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        })
     }
 
     const handleEditToggle = () => {
@@ -184,9 +222,48 @@ const ArticleUpdate = () => {
     }
 
     const handleDeleteArticle = () => {
-        axios.delete(`/articles/${id}/`).then(() => {
-            window.location.href = "/articles";
-        });
+        axios.delete(`/articles/${id}/`).then(res => {
+            if(res.status === 204){
+                navigate('/moderateur/all_articles');
+                toast.success('Article supprimé avec succès', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }else{
+                toast.error('Erreur lors de la suppression de l\'article', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }
+        })
+            .catch(e => {
+                console.error('Erreur lors de la suppression de l\'article :', e);
+                toast.error('Erreur lors de la suppression de l\'article', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            })
     }
 
     const renderTextIntegral = () => {
@@ -197,7 +274,7 @@ const ArticleUpdate = () => {
                         return (
                             <div key={index}>
                                 <h1 className="mt-8 text-xl font-bold font-poppins" data-index={index} contentEditable={editing} dangerouslySetInnerHTML={{__html: text.header}} onInput={handleTextIntegralHeaderChange} />
-                                <p className="font-poppins w-[400px] lg:w-[1180px]" data-index={index} contentEditable={editing} dangerouslySetInnerHTML={{__html: text.body}} onInput={handleTextIntegralBodyChange} />
+                                <p className="font-poppins w-[400px] lg:w-[1180px]" data-index={index} contentEditable={editing} dangerouslySetInnerHTML={{__html: text.paragraph.join(" ")}} onInput={handleTextIntegralBodyChange} />
                             </div>
                         )
                     })}
@@ -208,18 +285,16 @@ const ArticleUpdate = () => {
         }
     };
     return (
-        <div className="  relative w-screen overflow-x-hidden h-screen ">
-            <div className='h-72 flex flex-col bg-[#EEF5FC]'>
-                <NavBarUtilisateur/>
+        <div className="  relative w-screen overflow-x-hidden h-screen pb-6">
+            <ToastContainer/>
+            <div className='h-48 flex flex-col bg-[#EEF5FC]'>
+                <ModerateurNavBar/>
                 <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>L'INFINI DU
                     SAVOIR VOUS ATTEND A PORTEE DE CLIC.
                 </p>
             </div>
-            <div  className="flex w-screen p-3 mt-2 bg-gray-100 border pl-14 "> 
-            <h4>Acceuil</h4> <MdOutlineNavigateNext  size={20} className="relative top-1" /> <h4>Recherche</h4>  <MdOutlineNavigateNext  size={20} className="relative top-1" /> <h4>Article detail</h4> 
-        </div> 
-        <div className="flex space-x-4 mt-10 ml-2 lg:mt-3 lg:ml-[860px]">
-                
+            <div  className="flex w-screen p-3 bg-gray-100 border pl-14 "><h4>Acceuil</h4> <MdOutlineNavigateNext  size={20} className="relative top-1" /> <h4>consultation d'un article</h4></div>
+        <div className="flex justify-center gap-2 lg:mr-2 mt-10 md:justify-end md:mt-3 md:mr-2 lg:justify-end lg:mt-3 ">
                 <button onClick={openPdf} className="flex  p-2 lg:p-2 bg-gray-300 rounded-sm">
                     <FaRegFilePdf size={20} /> Ouvrir sous forme pdf
                 </button>
@@ -233,7 +308,7 @@ const ArticleUpdate = () => {
                     <RiDeleteBin5Line size={25} /> Supprimer
                 </button>
         </div>
-            <div className="flex items-center py-4  lg:mt-5 lg:ml-20 space-x-7 w-1/2 lg:w[1180px] mt-5 ml-12  ">
+            <div className="flex items-center py-4  lg:mt-5 lg:ml-20 space-x-7 pr-10 lg:w-1/2 mt-5 ml-12  ">
                 <img className="w-14 " alt="quote" src={quotes}/>
                 <div className="h">
                     <h1 contentEditable={editing} dangerouslySetInnerHTML={{__html: articleRef.current ? articleRef.current.titre : '' }} onInput={handleTitleChange} className="text-2xl font-bold font-poppins" />
@@ -242,7 +317,11 @@ const ArticleUpdate = () => {
             </div>
 
             <div className="mt-5 ml-12 lg:ml-20">
-                <h6 className="font-poppins "> Date de publication : {articleRef.current?.date_de_publication}</h6>
+                <div className="flex gap-2">
+                    <span>Date de publication :</span>
+                    <h6 className="font-poppins" contentEditable={editing} dangerouslySetInnerHTML={{__html: articleRef.current ? articleRef.current?.date_de_publication : '' }} onInput={handleDateDePublicationChange}/>
+                </div>
+
                 <br/>
                 <div>
                     {
@@ -265,25 +344,25 @@ const ArticleUpdate = () => {
                 </div>
             </div>
             <h1 className="mt-10 ml-12 text-xl font-bold font-poppins lg:ml-20 "> ABSTRACT </h1>
-            <p className="font-poppins ml-12   lg:ml-20  w-[400px] lg:w-[1180px]" contentEditable={editing} dangerouslySetInnerHTML={{__html: articleRef.current ? articleRef.current.resume : '' }} onInput={handleResumeChange} />
+            <p className="font-poppins ml-12 lg:ml-20 pr-16 " contentEditable={editing} dangerouslySetInnerHTML={{__html: articleRef.current ? articleRef.current.resume : '' }} onInput={handleResumeChange} />
             <h1 className="mt-8 ml-12 text-xl font-bold font-poppins lg:ml-20"> KEYWORDS </h1>
-            <div className="flex  font-poppins text-sm  flex-row ml-12  w-[400px]  lg:w-[1180px] lg:ml-20 flex-wrap">
+            <div className="flex font-poppins text-sm flex-row ml-12  lg:ml-20 flex-wrap">
                 {articleRef.current?.mot_cles.map((motcle,index) => {
                     return (
                         <div className="flex gap-1" key={motcle.id}><h6 key={motcle.id} data-index={index} contentEditable={editing} dangerouslySetInnerHTML={{__html: motcle.text }} onInput={handleMotCleChange}/>,</div>
                     )
                 })}
-                <div className=" mt-10 font-poppins text-sm   w-[400px] lg:w-[1180px]">
+                <div className=" mt-10 font-poppins w-full text-sm ">
                     {renderTextIntegral()}
                 </div>
             </div>
             <h1 className="mt-8 ml-12 text-xl font-bold font-poppins lg:ml-20 "> REFERENCES</h1>
-            <div className=" font-poppins text-sm   ml-12 lg:ml-20 w-[400px]  lg:w-[1180px] ">
+            <div className=" font-poppins text-sm flex flex-col gap-2  ml-12 lg:ml-20">
                 {
                     articleRef.current?.references_bibliographique.map((ref,index) => {
                         return (
                             <div className="flex flex-row items-center gap-2" key={ref.id}>
-                                <span>[ {index} ]</span><h6 data-index={index} contentEditable={editing} dangerouslySetInnerHTML={{__html: ref.nom}} onInput={handleReferenceBibliographiqueChange}/>
+                                <h6 data-index={index} contentEditable={editing} dangerouslySetInnerHTML={{__html: ref.nom}} onInput={handleReferenceBibliographiqueChange}/>
                             </div>
                         )
                     })

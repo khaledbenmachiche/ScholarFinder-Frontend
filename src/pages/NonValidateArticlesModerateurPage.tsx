@@ -3,7 +3,9 @@ import logo from '../assets/logo.svg';
 import ArticleModerateur from '../components/ArticleModerateur';
 import { AiOutlineMail } from 'react-icons/ai';
 import useAxios from '../hooks/useAxios';
-
+import {useNavigate} from 'react-router-dom';
+import ModerateurNavBar from "../components/ModerateurNavBar.tsx";
+import {toast, ToastContainer} from "react-toastify";
 interface Institution {
   id: number;
   nom: string;
@@ -24,11 +26,8 @@ interface Article {
 }
 
 const NonValidateArticlesModerateurPage: React.FC = () => {
-
-  
-
+  const navigate = useNavigate();
   const [searchResultsCount, setSearchResultsCount] = useState<number>(0);
-  const [sortingOption, setSortingOption] = useState<string>('plusRecent');
 
   const [unvalidatedArticles, setUnvalidatedArticles] = useState<Article[]>([]);
   const axios = useAxios();
@@ -51,28 +50,42 @@ const NonValidateArticlesModerateurPage: React.FC = () => {
   const handleApproveArticle = async (articleId: string) => {
     // Mettez à jour l'état des articles en marquant l'article comme approuvé
     try{
-      const response = await axios.post(`/articles/${articleId}/validate`);
+      const response = await axios.put(`/articles/${articleId}/validate/`);
       if(response.status !== 200){
         throw new Error('Erreur lors de la validation de l\'article');
       }
       setUnvalidatedArticles(prevArticles =>prevArticles.filter((article) => article.titre !== articleId));
       setSearchResultsCount(prevCount => prevCount - 1);
+      toast.success('Article approuvé avec succès', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })
     }catch(error){
-      console.error('Erreur lors de la validation de l\'article');
+        console.error('Erreur lors de la validation de l\'article :', error);
+        toast.error('Erreur lors de la validation de l\'article', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        })
     }
    
   };
 
   return (
     <div className='Page'>
-      <div className='Header'>
-        <div className='bg-[#EEF5FC] p-6'>
-          <div className='flex'>
-            <img src={logo} alt='logo' /><span className='text-xl font-bold '>Truth Finder</span>
-          </div>
-        </div>
-      </div>
-
+      <ToastContainer />
+      <ModerateurNavBar/>
       <div className='flex flex-col Body md:flex-row'>
         <div className="w-full p-4 Results">
           <div className="flex justify-between items-center mb-6 md:mb-16 border-b p-2 md:p-6 border-[#00000080]">
@@ -84,9 +97,9 @@ const NonValidateArticlesModerateurPage: React.FC = () => {
           <div className='lg:grid lg:grid-cols-2 lg:gap-4'>
             {unvalidatedArticles.map((article) => (
               <ArticleModerateur
-                key={article.titre}
+                key={article.id}
                 article={article}
-                onViewArticle={() => console.log('View Article')}  
+                onViewArticle={() => navigate(`/moderateur/update_article/${article.id}`)}
                 onApproveArticle={() => handleApproveArticle(String(article.id))}
               />
             ))}

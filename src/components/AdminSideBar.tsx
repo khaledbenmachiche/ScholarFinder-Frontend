@@ -8,7 +8,9 @@ import {MdSpaceDashboard} from "react-icons/md";
 import {useState} from "react";
 
 import useNavigationBar from "../hooks/useNavigationBar.ts";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import useAuth from "../hooks/useAuth.ts";
+import useUser from "../hooks/useUser.ts";
 
 const sideBarLinks = [
     {
@@ -16,38 +18,58 @@ const sideBarLinks = [
         title: "DashBoard",
         path: "/admin/dashBoard",
         icon: <MdSpaceDashboard
-            className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"/>
+            className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 "/>
     },
     {
         id: "moderateur",
         title: "Moderateur",
         path: "/admin/moderateur",
         icon: <FaUsersBetweenLines
-            className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"/>
+            className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 "/>
     },
   /*  {
         id: "utilisateur",
         title: "Utilisateur",
         path: "/admin/utilisateur",
         icon: <FaUsers
-            className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"/>
+            className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 "/>
     },*/
     {
         id: "upload-file",
         title: "Upload File",
         path: "/admin/upload-article",
         icon: <MdCloudUpload
-            className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"/>
+            className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 "/>
     },
 ];
 
 
-const AdminSideBar = () => {
 
-    const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+const AdminSideBar = () => {
+    const {logout} = useAuth();
+    const {removeUser} = useUser();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const navigate = useNavigate();
     const toggleSidebar = () => {
-        setSidebarOpen(!isSidebarOpen);
+        setIsSidebarOpen(!isSidebarOpen);
     };
+
+    const clickDeconnexionHandler = async () => {
+        try{
+            const logoutState = await logout();
+            if(logoutState) {
+                navigate('/');
+                removeUser();
+            }else{
+                throw new Error('Deconnexion failed');
+            }
+        }catch(e){
+            console.error(e);
+        }
+    }
+
+
     const {active} = useNavigationBar(sideBarLinks);
     return (
         <>
@@ -71,10 +93,10 @@ const AdminSideBar = () => {
                 <div
                     className="relative flex flex-col justify-center h-full px-3 py-4 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800">
                     <IoIosClose onClick={toggleSidebar}
-                                className="absolute block w-10 h-10 cursor-pointer md:hidden lg:hidden text-slate-800 dark:text-white top-2 right-2 hover:bg-gray-100 dark:hover:bg-gray-700"/>
-                    <a href="#" className="flex items-center p-2 mt-6 mb-auto text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                className="absolute block w-10 h-10 cursor-pointer md:hidden lg:hidden text-slate-800 top-2 right-2 hover:bg-gray-100 "/>
+                    <a href="#" className="flex items-center p-2 mt-6 mb-auto text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <MdOutlineAdminPanelSettings
-                            className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"/>
+                            className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 "/>
                         <span className="flex-1 font-bold ms-3 whitespace-nowrap">Admin</span>
                     </a>
                     <ul className="space-y-2 font-medium">
@@ -82,7 +104,7 @@ const AdminSideBar = () => {
                             sideBarLinks.map((link) => (
                                 <li key={link.id}>
                                     <Link to={link.path}
-                                          className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${active == link.title ? 'bg-gray-200' : ''}`}>
+                                          className={`flex items-center p-2 text-gray-900 rounded-lg   hover:bg-gray-100      group ${active == link.title ? 'bg-gray-200' : ''}`}>
                                         {link.icon}
                                         <span className="flex-1 ms-3">{link.title}</span>
                                     </Link>
@@ -90,12 +112,12 @@ const AdminSideBar = () => {
                             ))
                         }
                     </ul>
-                    <a href="#"
-                       className="flex items-center p-2 mt-auto text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <button onClick={clickDeconnexionHandler}
+                       className="flex items-center p-2 mt-auto text-left text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <TbLogout
-                            className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"/>
+                            className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 "/>
                         <span className="flex-1 ms-3 whitespace-nowrap">Deconnexion</span>
-                    </a>
+                    </button>
                 </div>
             </aside>
         </>

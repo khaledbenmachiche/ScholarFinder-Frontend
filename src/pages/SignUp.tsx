@@ -1,4 +1,4 @@
-import SignUpSection from "../components/ui/SignUpSection.tsx";
+import SignUpSection from "../components/SignUpSection.tsx";
 import earth from "../assets/wide_earth.svg";
 import Navbar from "../components/Navbar.tsx";
 

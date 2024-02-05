@@ -3,19 +3,56 @@ import AdminSideBar from "../components/AdminSideBar.tsx";
 import {useState} from "react";
 import useAxios from "../hooks/useAxios.ts";
 import AjouterModerateurForms from "../components/AjouterModerateurForms.tsx";
+import {toast,Bounce} from "react-toastify";
 
 const AdminModerateurPage = () => {
     const axios = useAxios();
     const [triggerAjoutPopUp,setTriggerAjoutPopUp] = useState(false);
     const [moderateurToDelete, setModerateurToDelete] = useState<number[]>([]);
     const handleDeleteButtonEvent = () => {
-        axios.delete("/moderation/",{data: { moderators_ids: moderateurToDelete}})
+        axios.delete("/moderation/delete_by_ids/",{data: { moderators_ids: moderateurToDelete}})
             .then(res => {
-                if (res.status === 204) {
-                    console.log("Moderateur supprimé");
+                if (res.status === 200) {
+                    toast("Moderateur supprimé avec success",{
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            transition: Bounce,
+                        }
+                    );
                     window.location.reload();
-                }})
-            .catch(err => console.log(err));
+                }else{
+                    toast.warning(res.data.message,{
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                }
+            })
+            .catch(() => {
+                toast.error("suppression de moderateur echouer",{
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            });
     }
 
     const updateSelectedRows = (selectedModertors:number[])=>{

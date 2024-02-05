@@ -1,5 +1,5 @@
-import React,{useState} from 'react';
-import { FaSearch, FaBookmark ,FaRegBookmark,FaBook} from 'react-icons/fa';
+import React,{useState, forwardRef } from 'react';
+import { FaBookmark } from 'react-icons/fa';
 import Book from '../assets/Book.svg'
 interface ArticleProps {
   title: string;
@@ -10,7 +10,7 @@ interface ArticleProps {
   onRemoveFromFavorites: () => void;
 }
 
-const ArticleResult: React.FC<ArticleProps> = ({
+const ArticleFavorisResult: React.FC<ArticleProps> = ({
   title,
   authors,
   institution,
@@ -29,7 +29,9 @@ const ArticleResult: React.FC<ArticleProps> = ({
   
 
   return (
-    <div className="article-box border border-solid shadow-lg border-[#00000033] p-10 mb-4 ">
+    <div
+        className="article-box border border-solid shadow-lg border-[#00000033] p-10 mb-4 "
+    >
       <h2 className="mb-2 text-lg font-bold">{title}</h2>
       <p className="mb-2 text-sm">
         <strong>Authors:</strong> {authors.join(', ')}
@@ -49,4 +51,4 @@ const ArticleResult: React.FC<ArticleProps> = ({
   );
 };
 
-export default ArticleResult;
+export default ArticleFavorisResult;

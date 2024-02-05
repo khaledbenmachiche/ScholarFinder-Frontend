@@ -3,12 +3,11 @@ import {MdFavoriteBorder} from "react-icons/md";
 import {MdOutlineNavigateNext} from "react-icons/md";
 import quotes from "../assets/quotes.svg" ;
 import React, {useState, useEffect} from 'react';
-import {GrMenu} from "react-icons/gr";
 import useAxios from "../hooks/useAxios";
 import {useParams} from "react-router-dom";
 import NavBarUtilisateur from "../components/NavBarUtilisateur";
-import _ from 'lodash';
-
+import {ToastContainer,toast} from "react-toastify";
+import useForceUpdate from "../hooks/useForceUpdate.ts";
 
 interface Institution {
     id: number;
@@ -32,6 +31,7 @@ interface ReferenceBibliographique {
 }
 
 interface Article {
+    id: number;
     titre: string;
     auteurs: Auteur[];
     resume: string;
@@ -44,46 +44,161 @@ interface Article {
 
 interface TextIntegralType {
     header:string;
-    body: Array<string>;
+    paragraph: Array<string>;
 }
 const DetailArticle = () => {
     const {id} = useParams<{ id: string }>();
     const axios = useAxios();
     const [article, setArticle] = useState<Article | null>(null);
+    const [isFavoris, setIsFavoris] = useState<boolean>(false);
+    const forceUpdate = useForceUpdate();
     useEffect(() => {
+        if(id === undefined){
+            return;
+        }
         axios.get<Article>(`/articles/${id}`).then((response) => {
             setArticle(response.data);
         });
-    }, [id]);
+        axios.get(`/articles_favoris/`).then((response) => {
+            const isFavoris = response.data.some((article: Article) => article.id === parseInt(id));
+            setIsFavoris(isFavoris);
+        });
+    }, [id,forceUpdate]);
 
     const openPdf = () => {
         if (article?.url) {
             window.location.href = article.url;
         } else {
-            alert("Pas de pdf pour cet article");
+            toast.warning("L'article n'a pas de lien pdf", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
         }
     }
-    const renderTextIntegral = () => {
+    const ajouterFavoris = async () => {
+        try{
+            if (article) {
+                const response = await axios.post(`/articles_favoris/`, {article_id: article.id});
+                if(response.status === 201) {
+                    toast.success('Article ajouté aux favoris avec succès', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                    forceUpdate()
+                }else{
+                    toast.warning('Erreur lors de l\'ajout de l\'article aux favoris', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                    forceUpdate();
+                }
+            }
+        }catch(e){
+            toast.error('Erreur lors de l\'ajout de l\'article aux favoris', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+
+    const retirerFavoris = async () => {
+        try{
+            if (article) {
+                const response = await axios.delete(`/articles_favoris/${article.id}`);
+                if(response.status === 204) {
+                    toast.success('Article retiré des favoris avec succès', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                }else{
+                    toast.warning('Erreur lors du retrait de l\'article des favoris', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
+            }
+        }catch(e){
+            toast.error('Erreur lors du retrait de l\'article des favoris', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+
+        const renderTextIntegral = () => {
         if (article) {
             return (
                 <div>
-                    {Object.entries(JSON.parse(article.text_integral)).map(
-                        ([key, value]) => (
-                            <div key={key} className="">
-                                <h1 className="pt-5 text-xl font-bold font-poppins">{key}</h1>
-                                <p className="pt-5">: {String(value)}</p>
-                            </div>
-                        )
-                    )}
+                    {
+                        JSON.parse(article.text_integral).map((section: TextIntegralType) => {
+                            return (
+                                <>
+                                    <h1 className="font-bold text-xl mt-4">{section.header}</h1>
+                                    <div>
+                                        {
+                                            section.paragraph.map((paragraph) => {
+                                                return (
+                                                    <p className="font-thin">{paragraph}</p>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </>
+                            );
+                        })
+                    }
                 </div>
             );
         } else {
             return <></>;
         }
     };
-    
+
     return (
         <div className=" relative w-screen   overflow-x-hidden h-screen ">
+            <ToastContainer/>
             <div className='h-72 flex flex-col bg-[#EEF5FC]'> 
                
                 <NavBarUtilisateur />
@@ -99,8 +214,11 @@ const DetailArticle = () => {
                 <button onClick={openPdf} className="flex items-center p-2 bg-gray-300 whitespace-nowrap"><FaRegFilePdf
                     size={20}/> Ouvrir sous forme pdf
                 </button>
-                <button className="flex items-center p-2 bg-gray-300 whitespace-nowrap"><MdFavoriteBorder
-                    size={20}/> AJOUTER AUX FAVORIS
+                <button
+                    onClick={isFavoris?retirerFavoris:ajouterFavoris}
+                    className={`flex items-center p-2 whitespace-nowrap ${isFavoris ? 'bg-blue-200':'bg-gray-300'}`}>
+                    <MdFavoriteBorder  size={20}/>
+                    {isFavoris ? "RETIRER DES FAVORIS" : "AJOUTER AUX FAVORIS"}
                 </button>
             </div>
             <div className="flex items-center py-4  lg:mt-5 lg:ml-20 space-x-7 w-1/2 lg:w[1180px] mt-5 ml-12  ">
@@ -151,7 +269,7 @@ const DetailArticle = () => {
                 </div>
             </div>
             <h1 className="mt-8 ml-12 text-xl font-bold font-poppins lg:ml-20 "> REFERENCES</h1>
-            <div className=" font-poppins text-sm   ml-12 lg:ml-20 w-[400px]  lg:w-[1180px] ">
+            <div className=" font-poppins text-sm ml-12 lg:ml-20 w-[400px]  lg:w-[1180px] ">
                 {
                     article?.references_bibliographique.map(ref => {
                         return (

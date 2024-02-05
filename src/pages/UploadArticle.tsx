@@ -7,7 +7,6 @@ import AdminSideBar from "../components/AdminSideBar.tsx";
 import useAxios from "../hooks/useAxios.ts";
 import {AxiosProgressEvent, AxiosResponse} from "axios";
 import {v4 as uuidv4} from 'uuid';
-import {AnimatePresence} from "framer-motion";
 
 enum UploadStatus {
     UPLOADING,
@@ -18,7 +17,6 @@ enum UploadStatus {
 interface UploadInformations {
     id: string;
     source: string;
-    progress: number;
     status?: UploadStatus;
 }
 
@@ -86,19 +84,16 @@ const UploadArticle = () => {
                     <UploadFileFromUrl placeholder="Entrer le lien" label="Upload from URL"
                                        handleSubmitEvent={handleUrlInputSubmitEvent}/>
                     {uploadsInfo.length !== 0 && (
-                        <div
-                            className="flex flex-col flex-grow w-full gap-1 p-2 mb-10 bg-blue-100 rounded shadow h-2/5">
+                        <div className="flex flex-col flex-grow w-full gap-1 p-2 mb-10 bg-slate-100   rounded shadow-md  h-2/5">
                             <button onClick={handleClickedClear}
                                     className="self-end my-0 mr-2 px-1 py-0.5 hover:text-red-500 text-slate-500 w-fit">clear
                             </button>
                             <div className="flex flex-col h-full gap-1 overflow-y-scroll">
-                                <AnimatePresence initial={false}>
                                     {
                                         uploadsInfo.map((item) => {
                                             return <UploadedFile key={item.id} source={item.source}  status={item.status}/>
                                         })
                                     }
-                                </AnimatePresence>
                             </div>
                         </div>
                     )}
@@ -115,39 +110,32 @@ const useUploadArticles = () => {
     const axios = useAxios();
     const [uploadsInfo, setUploadsInfo] = useState<UploadInformations[]>([]);
 
-    function _uploadPdfFile(file: File, onUploadProgress: (progressEvent: AxiosProgressEvent) => void) {
+    function _uploadPdfFile(file: File) {
         const formData = new FormData();
         formData.append('file', file);
-        return axios.post('/articles/upload-via-file/', formData, {
-            onUploadProgress: onUploadProgress,
-        });
+        return axios.post('/articles/upload-via-file/', formData, );
     }
 
-    function _uploadZipFile(file: File, onUploadProgress: (progressEvent: AxiosProgressEvent) => void) {
+    function _uploadZipFile(file: File) {
         const formData = new FormData();
         formData.append('file', file);
         return axios.post('/articles/upload-via-zip/', formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
-            onUploadProgress: onUploadProgress,
         });
     }
 
-    function _uploadUrl(url: string, onUploadProgress: (progressEvent: AxiosProgressEvent) => void) {
-        return axios.post('/articles/upload-via-url/', {url}, {
-            onUploadProgress: onUploadProgress,
-        });
+    function _uploadUrl(url: string) {
+        return axios.post('/articles/upload-via-url/', {url});
     }
 
-    function _uploadGoogleDriveFolderViaUrl(url: string, onUploadProgress: (progressEvent: AxiosProgressEvent) => void) {
-        return axios.post('/articles/upload-via-google-drive/', {url}, {
-            onUploadProgress: onUploadProgress,
-        });
+    function _uploadGoogleDriveFolderViaUrl(url: string) {
+        return axios.post('/articles/upload-via-drive/', {url});
     }
 
     function uploadArticleViaUrl(url: string) {
-        let uploadFunction: (url: string, onUploadProgress: (progressEvent: AxiosProgressEvent) => void) => Promise<AxiosResponse<any, any>>;
+        let uploadFunction: (url: string) => Promise<AxiosResponse<any, any>>;
         if (url.toLowerCase().startsWith('https://drive.google.com/')) {
             uploadFunction = _uploadGoogleDriveFolderViaUrl;
         } else {
@@ -156,28 +144,16 @@ const useUploadArticles = () => {
 
         setUploadsInfo(prev => {
             const newUploadsInfo = [...prev];
-            newUploadsInfo.unshift({source: url, progress: 0, status: UploadStatus.UPLOADING, id: uuidv4()});
+            newUploadsInfo.unshift({source: url, status: UploadStatus.UPLOADING, id: uuidv4()});
             return newUploadsInfo;
         });
 
-        uploadFunction(url, ({loaded, total}) => {
-            setUploadsInfo(prevState => {
-                if (!total) return prevState;
-                const newUploadsInfo = [...prevState];
-                const fileToUpdate = newUploadsInfo.find(item => item.source === url);
-                if (fileToUpdate) {
-                    fileToUpdate.progress = Math.round((loaded * 100 / total));
-                    fileToUpdate.status = UploadStatus.UPLOADING;
-                }
-                return newUploadsInfo;
-            });
-        }).then((response) => {
+        uploadFunction(url).then((response) => {
             if (response.status === 201) {
                 setUploadsInfo(prevState => {
                     const newUploadsInfo = [...prevState];
                     const fileToUpdate = newUploadsInfo.find(item => item.source === url);
                     if (fileToUpdate) {
-                        fileToUpdate.progress = 100;
                         fileToUpdate.status = UploadStatus.SUCCESS;
                     }
                     return newUploadsInfo;
@@ -187,15 +163,21 @@ const useUploadArticles = () => {
                     const newUploadsInfo = [...prevState];
                     const fileToUpdate = newUploadsInfo.find(item => item.source === url);
                     if (fileToUpdate) {
-                        fileToUpdate.progress = -1;
                         fileToUpdate.status = UploadStatus.FAILED;
                     }
                     return newUploadsInfo;
                 });
             }
         })
-            .catch((error) => {
-                console.error(error);
+            .catch(() => {
+                setUploadsInfo(prevState => {
+                    const newUploadsInfo = [...prevState];
+                    const fileToUpdate = newUploadsInfo.find(item => item.source === url);
+                    if (fileToUpdate) {
+                        fileToUpdate.status = UploadStatus.FAILED;
+                    }
+                    return newUploadsInfo;
+                })
             });
     }
 
@@ -216,7 +198,7 @@ const useUploadArticles = () => {
         files = files.filter(fileIsValid);
 
         const uploadPromises = files.map(async (file) => {
-            let uploadFunction: (file: File, onUploadProgress: (progressEvent: AxiosProgressEvent) => void) => Promise<AxiosResponse<any, any>>;
+            let uploadFunction: (file: File) => Promise<AxiosResponse<any, any>>;
 
             if (fileIsPdf(file)) {
                 uploadFunction = _uploadPdfFile;
@@ -227,23 +209,12 @@ const useUploadArticles = () => {
             }
             setUploadsInfo(prev => {
                 const newUploadsInfo = [...prev];
-                newUploadsInfo.unshift({source: file.name, progress: 0, status: UploadStatus.UPLOADING, id: uuidv4()});
+                newUploadsInfo.unshift({source: file.name, status: UploadStatus.UPLOADING, id: uuidv4()});
                 return newUploadsInfo;
             });
             const formData = new FormData();
             formData.append('file', file);
-            return uploadFunction(file, ({loaded, total}) => {
-                setUploadsInfo(prevState => {
-                    if (!total) return prevState;
-                    const newUploadsInfo = [...prevState];
-                    const fileToUpdate = newUploadsInfo.find(item => item.source === file.name);
-                    if (fileToUpdate) {
-                        fileToUpdate.progress = Math.round(((loaded * 100) / total));
-                        fileToUpdate.status = UploadStatus.UPLOADING;
-                    }
-                    return newUploadsInfo;
-                });
-            })
+            return uploadFunction(file);
         });
 
         Promise.all(uploadPromises)
@@ -263,7 +234,6 @@ const useUploadArticles = () => {
                             const newUploadsInfo = [...prevState];
                             const fileToUpdate = newUploadsInfo.find(item => item.source === files[index].name)
                             if (fileToUpdate) {
-                                fileToUpdate.progress = -1;
                                 fileToUpdate.status = UploadStatus.FAILED;
                             }
                             return newUploadsInfo;
@@ -272,7 +242,16 @@ const useUploadArticles = () => {
                 });
             })
             .catch((error) => {
-                console.error(error);
+                setUploadsInfo(prevState => {
+                    const newUploadsInfo = [...prevState];
+                    files.forEach(file => {
+                        const fileToUpdate = newUploadsInfo.find(item => item.source === file.name);
+                        if (fileToUpdate) {
+                            fileToUpdate.status = UploadStatus.FAILED;
+                        }
+                    });
+                    return newUploadsInfo;
+                });
             });
     }
 

@@ -6,6 +6,9 @@ import PopUp from "./PopUp";
 import { IoClose } from "react-icons/io5";
 import User from "../types/User";
 import useAxios from "../hooks/useAxios";
+import 'react-toastify/dist/ReactToastify.css';
+import {toast, Bounce, ToastContainer} from "react-toastify";
+
 const schema = yup.object().shape({
     username: yup.string().required(),
     first_name: yup.string().required(),
@@ -20,7 +23,8 @@ interface ModerateurData {
     username: string;
 }
 
-const ModifierModerateurForms = ({moderateurToModify, trigger, handleCloseModificationPopUp}:{trigger:boolean,handleCloseModificationPopUp:()=>void,moderateurToModify:User|undefined}) => {
+;
+const ModifierModerateurForms = ({moderateurToModify,forceUpdate, trigger, handleCloseModificationPopUp}:{trigger:boolean,handleCloseModificationPopUp:()=>void,moderateurToModify:User|undefined,forceUpdate: React.DispatchWithoutAction}) => {
     const axios = useAxios();
     const {register, handleSubmit, formState: {errors},reset} = useForm({
         resolver: yupResolver(schema),
@@ -29,18 +33,49 @@ const ModifierModerateurForms = ({moderateurToModify, trigger, handleCloseModifi
     useEffect(()=>{
         reset(moderateurToModify);
     },[reset,moderateurToModify])
-
     const submitForm = async (data: ModerateurData) => {
         try {
             const response = await axios.put(`/moderation/${moderateurToModify?.id}/`, {...data});
             if (response.status === 200) {
                 handleCloseModificationPopUp();
-                window.location.reload();
+                toast.success('modefication avec success', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+                forceUpdate();
+
             }else{
-                console.log("error");
+                toast.warning(response.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
             }
         } catch (error) {
-            console.log(error);
+            toast.warning("modification de moderateur a echouer", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         }
     }
 
@@ -52,8 +87,8 @@ const ModifierModerateurForms = ({moderateurToModify, trigger, handleCloseModifi
                     onSubmit={handleSubmit(submitForm)}>
                     <div className="flex flex-col justify-center w-full">
                         <label className="block ml-2 font-light text-md ">Username</label>
-                        <input 
-                            className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] " 
+                        <input
+                            className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] "
                             {...register("username")}
                         />
                         <p className="text-red-600 ">{errors.username?.message}</p>
@@ -62,8 +97,8 @@ const ModifierModerateurForms = ({moderateurToModify, trigger, handleCloseModifi
                     <div className="flex flex-col justify-center w-full">
                         <label className="block ml-2 font-light text-md ">First Name</label>
                         <input
-                            className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] " 
-                        {...register("first_name")} 
+                            className="mt-1 border rounded-[10px] border-blue-700 w-full p-2 bg-[#EEF5FC] "
+                        {...register("first_name")}
                         />
                         <p className="text-red-600 ">{errors.first_name?.message}</p>
                     </div>

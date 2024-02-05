@@ -4,6 +4,7 @@ import * as yup from "yup";
 import PopUp from "./PopUp";
 import { IoClose } from "react-icons/io5";
 import useAxios from "../hooks/useAxios";
+import {toast} from "react-toastify";
 
 const schema = yup.object().shape({
     username: yup.string().required("veuillez remplir ce champ."),
@@ -31,9 +32,39 @@ const AjouterModerateurForms = ({trigger, handleCloseAjoutPopUp}:{trigger:boolea
             .then(res=>{
                 if(res.status === 201){
                     handleCloseAjoutPopUp();
+                    toast.success("Moderateur ajouté avec success",{
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    })
+                }else{
+                    handleCloseAjoutPopUp();
+                    toast.success("Moderateur ajouté avec success",{
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    })
                 }
             })
-            .catch(err=>{console.error('Error submitting form:', err)})
+            .catch(err=>{
+                toast.error("Erreur lors de l'ajout du moderateur",{
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+            })
     }
 
     return (

@@ -8,6 +8,7 @@ import {AiOutlineMail} from 'react-icons/ai';
 import { useParams,useNavigate } from 'react-router-dom';
 import useAxios from '../hooks/useAxios';
 import NavBarUtilisateur from '../components/NavBarUtilisateur';
+import {ToastContainer, toast} from "react-toastify";
 interface Institution {
     id: number;
     nom: string;
@@ -125,6 +126,7 @@ const SearchResultsPage: React.FC = () => {
 
     return (
         <div className='Page overflow-x-hidden'>
+            <ToastContainer/>
             <div className='relative h-72 mb-16 flex flex-col bg-[#EEF5FC]'>
                 <NavBarUtilisateur/>
                 <p className='my-auto text-2xl md:text-4xl font-semibold text-[#0053AD] text-center'>L'INFINI DU
@@ -188,7 +190,7 @@ const SearchResultsPage: React.FC = () => {
                                 navigate(`/utilisateur/article/${article.id}`)
                             }}
                             onAddToFavorites={() => {
-                                // Implement logic to add to favorites
+
                             }}
                         />
                     ))}
