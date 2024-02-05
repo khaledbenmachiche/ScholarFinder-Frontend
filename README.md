@@ -53,7 +53,7 @@ To run the application using Docker, follow these steps:
   ```
 2- Run the Docker container.
   ```bash
-  docker run -p 3000:3000 tp_igl_frontend
+  docker run -p 5173:5173 tp_igl_frontend
   ```
 
 ## Functional Testing
